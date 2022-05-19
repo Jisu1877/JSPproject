@@ -5,13 +5,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hotel</title>
+    <title>Fantastic Loding</title>
     <%@ include file="/include/bs4.jsp" %>
     <style>
 		body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 	</style>
 </head>
-<body class="w3-light-grey">
+<body style="width:1480px; margin: 0px auto;" class="w3-light-grey">
 
 
 <%@ include file="/include/nav.jsp" %>
