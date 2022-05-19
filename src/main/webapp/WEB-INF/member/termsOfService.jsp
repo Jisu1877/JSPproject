@@ -55,7 +55,7 @@
         }
 	</style>
 </head>
-<body style="width:1480px; margin: 0px auto;">
+<body>
 <%@ include file="/include/nav.jsp" %>
 <div class="container">
 	<header>

@@ -11,7 +11,7 @@
 		body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 	</style>
 </head>
-<body style="width:1480px; margin: 0px auto;" class="w3-light-grey">
+<body class="w3-light-grey">
 
 
 <%@ include file="/include/nav.jsp" %>

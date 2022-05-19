@@ -4,13 +4,11 @@
 </style>
 <!-- Header -->
 <header class="w3-display-container w3-content" style="max-width:1500px;">
-	<div class="w3-content w3-section m-0" style="max-width:1480px">
-  		<img class="mySlides" src="images/air1.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-  		<img class="mySlides" src="images/air2.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-  		<img class="mySlides" src="images/air3.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-  		<img class="mySlides" src="images/air4.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-  	</div>
-	 <script>
+	<img class="w3-image mySlides" src="images/air1.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
+	<img class="w3-image mySlides" src="images/air2.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
+	<img class="w3-image mySlides" src="images/air3.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
+	<img class="w3-image mySlides" src="images/air4.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
+	<script>
 			var myIndex = 0;
 			carousel();
 			
@@ -27,7 +25,7 @@
 			}
 	</script>
   	
-  <div class="w3-display-left w3-padding w3-col l6 m8" style="top:30%; left:3%">
+  <div class="w3-display-left w3-padding w3-col l6 m8" style="top:40%;">
     <div class="w3-container w3-theme p-2" style="border-radius: 10px 10px 0px 0px;">
       <h2><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Loding</h2>
     </div>

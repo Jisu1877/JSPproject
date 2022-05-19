@@ -5,7 +5,6 @@
   <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Rooms</a>
   <a href="#about" class="w3-bar-item w3-button w3-mobile">About</a>
   <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
-  <a href="<%=request.getContextPath()%>/hotelGuestList.hg" class="w3-bar-item w3-button w3-mobile">Guest</a>
   <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Login</a>
   <a href="<%=request.getContextPath()%>/termsOfService.mem" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Join</a>
 </div>
