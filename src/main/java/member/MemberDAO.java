@@ -88,5 +88,46 @@ public class MemberDAO {
 		}
 		return res;
 	}
+	
+	//멤버 체크(로그인 체크)
+		public MemberVO getMemCheck(String mid, String pwd) {
+			vo = new MemberVO();
+			try {
+				sql = "select * from member where mid = ? and pwd = ? and del_yn = 'n'";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, pwd);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					vo.setIdx(rs.getInt("idx"));
+					vo.setName(rs.getString("name"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러 : " + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return vo;
+		}
+
+		//로그인 기록 저장
+		public int setMem_log(int idx, String hostIp) {
+			int res = 0;
+			try {
+				sql = "insert into mem_log values(default, ?, default, ?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				pstmt.setString(2, hostIp);
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러 : " + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
+		}
 
 }

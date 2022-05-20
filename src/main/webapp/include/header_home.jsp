@@ -27,7 +27,7 @@
   	
   <div class="w3-display-left w3-padding w3-col l6 m8" style="top:40%;">
     <div class="w3-container w3-theme p-2" style="border-radius: 10px 10px 0px 0px;">
-      <h2><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Loding</h2>
+      <h2><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Lodging</h2>
     </div>
     <div class="w3-container w3-white w3-padding-16" style="border-radius: 0px 0px 30px 10px;">
       <form action="/action_page.php" target="_blank">

@@ -8,19 +8,11 @@
     <meta charset="UTF-8">
     <title>memLogin.jsp</title>
     <%@ include file="/include/bs4.jsp" %>
-<!--     <style>
-    	.container {
-    		width: 500px;
-    		margin : 0px auto;
-    	}
-    </style> -->
     <script>
     	'use strict';
     	function fCheck() {
     		let mid = document.getElementById("mid").value;
     		let pwd = document.getElementById("pwd").value;
-    	/* 	let regMid = /^[a-z0-9_]{4,20}$/;
-    		let regPwd = /(?=.*[a-zA-ZS])(?=.*?[#?!@$%^&*-]).{6,24}/; */
 			
     		if(mid == "") {
     			alert("아이디를 입력하세요");
@@ -83,8 +75,9 @@
 						</div><p><br></p>
 					    <div class="form-group text-center">
 						<button type="submit" class="w3-btn w3-black" onclick="fCheck()">로그인</button> &nbsp;&nbsp;		
-						<button type="button" class="w3-btn w3-black" onclick="location.href='${ctp}/memJoin.mem';">회원가입</button>
+						<button type="button" class="w3-btn w3-black" onclick="location.href='${ctp}/termsOfService.mem';">회원가입</button>
 						</div>
+						<input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}"/>
 					</form>
 				</div>
 				<div class="w3-third w3-margin-bottom"></div>

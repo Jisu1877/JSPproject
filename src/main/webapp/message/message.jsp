@@ -19,6 +19,9 @@
     	else if(msg == "telCheckNo") msg = "중복된 연락처입니다. 다시 회원가입을 진행해주세요.";
     	else if(msg == "memJoinOk") msg = "회원가입이 완료되었습니다.";
     	else if(msg == "memJoinNo") msg = "회원가입에 실패했습니다.";
+    	else if(msg == "loginNo") msg = "로그인에 실패했습니다.";
+    	else if(msg == "loginOk") msg = "${sMid}"+"님 환영합니다.";
+    	else if(msg == "memLogOutOk") msg = val+"님 로그아웃되었습니다.";
     	
     	
     	alert(msg);

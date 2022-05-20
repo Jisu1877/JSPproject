@@ -26,19 +26,35 @@ public class MemberController extends HttpServlet {
 		if(com.equals("termsOfService")) {
 			viewPage += "/member/termsOfService.jsp";
 		}
-		if(com.equals("memJoin")) {
+		else if(com.equals("memJoin")) {
 			viewPage += "/member/memJoin.jsp";
 		}
-		if(com.equals("memIdCheckOk")) {
+		else if(com.equals("memIdCheckOk")) {
 			viewPage += "/member/memIdCheck.jsp";
 		}
-		if(com.equals("memJoinOk")) {
+		else if(com.equals("memJoinOk")) {
 			command = new MemJoinOkCommand();
 			command.execute(request, response); 
 			viewPage = "/message/message.jsp";
 		}
-		if(com.equals("memLogin")) {
+		else if(com.equals("memLogin")) {
+			command = new MemLoginCommand();
+			command.execute(request, response); 
 			viewPage += "/member/memLogin.jsp";
+		}
+		else if(com.equals("memLoginOk")) {
+			command = new MemLoginOkCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
+		else if(level == 99) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근)
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			dispatcher.forward(request, response);
+		}
+		else if(com.equals("memLogOut")) {
+			command = new MemLogOutCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

@@ -11,5 +11,5 @@
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
   </div>
-  <div style="padding-bottom:13px;">Copyright © The Fantastic Loding. All Rights reserved.</div>
+  <div style="padding-bottom:13px;">Copyright © The Fantastic Lodging. All Rights reserved.</div>
 </footer>
