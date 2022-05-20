@@ -15,7 +15,7 @@
     <%@ include file="/include/bs4.jsp" %>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
-	/* 	//우편번호 검색 다음 api
+	//우편번호 검색 다음 api
 		function sample6_execDaumPostcode() {
 		    new daum.Postcode({
 		        oncomplete: function(data) {
@@ -63,7 +63,8 @@
 		        }
 		    }).open();
 		}	
-		 */
+	
+	
 		// 프로필 사진 삭제
 		function previewDelete() {
 			let ans = confirm("프로필 사진을 삭제하시겠습니까?");
@@ -79,6 +80,26 @@
 		
 		// 프로필사진 미리보기
 		function previewImage(targetObj, previewId) { 
+			let fName = myForm.myphoto.value;
+	 		let ext = fName.substring(fName.lastIndexOf(".")+1); //파일 확장자 발췌
+			let uExt = ext.toUpperCase(); //확장자를 대문자로 변환
+	 		let maxSize = 1024 * 1024 * 2 //업로드할 회원사진의 용량은 2MByte까지로 제한한다.
+			
+			let fileSize = document.getElementById("myphoto").files[0].size;  //첫번째 파일의 사이즈..! 아이디를 예약어인 file 로 주기.
+		
+			if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG" && uExt != "JFIF") {
+				alert("업로드 가능한 파일은 'JPG/GIF/PNG/JPEG/JFIF'파일입니다.") 					
+				return false;
+			}
+			else if(fName.indexOf(" ") != -1) { // 혹시 파일명에 공백이 있으면~~~
+				alert("업로드 파일명에 공백을 포함할 수 없습니다.");
+				return false;
+			}
+			else if(fileSize > maxSize) {
+				alert("업로드 파일의 크기는 2MByte를 초과할 수 없습니다.");
+				return false;
+			}
+			
 			document.getElementById("noimageID").style.display = "none";
 			document.getElementById("photoDelete").style.display = "block";
 			document.getElementById("previewId").style.display = "block";
@@ -162,57 +183,169 @@
 				
 		}
 		
-	/* 	
+	
 		let idCheckSw = 0;
 	    let telCheckSw = 0;
 		
 		function fCheck() {
-			let name = myForm.name.value;
-			let mid = myForm.mid.value;
-			let pwd = myForm.pwd.value;
-			let email1 = myForm.email1.value;
-			let email2 = myForm.email2.value;
-			let email = email1 + '@' + email2;
-			let tel1 = myForm.tel1.value;
-		    let tel2 = myForm.tel2.value; 
-		    let tel3 = myForm.tel3.value;
-		    let tel = myForm.tel1.value + "-" + myForm.tel2.value + "-" + myForm.tel3.value;
-		    let fName = myForm.myphoto.value;
-		    
-		    let regMid = /^[a-z0-9_]{4,20}$/;
-			let regPwd = /(?=.*[a-zA-Z])(?=.*?[#?!@$%^&*-]).{6,24}/;
-			let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-			let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
-			
-			let submitFlag = 0;
-			
-			if(fName.trim() == "") {
-				myForm.photo.value = "noimage";
-				submitFlag = 1;
-			}
-			else {
-				/* 		let fName = myForm.myphoto.value;
-		 		let ext = fName.substring(fName.lastIndexOf(".")+1); //파일 확장자 발췌
-				let uExt = ext.toUpperCase(); //확장자를 대문자로 변환
-		 		let maxSize = 1024 * 1024 * 10 //업로드할 회원사진의 용량은 10MByte까지로 제한한다.
+				let name = myForm.name.value;
+				let mid = myForm.mid.value;
+				let pwd = myForm.pwd.value;
+				let email1 = myForm.email1.value;
+				let email2 = myForm.email2.value;
+				let email = email1 + '@' + email2;
+				let tel1 = myForm.tel1.value;
+			    let tel2 = myForm.tel2.value; 
+			    let tel3 = myForm.tel3.value;
+			    let tel = myForm.tel1.value + "-" + myForm.tel2.value + "-" + myForm.tel3.value;
+			    let fName = myForm.myphoto.value;
+			    
+			    let regMid = /^[a-z0-9_]{4,20}$/;
+				let regPwd = /(?=.*[a-zA-Z])(?=.*?[#?!@$%^&*-]).{6,20}/;
+				let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+				let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
 				
-				let fileSize = document.getElementById("myphoto").files[0].size;  //첫번째 파일의 사이즈..! 아이디를 예약어인 file 로 주기.
-			
-				if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG" && uExt != "JFIF") {
-					alert("업로드 가능한 파일은 'JPG/GIF/PNG/JPEG/JFIF'파일입니다.") 					
-					return false;
-				} 				
-				else if(fName.indexOf(" ") != -1) { // 혹시 파일명에 공백이 있으면~~~
-					alert("업로드 파일명에 공백을 포함할 수 없습니다.");
+				let submitFlag = 0;
+				
+				
+				if(name == "") {
+					alert("성명을 입력하세요");
+					myForm.name.focus();
 					return false;
 				}
-				else if(fileSize > maxSize) {
-					alert("업로드 파일의 크기는 10MByte를 초과할 수 없습니다.");
+				else if(mid == "") {
+					alert("아이디를 입력하세요");
+					myForm.mid.focus();
 					return false;
 				}
-		 		 */
+				else if(pwd == "") {
+					alert("비밀번호를 입력하세요");
+					myForm.pwd.focus();
+					return false;
+				}
+				else if(tel2 == "" || tel3 == "") {
+					alert("연락처를 입력하세요");
+					myForm.tel2.focus();
+					return false;
+				}
+				else if(email1 == "") {
+					alert("이메일을 입력하세요");
+					myForm.email1.focus();
+					return false;
+				}
+				else if(!regMid.test(mid)) {
+		            alert("아이디는 4~20자의 영문 소문자, 숫자와 특수기호(_)만 사용가능합니다.");
+		            myForm.mid.focus();
+		            return false;
+		        }
+				else if(!regPwd.test(pwd)) {
+		            alert("비밀번호는 1개이상의 문자와 특수문자 조합의 6~20 자리로 작성해주세요.");
+		            myForm.pwd.focus();
+		            return false;
+		        }
+				else if(!regEmail.test(email)) {
+		            alert("이메일 형식에 맞지않습니다.");
+		            myForm.email1.focus();
+		            return false;
+		        }
+				else {
+					submitFlag = 1;
+				}
+				if(tel2 != "" || tel3 != "") {
+					if(!regTel.test(tel)) {
+				        alert("전화번호 형식에 맞지않습니다.(000-0000-0000)");
+				        myForm.tel2.focus();
+				        return false;
+				    }
+				    else {
+				    	submitFlag = 1;
+				    }
+			    }
 			
-	/* 	} */ 
+				if(idCheckSw == 0) {
+					alert("아이디 중복체크버튼을 눌러주세요!");
+				}
+				else if(telCheckSw == 0) {
+					alert("연락처 중복체크버튼을 눌러주세요!");
+				}
+				else {
+					//묶여진 필드(email/tel)를 폼태그안에 hidden태그의 값으로 저장시켜준다.
+					myForm.email.value = email;
+					myForm.tel.value = tel;
+					
+					myForm.submit();
+				}
+				
+			}	
+		
+			function idCheck() {
+		  		let mid = myForm.mid.value;
+		  		/* let url = "${ctp}/memIdCheckOk.mem?mid="+mid; */
+		  		
+		  		if(mid == "") {
+					alert("아이디를 입력하세요");
+					myForm.mid.focus();
+					return false;
+				}
+		  		
+		  		$.ajax({
+		  			type : "post",
+		  			url : "${ctp}/memIdCheck",
+		  			data : {mid : mid},
+		  			success : function(data) {
+						if(data == "idOk") {
+							idCheckSw = 1;
+							alert("사용가능한 아이디입니다.");
+							$('#mid').attr('readonly', true);
+						}
+						else {
+							alert("중복된 아이디입니다. 다시 입력해주세요.");
+							myForm.mid.value = "";
+							/* window.open(url, "nWin", "width=500px,height=250px"); */
+						}
+					},
+					error : function() {
+						alert("전송오류.");
+					}
+		  		});
+			}
+			
+			
+			function telCheck() {
+				let tel1 = myForm.tel1.value;
+			    let tel2 = myForm.tel2.value; 
+			    let tel3 = myForm.tel3.value;
+			    let tel = myForm.tel1.value + "-" + myForm.tel2.value + "-" + myForm.tel3.value;
+		  		
+		  		if(tel2 == "" || tel3 == "") {
+					alert("연락처를 입력하세요");
+					myForm.tel2.focus();
+					return false;
+				}
+		  		
+		  		$.ajax({
+		  			type : "post",
+		  			url : "${ctp}/memTelCheck",
+		  			data : {tel : tel},
+		  			success : function(data) {
+						if(data == "telOk") {
+							telCheckSw = 1;
+							alert("사용가능한 연락처입니다.");
+							$("#tel1 option").not(":selected").attr("disabled", "disabled"); //셀렉트박스 선택못하게 하기
+							$('#tel2').attr('readonly', true); //재입력 못하게 막기
+							$('#tel3').attr('readonly', true); //재입력 못하게 막기
+						}
+						else {
+							alert("중복된 연락처입니다. 다시 입력해주세요.");
+							myForm.tel2.value = "";
+							myForm.tel3.value = "";
+						}
+					},
+					error : function() {
+						alert("전송오류.");
+					}
+		  		});
+			}
 	</script>
 	<style>
 	  	.headerJoin {
@@ -282,7 +415,7 @@
 			      <label for="tel">연락처 :</label>
 			      <div class="input-group mb-3">
 				      <div class="input-group-prepend">
-						      <select name="tel1" class="w3-select w3-border">
+						      <select name="tel1" id="tel1" class="w3-select w3-border">
 								    <option value="010" selected>010</option>
 								    <option value="02">서울</option>
 								    <option value="031">경기</option>
@@ -296,9 +429,9 @@
 						        <option value="062">광주</option>
 								  </select><span>&nbsp; &nbsp;</span><span style="margin-top:6px">-</span> <span>&nbsp; &nbsp;</span>
 				      </div>
-				      <input type="text" name="tel2" size=8 maxlength=4 class="w3-border"/><span>&nbsp; &nbsp;</span><span style="margin-top:6px">-</span><span>&nbsp; &nbsp;</span>
-				      <input type="text" name="tel3" size=8 maxlength=4 class="w3-border"/>&nbsp; &nbsp;
-				      <input type="button" value="중복체크" class="btn w3-theme" onclick="idCheck()"/>
+				      <input type="text" name="tel2" id="tel2" size=8 maxlength=4 class="w3-border"/><span>&nbsp; &nbsp;</span><span style="margin-top:6px">-</span><span>&nbsp; &nbsp;</span>
+				      <input type="text" name="tel3" id="tel3" size=8 maxlength=4 class="w3-border"/>&nbsp; &nbsp;
+				      <input type="button" value="중복체크" class="btn w3-theme" onclick="telCheck()"/>
 				  </div> 
 			   </div>
 			   <div class="form-group">
@@ -322,8 +455,8 @@
 			      <label for="gender">성별 :</label>
 			      <div class="form-check-inline">
 		        	<div class="form-check">
-					    <input type="radio" class="w3-radio gender" name="gender" value="남자" checked>남자&nbsp;&nbsp;&nbsp;
-					    <input type="radio" class="w3-radio gender" name="gender" value="여자">여자
+					    <input type="radio" class="w3-radio gender" name="gender" value="m" checked>남자&nbsp;&nbsp;&nbsp;
+					    <input type="radio" class="w3-radio gender" name="gender" value="f">여자
 					</div>
 				 </div>
 			  </div>
@@ -346,12 +479,13 @@
 			  <p><br></p>
 		      <p style="text-align: center;"><button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">회원가입</button></p>
 		      <input type="hidden" name="photo"/>
-		      <input type="hidden" name="address"/>
 			  <input type="hidden" name="email"/>
 			  <input type="hidden" name="tel"/>
+			  <input type="hidden" name="agreementCheck" value="${agreementCheck}"/>
 		    </form>
 	    </div>
-	    <div class="w3-third w3-margin-bottom"></div>
+	    <div class="w3-third w3-margin-bottom">
+	    </div>
     </div>
   </div>
 <%@ include file="/include/footer.jsp" %>

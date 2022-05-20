@@ -64,6 +64,10 @@
     <section>
             <form name="myForm" method="post" action="${ctp}/memJoin.mem"> 
             <p class="text-center w3-text-indigo" style="font-size:20px; font-weight: bold;">회원가입을 위해 약관동의를 진행합니다.</p><br>
+            <div style="text-align:center; font-size:17px; font-weight: bold; color:blue">
+            	<input type='checkbox' id='agreeCheckAll' name='agree3' onclick="javascript:$('#agreeCheck1').click(); javascript:$('#agreeCheck2').click(); javascript:$('#agreeCheck3').click();">
+	            <label for='agree3'> &nbsp;&nbsp;<a onclick="javascript:$('#agreeCheckAll').click();">Fantastic Loding 이용약관, 개인정보 수집 및 이용, 프로모션 정보 수신(선택)에 모두 동의합니다. </a></label>
+            </div><br>
             <div> 
 	            <label for='comment' style='font-weight: bold;'>Fantastic Loding 이용약관 동의(필수) :</label> 
 	            <textarea class='form-control' rows='5' id='comment' name='text'>
@@ -190,7 +194,7 @@ Fantastic Loding 서비스와 관련하여 궁금하신 사항이 있으시면 �
             <p></p>
             <div class="agree">
 	            <input type='checkbox' id='agreeCheck1' name='agree1'>
-	            <label for='agree1'> &nbsp;&nbsp; 동의합니다 </label>
+	            <label for='agree1'> &nbsp;&nbsp;<a onclick="javascript:$('#agreeCheck1').click();"> 동의합니다</a> </label>
             </div>
             <p></p>
            	<label for='comment' style='font-weight: bold;'>개인정보 수집 및 이용 동의(필수) :</label> 
@@ -260,7 +264,7 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
             <p></p>
             <div class="agree">
 	            <input type='checkbox' id='agreeCheck2' name='agree2'>
-	            <label for='agree2'> &nbsp;&nbsp; 동의합니다 </label>
+	            <label for='agree2'> &nbsp;&nbsp;<a onclick="javascript:$('#agreeCheck2').click();"> 동의합니다</a> </label>
             </div>
             <p></p>
 	        <label for='comment' style='font-weight: bold;'>프로모션 정보 수신 동의(선택) :</label><br>
@@ -270,7 +274,7 @@ Fantastic Loding에서 제공하는 이벤트/혜택 등 다양한 정보를 휴
             <p></p>
             <div class="agree">
 	            <input type='checkbox' id='agreeCheck3' name='agree3'>
-	            <label for='agree3'> &nbsp;&nbsp; 동의합니다 </label>
+	            <label for='agree3'> &nbsp;&nbsp;<a onclick="javascript:$('#agreeCheck3').click();"> 동의합니다 </a></label>
             </div>
             <br>
             <div class="text-center">

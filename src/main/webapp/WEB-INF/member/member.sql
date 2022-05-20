@@ -1,0 +1,30 @@
+create table member (
+	idx int not null auto_increment,
+    mid varchar(20) not null,
+    pwd varchar(255) not null,
+    name varchar(20) not null,
+    gender varchar(1) default 'm',
+    tel varchar(20) not null,
+    email varchar(50) not null,
+    file_name varchar(255) not null,
+    save_file_name varchar(255) not null,
+    postcode varchar(10),
+    roadAddress varchar(255),
+    detailAddress varchar(255),
+    extraAddress varchar(255),
+    create_date datetime default now(),
+    level int default 1,
+    point int default 1000,
+    agreement int default 2,
+    del_yn varchar(1) default 'n',
+    delete_date datetime,
+    primary key(idx)
+);
+
+desc member;
+
+drop table member;
+
+select * from member;
+
+insert into member values(default, 'admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '관리자', 'f', '010-9039-1877', 'ljs1877@gmail.com', 'noimage', 'noimage', '27844', '충북 진천군 이월면 진광로 121', '101동 403호', '(부영아파트)',  default, default, default, default, default, null);
