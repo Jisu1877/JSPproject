@@ -1,0 +1,166 @@
+package admin;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.apache.catalina.webresources.EmptyResource;
+
+import admin.lodging.FileVO;
+import admin.lodging.LodgingVO;
+import admin.lodging.OptionVO;
+import conn.GetConn;
+
+public class AdminDAO {
+	GetConn getConn = GetConn.getInstance(); //메모리에 있는 instance 가져오기
+	
+	private Connection conn = getConn.getConn();
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
+	
+	private String sql = "";
+	
+	//여러 VO 미리 선언
+	LodgingVO lodVo = null;
+	FileVO fileVo = null;
+	
+	//숙소명 중복체크 및 개별 숙소정보담아오기
+	public LodgingVO getlodInfor(String lod_name) {
+		lodVo = new LodgingVO();
+		try {
+			sql = "select * from lodging where lod_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, lod_name);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				lodVo.setIdx(rs.getInt("idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("create_date"));
+			}
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return lodVo;
+	}
+	
+	//숙소등록하기
+	public int setLodInput(LodgingVO lodVO) {
+		int lodRes = 0;
+		try {
+			sql = "insert into lodging values(default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, lodVO.getFile_name());
+			pstmt.setString(2, lodVO.getSave_file_name());
+			pstmt.setInt(3, lodVO.getCategory_code());
+			pstmt.setInt(4, lodVO.getSub_category_code());
+			pstmt.setInt(5, lodVO.getDetail_category_code());
+			pstmt.setString(6, lodVO.getLod_name());
+			pstmt.setInt(7, lodVO.getPrice());
+			pstmt.setString(8, lodVO.getCountry());
+			pstmt.setString(9, lodVO.getAddress());
+			pstmt.setString(10, lodVO.getExplanation());
+			pstmt.setInt(11, lodVO.getNumber_guests());
+			pstmt.executeUpdate();
+			lodRes = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return lodRes;
+	}
+	
+	//file DB에 자료 넣기
+	public int setFileName(String file_name, String save_file_name, int lodIdx) {
+		int fileRes = 0;
+		try {
+			sql = "insert into file values(default, ?, ?, ?, default)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lodIdx);
+			pstmt.setString(2, file_name);
+			pstmt.setString(3, save_file_name);
+			pstmt.executeUpdate();
+			fileRes = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return fileRes;
+	}
+	
+	//option 내용 넣기
+	public int setOptionInfor(OptionVO optionVo) {
+		int optRes = 0;
+		try {
+			sql = "insert into lod_option values(default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, optionVo.getLod_idx());
+			pstmt.setString(2, optionVo.getAir_conditioner());
+			pstmt.setString(3, optionVo.getTv());
+			pstmt.setString(4, optionVo.getWifi());
+			pstmt.setString(5, optionVo.getWasher());
+			pstmt.setString(6, optionVo.getKitchen());
+			pstmt.setString(7, optionVo.getHeating());
+			pstmt.setString(8, optionVo.getToiletries());
+			pstmt.setInt(9, optionVo.getBedroom());
+			pstmt.setInt(10, optionVo.getBed());
+			pstmt.setInt(11, optionVo.getBathroom());
+			pstmt.executeUpdate();
+			optRes = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return optRes;
+	}
+	
+	//숙소 정보 모두 가져오기(최신자료순)
+	public ArrayList<LodgingVO> getLodList() {
+		ArrayList<LodgingVO> lodVos = new ArrayList<LodgingVO>();
+		try {
+			sql = "select * from lodging";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				lodVo = new LodgingVO();
+				lodVo.setIdx(rs.getInt("idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("create_date"));
+				
+				lodVos.add(lodVo);
+			} 
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return lodVos;
+	}
+	
+}

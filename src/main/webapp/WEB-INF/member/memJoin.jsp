@@ -293,7 +293,7 @@
 		  			url : "${ctp}/memIdCheck",
 		  			data : {mid : mid},
 		  			success : function(data) {
-						if(data == "idOk") {
+						if(data == "lodNameOk") {
 							idCheckSw = 1;
 							alert("사용가능한 아이디입니다.");
 							$('#mid').attr('readonly', true);

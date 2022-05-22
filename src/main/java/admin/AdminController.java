@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.lodging.Lod_Input_OkCommand;
+import member.MemJoinOkCommand;
+
 @WebServlet("*.ad")
-public class adminController extends HttpServlet {
+public class AdminController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		adminInterface command = null;
+		AdminInterface command = null;
 		String viewPage = "/WEB-INF";
 		String uri = request.getRequestURI();
 		String com = uri.substring(uri.lastIndexOf("/")+1,uri.lastIndexOf("."));
@@ -27,6 +30,9 @@ public class adminController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		}
+		if(com.equals("")) {
+			viewPage += "/index.jsp";
+		}
 		if(com.equals("adminHome")) {
 			viewPage += "/admin/adminHome.jsp";
 		}
@@ -35,6 +41,11 @@ public class adminController extends HttpServlet {
 		}
 		if(com.equals("lod_input")) {
 			viewPage += "/admin/lod_input.jsp";
+		}
+		if(com.equals("lod_Input_Ok")) {
+			command = new Lod_Input_OkCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
 		}
 		
 		

@@ -9,25 +9,38 @@
 	<img class="w3-image mySlides" src="images/air3.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
 	<img class="w3-image mySlides" src="images/air4.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
 	<script>
-			var myIndex = 0;
-			carousel();
-			
-			function carousel() {
-			  var i;
-			  var x = document.getElementsByClassName("mySlides");
-			  for (i = 0; i < x.length; i++) {
-			    x[i].style.display = "none";  
-			  }
-			  myIndex++;
-			  if (myIndex > x.length) {myIndex = 1}    
-			  x[myIndex-1].style.display = "block";  
-			  setTimeout(carousel, 10000); // Change image every 2 seconds
+		var myIndex = 0;
+		carousel();
+
+		function carousel() {
+			var i;
+			var x = document.getElementsByClassName("mySlides");
+			for (i = 0; i < x.length; i++) {
+				x[i].style.display = "none";
 			}
+			myIndex++;
+			if (myIndex > x.length) {
+				myIndex = 1
+			}
+			x[myIndex - 1].style.display = "block";
+			setTimeout(carousel, 10000); // Change image every 2 seconds
+		}
+	</script>
+	<script>
+		$(function() {
+			$('input[name="CheckIn"]').datepicker({
+				minDate: new Date()
+			});
+			$('input[name="CheckOut"]').datepicker({
+				minDate: new Date()
+			});
+		});
+		
 	</script>
   	
   <div class="w3-display-left w3-padding w3-col l6 m8" style="top:40%;">
     <div class="w3-container w3-theme p-2" style="border-radius: 10px 10px 0px 0px;">
-      <h2><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Lodging</h2>
+      <h2><i class="fa-solid fa-person-walking-luggage"></i>&nbsp;Reservation</h2>
     </div>
     <div class="w3-container w3-white w3-padding-16" style="border-radius: 0px 0px 30px 10px;">
       <form action="/action_page.php" target="_blank">

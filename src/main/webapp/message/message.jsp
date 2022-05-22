@@ -22,6 +22,8 @@
     	else if(msg == "loginNo") msg = "로그인에 실패했습니다.";
     	else if(msg == "loginOk") msg = "${sMid}"+"님 환영합니다.";
     	else if(msg == "memLogOutOk") msg = val+"님 로그아웃되었습니다.";
+    	else if(msg == "lodInputOk") msg = "숙소 등록이 완료되었습니다.";
+    	else if(msg == "lodInputNo") msg = "숙소 등록에 실패했습니다.";
     	
     	
     	alert(msg);
