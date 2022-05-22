@@ -1,7 +1,7 @@
-package admin.lodging;
+package lodging;
 
 public class OptionVO {
-	private int idx;
+	private int opt_idx;
 	private int lod_idx;
 	private String air_conditioner;
 	private String tv;
@@ -14,11 +14,11 @@ public class OptionVO {
 	private int bed;
 	private int bathroom;
 	
-	public int getIdx() {
-		return idx;
+	public int getOpt_idx() {
+		return opt_idx;
 	}
-	public void setIdx(int idx) {
-		this.idx = idx;
+	public void setOpt_idx(int opt_idx) {
+		this.opt_idx = opt_idx;
 	}
 	public int getLod_idx() {
 		return lod_idx;
@@ -88,11 +88,13 @@ public class OptionVO {
 	}
 	@Override
 	public String toString() {
-		return "OptionVO [idx=" + idx + ", lod_idx=" + lod_idx + ", air_conditioner=" + air_conditioner + ", tv=" + tv
-				+ ", wifi=" + wifi + ", washer=" + washer + ", kitchen=" + kitchen + ", heating=" + heating
-				+ ", toiletries=" + toiletries + ", bedroom=" + bedroom + ", bed=" + bed + ", bathroom=" + bathroom
-				+ "]";
+		return "OptionVO [opt_idx=" + opt_idx + ", lod_idx=" + lod_idx + ", air_conditioner=" + air_conditioner
+				+ ", tv=" + tv + ", wifi=" + wifi + ", washer=" + washer + ", kitchen=" + kitchen + ", heating="
+				+ heating + ", toiletries=" + toiletries + ", bedroom=" + bedroom + ", bed=" + bed + ", bathroom="
+				+ bathroom + "]";
 	}
+	
+	
 	
 	
 }

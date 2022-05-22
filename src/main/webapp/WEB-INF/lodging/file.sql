@@ -1,5 +1,5 @@
 create table file (
-	idx int not null auto_increment,
+	file_idx int not null auto_increment,
     lod_idx int not null,
     file_name varchar(255) not null,
     save_file_name varchar(255) not null,

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 import org.apache.catalina.webresources.EmptyResource;
 
-import admin.lodging.FileVO;
-import admin.lodging.LodgingVO;
-import admin.lodging.OptionVO;
 import conn.GetConn;
+import lodging.FileVO;
+import lodging.LodgingVO;
+import lodging.OptionVO;
 
 public class AdminDAO {
 	GetConn getConn = GetConn.getInstance(); //메모리에 있는 instance 가져오기
@@ -25,6 +25,7 @@ public class AdminDAO {
 	//여러 VO 미리 선언
 	LodgingVO lodVo = null;
 	FileVO fileVo = null;
+	OptionVO optVo = null;
 	
 	//숙소명 중복체크 및 개별 숙소정보담아오기
 	public LodgingVO getlodInfor(String lod_name) {
@@ -130,37 +131,5 @@ public class AdminDAO {
 		return optRes;
 	}
 	
-	//숙소 정보 모두 가져오기(최신자료순)
-	public ArrayList<LodgingVO> getLodList() {
-		ArrayList<LodgingVO> lodVos = new ArrayList<LodgingVO>();
-		try {
-			sql = "select * from lodging";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				lodVo = new LodgingVO();
-				lodVo.setIdx(rs.getInt("idx"));
-				lodVo.setFile_name(rs.getString("file_name"));
-				lodVo.setSave_file_name(rs.getString("save_file_name"));
-				lodVo.setCategory_code(rs.getInt("category_code"));
-				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
-				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
-				lodVo.setLod_name(rs.getString("lod_name"));
-				lodVo.setPrice(rs.getInt("price"));
-				lodVo.setCountry(rs.getString("country"));
-				lodVo.setAddress(rs.getString("address"));
-				lodVo.setExplanation(rs.getString("explanation"));
-				lodVo.setNumber_guests(rs.getInt("number_guests"));
-				lodVo.setCreate_date(rs.getString("create_date"));
-				
-				lodVos.add(lodVo);
-			} 
-		} catch (SQLException e) {
-			System.out.println("sql 에러" + e.getMessage());
-		} finally {
-			getConn.rsClose();
-		}
-		return lodVos;
-	}
-	
+
 }

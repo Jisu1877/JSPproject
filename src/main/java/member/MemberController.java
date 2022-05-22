@@ -48,7 +48,7 @@ public class MemberController extends HttpServlet {
 			viewPage = "/message/message.jsp";
 		}
 		else if(level == 99) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근)
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/memLogin.mem");
 			dispatcher.forward(request, response);
 		}
 		else if(com.equals("memLogOut")) {

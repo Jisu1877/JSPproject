@@ -302,9 +302,9 @@
 					    	<div class="form-group">
 					    		<label for="price">가격&nbsp; [1박 기준] : &nbsp; &nbsp;</label>
 					      		<div class="input-group mb-3" style="margin-bottom:0px">
-					    			<input class="input w3-padding-16 w3-border form-control" id="price" name="price" type="text" placeholder="숙소 가격을 입력하세요." required>
+					    			<input class="input w3-padding-16 w3-border form-control" id="price" name="price" type="number" placeholder="숙소 가격을 입력하세요." required>
 					    			<div class="input-group-append">
-								      	<input type="button" value="￦" size="2" class="btn w3-black" title="천단위 구분" disabled='disabled' />
+								      	<input type="button" value="￦" size="2" class="btn w3-black" disabled='disabled' />
 								    </div>
 					    		</div>
 							    <div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 주말 숙박 가격은 자동 10% 인상된 가격으로 설정됩니다.</div>
@@ -571,8 +571,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="air_conditioner" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="air_conditioner" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="air_conditioner" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="air_conditioner" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -584,8 +584,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="tv" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="tv" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="tv" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="tv" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -597,8 +597,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="wifi" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="wifi" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="wifi" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="wifi" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -610,8 +610,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="washer" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="washer" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="washer" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="washer" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -623,8 +623,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="kitchen" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="kitchen" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="kitchen" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="kitchen" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -636,8 +636,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="heating" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="heating" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="heating" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="heating" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>
@@ -649,8 +649,8 @@
 									<div class="form-group">
 									      <div class="form-check-inline">
 								        	<div class="form-check">
-											    <input type="radio" name="toiletries" value="n" checked>&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
-											    <input type="radio" name="toiletries" value="y">&nbsp;&nbsp;있음
+											    <input type="radio" name="toiletries" value="n" >&nbsp;&nbsp;없음&nbsp;&nbsp;&nbsp;
+											    <input type="radio" name="toiletries" value="y" checked>&nbsp;&nbsp;있음
 											</div>
 									  </div>
 								   </div>

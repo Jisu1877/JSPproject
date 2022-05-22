@@ -1,4 +1,4 @@
-package admin.lodging;
+package lodging;
 
 import java.io.IOException;
 

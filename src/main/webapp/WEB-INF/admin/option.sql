@@ -1,5 +1,5 @@
 create table lod_option (
-	idx int not null auto_increment,
+	opt_idx int not null auto_increment,
     lod_idx int not null,
     air_conditioner varchar(1) default 'n',
 	tv varchar(1) default 'n',
@@ -14,3 +14,6 @@ create table lod_option (
     primary key(idx),
 	foreign key(lod_idx) references lodging(idx) on update cascade
 );
+
+
+select *, (select * from lod_option order by idx desc) from lodging order by idx desc;

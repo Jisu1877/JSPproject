@@ -3,8 +3,12 @@
 	int level = session.getAttribute("sLevel") == null ? 99 : (int) session.getAttribute("sLevel");
 %>
 <style>
+	a {
+		text-decoration-line: none !important; 
+	}
+	
 	a:hover {
-		color : black;
+		color : black !important;
 	}
 </style>
 <!-- Navigation Bar -->
@@ -20,7 +24,7 @@
   		<a href="<%=request.getContextPath()%>/memLogin.mem" class="w3-bar-item w3-btn w3-right w3-light-grey w3-mobile">Login</a>
   <% } %>
   <% if(level == 0) { %>
-		<a href="<%=request.getContextPath()%>/adminHome.ad" class="w3-bar-item w3-btn w3-right w3-black w3-mobile">Admin</a>
+		<a href="<%=request.getContextPath()%>/adminHome.ad" class="w3-bar-item w3-btn w3-right w3-black w3-hover-theme w3-mobile">Admin</a>
   <% } else if(level == 99) { %>
   		<a href="<%=request.getContextPath()%>/termsOfService.mem" class="w3-bar-item w3-btn w3-right w3-light-grey w3-mobile">Join</a>
   <% } %>
