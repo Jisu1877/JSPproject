@@ -38,7 +38,7 @@
    	let cnt = 1;
    	function fileBoxAppend() {
 		const fileCount = $('.file_div').length;
-		if (fileCount >= 4) {
+		if (fileCount >= 9) {
 			alert('더 이상 추가할 수 없습니다.');
 			return;
 		}
@@ -553,7 +553,7 @@
 					    	<hr style="border: solid 0.1px #ddd; background-color: #ddd; "><p><br></p>
 					    	<div class="form-group">
 					    		<label for="explanation" style="text-align:center; font-weight: bold;"><i class="fa-solid fa-image"></i>&nbsp; &nbsp;  숙소 사진 등록</label>
-					    		<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 최대 5장까지 등록가능합니다.</div>
+					    		<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 최대 10장까지 등록가능합니다.</div>
 					    		<div style="text-align:right">
 								<input type="button" value="사진 추가" onclick="fileBoxAppend()" class="btn w3-small w3-theme mb-2"/><br>
 								</div>

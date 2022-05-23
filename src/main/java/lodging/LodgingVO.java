@@ -103,10 +103,12 @@ public class LodgingVO {
 	@Override
 	public String toString() {
 		return "LodgingVO [idx=" + idx + ", file_name=" + file_name + ", save_file_name=" + save_file_name
-				+ ", category_code=" + category_code + ", sub_category_code=" + sub_category_code
-				+ ", detail_category_code=" + detail_category_code + ", lod_name=" + lod_name + ", price=" + price
-				+ ", country=" + country + ", address=" + address + ", explanation=" + explanation + ", number_guests="
-				+ number_guests + ", create_date=" + create_date + ", option=" + option + "]";
+				+ ", file_order=" + ", category_code=" + category_code + ", sub_category_code="
+				+ sub_category_code + ", detail_category_code=" + detail_category_code + ", lod_name=" + lod_name
+				+ ", price=" + price + ", country=" + country + ", address=" + address + ", explanation=" + explanation
+				+ ", number_guests=" + number_guests + ", create_date=" + create_date + ", option=" + option + "]";
 	}
 	
+	
+
 }

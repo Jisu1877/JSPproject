@@ -86,14 +86,15 @@ public class AdminDAO {
 	}
 	
 	//file DB에 자료 넣기
-	public int setFileName(String file_name, String save_file_name, int lodIdx) {
+	public int setFileName(String file_name, String save_file_name, int lodIdx, int file_order) {
 		int fileRes = 0;
 		try {
-			sql = "insert into file values(default, ?, ?, ?, default)";
+			sql = "insert into file values(default, ?, ?, ?, ?, default)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, lodIdx);
-			pstmt.setString(2, file_name);
-			pstmt.setString(3, save_file_name);
+			pstmt.setInt(2, file_order);
+			pstmt.setString(3, file_name);
+			pstmt.setString(4, save_file_name);
 			pstmt.executeUpdate();
 			fileRes = 1;
 		} catch (SQLException e) {

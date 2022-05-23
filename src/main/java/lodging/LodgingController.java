@@ -29,7 +29,7 @@ public class LodgingController extends HttpServlet {
 		if(com.equals("lodInfor")) {
 			command = new LodInforCommand();
 			command.execute(request, response); 
-			viewPage += "/lodging/lodInfor.jsp";
+			viewPage += "/lodging/lodInforTest.jsp";
 		}
 		/*
 		 * if(level != 99) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근) RequestDispatcher

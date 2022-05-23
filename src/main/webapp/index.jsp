@@ -7,9 +7,6 @@
     <meta charset="UTF-8">
     <title>Fantastic Lodging</title>
     <%@ include file="/include/bs4.jsp" %>
-    <style>
-		body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
-	</style>
 </head>
 <body class="w3-light-grey">
 

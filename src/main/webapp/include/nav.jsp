@@ -10,6 +10,8 @@
 	a:hover {
 		color : black !important;
 	}
+	
+	body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 </style>
 <!-- Navigation Bar -->
 <div class="w3-bar w3-white w3-large">

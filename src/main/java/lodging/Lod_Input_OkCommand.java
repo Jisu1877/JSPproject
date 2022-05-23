@@ -53,6 +53,7 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		//썸네일 사진 파일명만 따로 알아오기
 		String file_sumName = multipartRequest.getOriginalFileName("fName1")  == null ? "": multipartRequest.getOriginalFileName("fName1"); //form태그의 name 
 		String save_file_sumName = multipartRequest.getFilesystemName("fName1") == null ? "": multipartRequest.getFilesystemName("fName1");; 
+		
 		//vo에 필수입력값 모두 set 하기
 		LodgingVO lodVO = new LodgingVO();
 		lodVO.setFile_name(file_sumName);
@@ -74,19 +75,34 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		
 		int lodRes = dao.setLodInput(lodVO);
 		
-		
-		//숙소고유번호 알아오기
 		lodVO = dao.getlodInfor(lod_name);
 		int lodIdx = lodVO.getIdx();
+		
+		//file 정렬하기
+		String[] fileArray = new String[originalFileNameList.size()];
+		for(int i=0; i<originalFileNameList.size(); i++) {
+			fileArray[i] = multipartRequest.getOriginalFileName("fName"+(i+1))  == null ? "": multipartRequest.getOriginalFileName("fName"+(i+1));
+		}
 		
 		//추가사진내용(썸네일 사진까지 포함해서) file DB에 저장하기
 		int[] fileResults = new int[originalFileNameList.size()];
 		for(int i=0; i<originalFileNameList.size(); i++) {
 			if(originalFileNameList.get(i) != null && !originalFileNameList.get(i).equals("")) {
-				fileResults[i] = dao.setFileName(originalFileNameList.get(i), filesystemNameList.get(i), lodIdx);
+				int file_order = 0;
+				boolean sw = true;
+				int j = 0;
+				int temp = 1;
+				while(sw) {
+					if(originalFileNameList.get(j).equals(fileArray[i])) {
+						file_order = temp;
+						sw = false;
+					}
+					j++;
+					temp++;
+				}
+				fileResults[i] = dao.setFileName(originalFileNameList.get(i), filesystemNameList.get(i), lodIdx, file_order);
 			}
 		}
-		
 		
 		//옵션입력내용 값 모두 받아오기
 		String air_conditioner = multipartRequest.getParameter("air_conditioner") == null? "" : multipartRequest.getParameter("air_conditioner");

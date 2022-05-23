@@ -137,7 +137,7 @@ public class LodgingDAO {
 	public ArrayList<FileVO> getLodFile(int idx) {
 		ArrayList<FileVO> fileVos = new ArrayList<FileVO>();
 		try {
-			sql = "select * from file where lod_idx = ?";
+			sql = "select * from file where lod_idx = ? order by file_order";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();

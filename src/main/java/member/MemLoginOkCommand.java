@@ -24,6 +24,7 @@ public class MemLoginOkCommand implements MemberInterface {
 		SecurityUtil security = new SecurityUtil();
 		pwd = security.encryptSHA256(pwd);
 		
+		//아이디/비번 맞는지 확인
 		MemberDAO dao = new MemberDAO();
 		MemberVO vo = dao.getMemCheck(mid, pwd);
 		

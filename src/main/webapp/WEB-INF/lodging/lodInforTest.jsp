@@ -9,11 +9,79 @@
     <meta charset="UTF-8">
     <title>숙소 상세 정보 조회</title>
     <%@ include file="/include/bs4.jsp" %>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 .mySlides {display: none; width:100%; margin:0 auto;}
 .mySlides > img {width:100%; max-height:600px;}
+
+.post-slider{
+  width:70%;
+  margin:0px auto;
+  position:relative;
+}
+.post-slider .silder-title{
+  text-align:center;
+  margin:30px auto;
+}
+.post-slider .next{
+  position:absolute;
+  top:50%;
+  right:30px;
+  font-size:2em;
+  color:gray;
+  cursor: pointer;
+}
+.post-slider .prev{
+  position:absolute;
+  top:50%;
+  left:30px;
+  font-size:2em;
+  color:gray;
+    cursor: pointer;
+}
+.post-slider .post-wrapper{
+
+  width:84%;
+  /* height:350px; */
+  margin: 0px auto;
+  overflow: hidden;
+  padding:10px 0px 10px 0px;
+  
+}
+.post-slider .post-wrapper .post{
+  width:300px;
+  /* height:150px; */
+  margin:0px 10px;
+  display:inline-block;
+  background:white;
+  border-radius: 5px;
+}
+.post-slider .post-wrapper .post .post-info{
+  font-size:15px;
+  height:30%;
+  padding-left:10px;
+}
+.post-slider .post-wrapper .post .slider-image{
+  width:100%;
+  height:175px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  line-height:200px;
+  text-align:center;
+}
+
+.slick-active {
+	overflow:hidden;
+	height: 146px;
+}
+.slick-active > img {
+	width:100%;
+	height:100%;
+}
 </style>
+
 </head>
 <body>
 <%@ include file="/include/nav.jsp" %>
@@ -35,25 +103,43 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     <h2 class="w3-text-green">The Apartment</h2>
     
   	<div class="w3-row w3-padding-16 w3-text-white w3-large">
-    <c:forEach var="fileVo" items="${fileList}" varStatus="status">
-  		<c:if test="${lodVo.save_file_name != fileVo.save_file_name}">
-		    <div class="w3-margin-bottom">
-		      <div class="w3-display-container mySlides">
-		        <img src="${ctp}/data/lodging/${fileVo.save_file_name}">
-		      </div>
-		    </div>
-  		</c:if>
-  	</c:forEach>
+	    <div class="w3-margin-bottom">
+	    <c:forEach var="fileVo" items="${fileList}" varStatus="status">
+	      <div class="w3-display-container">
+	        <img src="${ctp}/data/lodging/${fileVo.save_file_name}" class="mySlides" style="width:100%;">
+	      </div>
+	    </c:forEach>
+	    </div>
   </div>
   </div>
-  <div class="w3-row-padding w3-section">
-  <c:forEach var="fileVo" items="${fileList}" varStatus="status">
-  	<c:if test="${lodVo.save_file_name != fileVo.save_file_name}">
-    <div class="w3-col s3">
-      <img class="demo w3-opacity w3-hover-opacity-off" src="${ctp}/data/lodging/${fileVo.save_file_name}" style="width:100%;cursor:pointer" onclick="currentDiv(${status.count})" title="Living room">
+  <div class="w3-row-padding w3-section mt-0">
+	  <div class="page-wrapper" style="position:relative;">
+      <!--page slider -->
+      <div class="post-slider">
+        <i class="fa-solid fa-circle-chevron-left prev" style="font-size:18px; left:8px" ></i>  <!-- 왼쪽 방향 버튼  -->
+        <i class="fa-solid fa-circle-chevron-right next" style="font-size:18px; right:8px" ></i>   <!-- //오른쪽 방향 버튼  -->
+        <span class="iconify next" data-icon="ant-design:caret-right-outlined"></span>
+        <div class="post-wrapper">
+          <c:forEach var="fileVo" items="${fileList}" varStatus="status">
+          <div class="post">
+            <img class="demo w3-hover-opacity-off" src="${ctp}/data/lodging/${fileVo.save_file_name}" style="width:100%; cursor:pointer" onclick="currentDiv(${status.count})"> <!-- onclick="photoChange(${fileVo.save_file_name})"  -->
+          </div>
+          </c:forEach>
+        </div>
+      </div>
+      <!--post slider-->
     </div>
-    </c:if>
-  </c:forEach>
+	<script>
+		$('.post-wrapper').slick({
+			  slidesToShow: 3,
+			  slidesToScroll: 1,
+			  autoplay: true,
+			  autoplaySpeed: 3000,
+			  nextArrow:$('.next'),
+			  prevArrow:$('.prev'),
+		});
+	</script>
+	
   </div>
 
   <div class="w3-container">

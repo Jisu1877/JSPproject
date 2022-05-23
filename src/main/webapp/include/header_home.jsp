@@ -4,10 +4,10 @@
 </style>
 <!-- Header -->
 <header class="w3-display-container w3-content" style="max-width:1500px;">
-	<img class="w3-image mySlides" src="images/air1.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-	<img class="w3-image mySlides" src="images/air2.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-	<img class="w3-image mySlides" src="images/air3.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
-	<img class="w3-image mySlides" src="images/air4.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:700px;">
+	<img class="w3-image mySlides" src="images/air1.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:800px;">
+	<img class="w3-image mySlides" src="images/air2.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:800px;">
+	<img class="w3-image mySlides" src="images/air3.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:800px;">
+	<img class="w3-image mySlides" src="images/air4.jpg" alt="The Hotel" style="min-width:1000px; width:100%; height:800px;">
 	<script>
 		var myIndex = 0;
 		carousel();
