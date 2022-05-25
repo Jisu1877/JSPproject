@@ -307,7 +307,6 @@
 								      	<input type="button" value="￦" size="2" class="btn w3-black" disabled='disabled' />
 								    </div>
 					    		</div>
-							    <div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 주말 숙박 가격은 자동 10% 인상된 가격으로 설정됩니다.</div>
 				    		</div>
 				    		<div class="form-group">
 					    		<label for="number_guests">숙박 가능 최대 인원수 : &nbsp; &nbsp;</label>

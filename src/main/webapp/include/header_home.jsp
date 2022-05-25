@@ -103,21 +103,24 @@
 					document.getElementById("checkOut").focus();
 					return false;
 				}
+				else if(checkIn == checkOut) {
+					alert("체크인 날짜와 체크아웃 날짜가 같습니다. 1박 이상으로 선택해주세요.");
+					document.getElementById("checkOut").focus();
+					return false;
+				}
 			}
-			else if(peopleNum <= 0) {
+			if(peopleNum <= 0) {
 				alert("숙박인원은 1명 이상부터 검색가능합니다.");
 				document.getElementById("peopleNum").focus();
 				return false;
 			}
 			else if(peopleNum == "") {
-				alert("숙박인원은 입력해주세요.");
+				alert("숙박인원을 입력해주세요.");
 				document.getElementById("peopleNum").focus();
 				return false;
 			}
-			else {
-				myForm.submit();
-			}
 			
+			myForm.submit();
 		}
 		
 	</script>

@@ -24,7 +24,7 @@ public class resSearchCommand implements ReservationInterface {
 		resvo.setCheck_out(checkOut);
 		resvo.setNumber_guests(peopleNum);
 		
-		System.out.println("resvo :" + resvo);
+		//System.out.println("resvo :" + resvo);
 		
 		LodgingDAO lodDao = new LodgingDAO();
 		ArrayList<LodgingVO> lodVos = lodDao.getLodList();

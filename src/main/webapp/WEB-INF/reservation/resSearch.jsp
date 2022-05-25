@@ -99,7 +99,7 @@
    <c:forEach var="lodVO" items="${lodVos}">
 	   <div class="w3-third w3-margin-bottom">
    	 	  	
-	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
+	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
 	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>

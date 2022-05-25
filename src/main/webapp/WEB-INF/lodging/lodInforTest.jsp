@@ -1,7 +1,9 @@
+<%@page import="lodging.LodgingVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -93,6 +95,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 	font-size: 22px;
 }
 
+.priceCl {
+	font-size : 20px;
+}
+
+a {
+	color : black;
+}
+
  @media screen and (max-width:1000px) { 
  	.slick-active {
 	overflow:hidden;
@@ -113,7 +123,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 	}
  
  }
- 
+
+@media screen and (max-width:800px) { 
+	.priceCl {
+	font-size : 13px;
+	}
+}
+
  @media screen and (max-width:600px) { 
 	.numPlusMinus {
 		margin-top:18px;
@@ -121,20 +137,161 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 	#numMinus {
 		margin-left : 30px;
 	}
+	.priceCl {
+	font-size : 20px;
+	}
  }
 </style>
 <script>
 	function NumPlus() {
 		let peopleNum = document.getElementById("peopleNum").value;
+		let number_guests = ${lodVo.number_guests};
+		if(peopleNum == number_guests) {
+			alert("최대 숙박 가능인원은 "+number_guests+"명입니다.");
+			return false;
+		}
 		peopleNum = Number(peopleNum) + 1;
-		document.getElementById("peopleNum").value = peopleNum
+		document.getElementById("peopleNum").value = peopleNum;
 	}
 	
 	function NumMinus() {
 		let peopleNum = document.getElementById("peopleNum").value;
+		if(peopleNum == 1) {
+			alert("최소 숙박인원은 1명입니다.");
+			return false;
+		}
 		peopleNum = Number(peopleNum) - 1;
-		document.getElementById("peopleNum").value = peopleNum
+		document.getElementById("peopleNum").value = peopleNum;
 	}
+	
+	function priceCalc() {
+		let checkIn = document.getElementById("checkIn").value;
+		let checkOut = document.getElementById("checkOut").value;
+		let peopleNum = document.getElementById("peopleNum").value;
+		
+		let regDate = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	
+		if(checkIn == "") {
+			alert("체크인 날짜를 선택해주세요.");
+			document.getElementById("checkIn").focus();
+			return false;
+		}
+		else if(checkOut == "") {
+			alert("체크아웃 날짜를 선택해주세요.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(checkIn == checkOut) {
+			alert("체크인 날짜와 체크아웃 날짜가 같습니다. 1박 이상으로 선택해주세요.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(!regDate.test(checkIn)) {
+			alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+			document.getElementById("checkIn").focus();
+			return false;
+		}
+		else if(!regDate.test(checkOut)) {
+			alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(peopleNum <= 0) {
+			alert("숙박인원은 0이나 음수로 입력할 수 없습니다.");
+			document.getElementById("peopleNum").focus();
+			return false;
+		}
+		else if(peopleNum == "") {
+			alert("숙박인원을 입력해주세요.");
+			document.getElementById("peopleNum").focus();
+			return false;
+		}
+		else { 
+			// 선택한 2개의 날짜의 차를 구하기
+			let checkInDate = new Date(checkIn);
+			let checkOutDate = new Date(checkOut);
+			let diffDate = checkInDate.getTime() - checkOutDate.getTime();
+			
+			let dateDays = Math.abs(diffDate / (1000 * 3600 * 24));
+			//숙박이 몇박인지 값 화면에 띄워주기
+			document.getElementById("dateDiff").innerText = dateDays;
+			
+			let price = ${lodVo.price};
+			let priceCal = price * dateDays;
+			document.getElementById("priceCalcu").innerText = priceCal.toLocaleString();
+			document.getElementById("reservation").style.display = "block";
+		}
+	}
+	
+	function moreContent() {
+		document.getElementById("shortCont").style.display = "none";
+		document.getElementById("moreCont").style.display = "block";
+	}
+	
+	function shortContent() {
+		document.getElementById("shortCont").style.display = "block";
+		document.getElementById("moreCont").style.display = "none";
+	}
+	
+	/* function reservation() {
+		let checkIn = document.getElementById("checkIn").value;
+		let checkOut = document.getElementById("checkOut").value;
+		let peopleNum = document.getElementById("peopleNum").value;
+		
+		let regDate = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	
+		if(checkIn == "") {
+			alert("체크인 날짜를 선택해주세요.");
+			document.getElementById("checkIn").focus();
+			return false;
+		}
+		else if(checkOut == "") {
+			alert("체크아웃 날짜를 선택해주세요.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(checkIn == checkOut) {
+			alert("체크인 날짜와 체크아웃 날짜가 같습니다. 1박 이상으로 선택해주세요.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(!regDate.test(checkIn)) {
+			alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+			document.getElementById("checkIn").focus();
+			return false;
+		}
+		else if(!regDate.test(checkOut)) {
+			alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+			document.getElementById("checkOut").focus();
+			return false;
+		}
+		else if(peopleNum <= 0) {
+			alert("숙박인원은 0이나 음수로 입력할 수 없습니다.");
+			document.getElementById("peopleNum").focus();
+			return false;
+		}
+		else if(peopleNum == "") {
+			alert("숙박인원을 입력해주세요.");
+			document.getElementById("peopleNum").focus();
+			return false;
+		}
+		else { 
+			// 선택한 2개의 날짜의 차를 구하기
+			let checkInDate = new Date(checkIn);
+			let checkOutDate = new Date(checkOut);
+			let diffDate = checkInDate.getTime() - checkOutDate.getTime();
+			
+			let dateDays = Math.abs(diffDate / (1000 * 3600 * 24));
+			
+			let price = ${lodVo.price};
+			let priceCal = price * dateDays;
+			
+			reservationForm.priceCal.value = priceCal;
+			reservationForm.dateDays.value = dateDays;
+			
+			reservationForm.submit();
+		}
+	} */
 </script>
 </head>
 <body>
@@ -227,33 +384,35 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
   <div class="w3-container" id="content">
 	  <div class="w3-col m6 l7">
-		  	 <h4><strong>Condition</strong></h4>
-		    <div class="w3-row w3-large">
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-male"></i> 최대 인원수: ${lodVo.number_guests}명</p>
-		        <p><i class="fa fa-fw fa-bath"></i> 욕실 : ${lodVo.option.bathroom}개</p>
-		      </div>
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-bed"></i> 침실 : ${lodVo.option.bedroom}개</p>
-		        <p><span class="iconify" data-icon="ion:bed"></span> 침대 : ${lodVo.option.bed}개</p>
-		      </div>
+	  		<div style="margin-bottom:15px;">
+			  	 <h4><strong>Condition</strong></h4>
+			    <div class="w3-row w3-large">
+			      <div class="w3-col s6">
+			        <p><i class="fa fa-fw fa-male"></i> 최대 인원수: ${lodVo.number_guests}명</p>
+			        <p><i class="fa fa-fw fa-bath"></i> 욕실 : ${lodVo.option.bathroom}개</p>
+			      </div>
+			      <div class="w3-col s6">
+			        <p><i class="fa fa-fw fa-bed"></i> 침실 : ${lodVo.option.bedroom}개</p>
+			        <p><span class="iconify" data-icon="ion:bed"></span> 침대 : ${lodVo.option.bed}개</p>
+			      </div>
+			    </div>
 		    </div>
-		    
+		  	<div style="margint-bottom:15px; margin-right: 20px;">
+		    	<h4><strong>Explanation</strong></h4>
+			    <div class="w3-row w3-large" id="shortCont">
+				    ${fn:substring(lodVo.explanation, 0, 50)}
+				    <c:if test="${fn:length(lodVo.explanation) > 49}">
+				    ...<span style="text-decoration: underline;" class="more"><a href="javascript:moreContent();">더보기</a></span>
+				    </c:if>
+			    </div>
+			    <div class="w3-row w3-large" style="display: none" id="moreCont">
+			    	<c:if test="${fn:indexOf(lodVo.explanation,newLine) != -1}">${fn:replace(lodVo.explanation,newLine,"<br>")}</c:if>
+				  	<c:if test="${fn:indexOf(lodVo.explanation,newLine) == -1}">${lodVo.explanation}</c:if>
+				  	<span style="text-decoration: underline;" class="more"><a href="javascript:shortContent();">접기</a></span>
+			    </div>
+		    </div>
+		    <p></p>
 		    <h4><strong>Amenities</strong></h4>
-		    <div class="w3-row w3-large">
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
-		        <p><i class="fa fa-fw fa-wifi"></i> WiFi</p>
-		        <p><i class="fa fa-fw fa-tv"></i> TV</p>
-		      </div>
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
-		        <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
-		        <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
-		      </div>
-		    </div>
-		    <hr>
-		    
 		    <div class="w3-row w3-large">
 		      <div class="w3-col s6">
 		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
@@ -313,7 +472,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 		    
 	  </div>
   	  <div class="w3-col m6 l5">
-  	  	<form>
+  	  	<form name="reservationForm">
 		<div class="reservation" style="padding:20px">
 			<c:set var="priceFmt" value="${lodVo.price}"></c:set>
 			<div class="mb-2">
@@ -325,11 +484,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 				<div class="w3-row mb-2">
 					<div class="w3-half">
 						<label><i class="fa fa-calendar-o"></i>&nbsp; Check In</label>
-						<input class="w3-input w3-border" type="text" title="숙박 시작 일자" placeholder="YYYY-DD-MM" name="checkIn" id="checkIn" autocomplete="off" required>
+						<input class="w3-input w3-border" type="text" title="숙박 시작 일자" placeholder="YYYY-DD-MM" value="${param.checkIn}" name="checkIn" id="checkIn" autocomplete="off" required>
 					</div>
 					<div class="w3-half">
 						<label><i class="fa fa-calendar-o"></i>&nbsp; Check Out</label>
-           				<input class="w3-input w3-border" type="text" title="숙박 마지막 일자" placeholder="YYYY-DD-MM" name="checkOut" id="checkOut" autocomplete="off" required>
+           				<input class="w3-input w3-border" type="text" title="숙박 마지막 일자" placeholder="YYYY-DD-MM" value="${param.checkOut}" name="checkOut" id="checkOut" autocomplete="off" required>
 					</div>
 				</div>
 				<div class="w3-row">
@@ -343,8 +502,33 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 						<a onclick="javascript:NumMinus();"><i class="fa-solid fa-circle-minus numPlusMinus" id="numMinus"></i></a>
 					</div>
 				</div>
+				<div class="w3-row" style="margin-top:15px;">
+					<div>
+						<input type="button" value="가격 계산하기" class="btn w3-black form-control" onclick="priceCalc();" style="height: 40px; font-size:18px;"/>
+					</div>
+				</div>
+				<div id="reservation" style="display: none;">
+					<div class="w3-row" style="margin-top:15px;">
+						<div class="w3-col s6 priceCl">
+							￦<fmt:formatNumber value="${priceFmt}"/>&nbsp;X&nbsp;<span id="dateDiff"></span>박
+						</div>
+						<div class="w3-col s6 priceCl" style="text-align:right">
+							￦<b><span id="priceCalcu" class="w3-text-indigo"></span></b>
+						</div>
+					</div>
+					<div class="w3-row" style="margin-top:15px; text-align:right;">
+						<span class="w3-text-gray"><i class="fa-solid fa-circle-exclamation"></i>&nbsp; 부가세가 포함된 가격입니다.</span>
+					</div>
+					<div class="w3-row" style="margin-top:15px; text-align:right;">
+					 	<div>
+							<input type="button" value="예약하기" class="btn w3-theme form-control" onclick="javascript:reservation();" style="height: 45px; font-size:18px;"/>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<input type="hidden" name="priceCal"/>
+		<input type="hidden" name="dateDays"/>
 		</form>
 	  </div>
 	  
