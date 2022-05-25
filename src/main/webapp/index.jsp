@@ -11,7 +11,7 @@
 <body class="w3-light-grey">
 
 
-<%@ include file="/include/nav.jsp" %>
+<%@ include file="/include/nav1.jsp" %>
 <%@ include file="/include/header_home.jsp" %>
 <%@ include file="/include/lodging.jsp" %>
 

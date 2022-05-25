@@ -56,7 +56,7 @@
 	</style>
 </head>
 <body>
-<%@ include file="/include/nav.jsp" %>
+<%@ include file="/include/nav2.jsp" %>
 <div class="container">
 	<header>
         <div>JOIN</div>

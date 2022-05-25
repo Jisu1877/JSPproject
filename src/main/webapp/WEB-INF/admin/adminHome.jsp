@@ -31,7 +31,7 @@
   <span class="w3-bar-item w3-right w3-white"><a href="${ctp}/">Home</a></span>
 </div>
 
-<%@ include file="/include/admin_sidebar_menu.jsp" %>
+<%@ include file="/include/admin_sidebarMenu.jsp" %>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>

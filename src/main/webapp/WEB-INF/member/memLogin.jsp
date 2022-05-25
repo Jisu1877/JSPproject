@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>memLogin.jsp</title>
-    <%@ include file="/include/bs4.jsp" %>
+   	<%@ include file="/include/bs4.jsp" %>
     <script>
     	'use strict';
     	function fCheck() {
@@ -52,7 +52,7 @@
 	</style>
 </head>
 <body>
-<%@ include file="/include/nav.jsp" %>
+<%@ include file="/include/nav2.jsp" %>
 <p><br/><p>
 <div class="container" style="margin-bottom:100px">
 		<div class="container p-3">

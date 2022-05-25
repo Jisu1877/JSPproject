@@ -367,7 +367,7 @@
 	
 </head>
 <body>
-<%@ include file="/include/nav.jsp" %>
+<%@ include file="/include/nav2.jsp" %>
 <p><br/><p>
   <div class="w3-container" id="contact">
     <h2 class="headerJoin text-center">JOIN</h2>
@@ -488,6 +488,6 @@
 	    </div>
     </div>
   </div>
-<%@ include file="/include/footer.jsp" %>
+  <%@ include file="/include/footer.jsp" %>
 </body>
 </html>

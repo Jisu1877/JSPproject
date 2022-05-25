@@ -4,7 +4,7 @@ create table lodging (
 	idx int not null auto_increment,
     file_name varchar(255) not null,
     save_file_name varchar(255) not null,
-    category_code int not null,
+    catego$ry_code int not null,
     sub_category_code int not null,
     detail_category_code int not null,
     lod_name varchar(255) not null,
@@ -80,3 +80,4 @@ create table lod_detail_category (
     on update cascade /*원본 테이블에서 수정되면 같이 수정됨*/
 );
 
+select * from lodging l LEFT JOIN lod_option lo ON l.idx = lo.lod_idx;
