@@ -29,6 +29,18 @@
 				myForm.submit();
 			}
 		}
+    	
+    	function checkAll() {
+    		if()
+    		document.getElementById("agreeCheck1").checked = false;
+    		document.getElementById("agreeCheck2").checked = false;
+    		document.getElementById("agreeCheck3").checked = false;
+    		
+    		$('#agreeCheck1').click();
+    		$('#agreeCheck2').click();
+    		$('#agreeCheck3').click();
+		}
+    	
     </script>
     <%@ include file="/include/bs4.jsp" %>
 	<style>
@@ -65,7 +77,7 @@
             <form name="myForm" method="post" action="${ctp}/memJoin.mem"> 
             <p class="text-center w3-text-black" style="font-size:20px; font-weight: bold;">회원가입을 위해 약관동의를 진행합니다.</p><br>
             <div style="text-align:center; font-size:17px; font-weight: bold; color:blue">
-            	<input type='checkbox' id='agreeCheckAll' name='agree3' onclick="javascript:$('#agreeCheck1').click(); javascript:$('#agreeCheck2').click(); javascript:$('#agreeCheck3').click();">
+            	<input type='checkbox' id='agreeCheckAll' name='agree3' onclick="checkAll()">
 	            <label for='agree3'> &nbsp;&nbsp;<a onclick="javascript:$('#agreeCheckAll').click();">Fantastic Lodging 이용약관, 개인정보 수집 및 이용, 프로모션 정보 수신(선택)에 모두 동의합니다. </a></label>
             </div><br>
             <div> 

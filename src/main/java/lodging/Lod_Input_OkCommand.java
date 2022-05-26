@@ -93,12 +93,14 @@ public class Lod_Input_OkCommand implements AdminInterface {
 				int j = 0;
 				int temp = 1;
 				while(sw) {
-					if(originalFileNameList.get(j).equals(fileArray[i])) {
-						file_order = temp;
-						sw = false;
+					if(originalFileNameList.get(j) != null) {
+						if(originalFileNameList.get(j).equals(fileArray[i])) {
+							file_order = temp;
+							sw = false;
+						}
+						j++;
+						temp++;
 					}
-					j++;
-					temp++;
 				}
 				fileResults[i] = dao.setFileName(originalFileNameList.get(i), filesystemNameList.get(i), lodIdx, file_order);
 			}

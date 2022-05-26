@@ -38,7 +38,6 @@ public class MemberController extends HttpServlet {
 			viewPage = "/message/message.jsp";
 		}
 		else if(com.equals("memLogin")) {
-			System.out.println("dd");
 			command = new MemLoginCommand();
 			command.execute(request, response);
 			viewPage += "/member/memLogin.jsp";

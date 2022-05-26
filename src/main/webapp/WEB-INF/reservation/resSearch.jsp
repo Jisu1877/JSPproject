@@ -59,7 +59,7 @@
 </head>
 <body>
 <%@ include file="/include/nav2.jsp" %>
-<div class="container">
+<div class="container" style="max-width:1500px;">
 	<div style="margin-top:20px; margin-left:10px;">
 		<h3><strong>Search</strong></h3>
 	</div>
@@ -94,7 +94,7 @@
 	    </div>
 	  </div>
 	</form>
-	
+
 	<div class="w3-row-padding w3-padding-16 houses">
    <c:forEach var="lodVO" items="${lodVos}">
 	   <div class="w3-third w3-margin-bottom">
@@ -135,6 +135,7 @@
 	    	
 	    </div>
     </c:forEach>
+</div>
 </div>
 <p><br/><p>
 <%@ include file="/include/footer.jsp" %>

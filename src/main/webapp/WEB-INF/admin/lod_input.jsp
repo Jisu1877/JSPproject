@@ -214,7 +214,7 @@
 <body class="w3-light-grey">
 
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<div class="w3-bar w3-top w3-black w3-large">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
   <span class="w3-bar-item w3-right w3-white"><a href="${ctp}/">Home</a></span>
 </div>
@@ -557,7 +557,7 @@
 								<input type="button" value="사진 추가" onclick="fileBoxAppend()" class="btn w3-small w3-theme mb-2"/><br>
 								</div>
 								<div class="mb-2">썸네일 사진 : </div>
-								<input type="file" name="fName1" id="fName1" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif"  autofocus />
+								<input type="file" name="fName1" id="fName1" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif" />
 							</div>
 							<div class="mb-2" id="photoLabel" style="display: none">추가 사진 :</div>
 							<div class="form-group" id="fileBoxInsert"></div><br>

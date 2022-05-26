@@ -25,7 +25,7 @@
 </style>
 <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
 <!-- Page content -->
-<div class="w3-content" style="max-width:1532px;">
+<div class="w3-content" style="max-width:1500px;">
 
   <div class="w3-container w3-margin-top" id="houses">
     <h3>Lodging Houses</h3>

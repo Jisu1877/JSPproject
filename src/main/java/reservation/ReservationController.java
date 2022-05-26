@@ -31,11 +31,21 @@ public class ReservationController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage += "/reservation/resSearch.jsp";
 		}
-		else if(level != 1) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근) RequestDispatcher
+		else if(level != 1 && level != 0) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근) RequestDispatcher
 			request.setAttribute("msg", "accessNO");
 			request.setAttribute("url", request.getContextPath()+"/memLogin.mem");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/message/message.jsp");
 			dispatcher.forward(request, response);
+		}
+		else if(com.equals("payment_confirmation")) {
+			command = new Payment_confirmationCommand();
+			command.execute(request, response);
+			viewPage += "/reservation/payment_confirmation.jsp";
+		}
+		else if(com.equals("reserInput")) {
+			command = new ReserInputCommand();
+			command.execute(request, response);
+			viewPage = "/message/message.jsp";
 		}
 		
 		

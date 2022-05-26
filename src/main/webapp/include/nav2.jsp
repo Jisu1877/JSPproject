@@ -15,7 +15,7 @@
 </style>
 <!-- Navigation Bar -->
 <div class="w3-bar w3-white w3-large">
-  <a href="<%=request.getContextPath()%>/" class="w3-bar-item w3-btn w3-theme w3-mobile"><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Lodging</a>
+  <a href="<%=request.getContextPath()%>/" class="w3-bar-item w3-btn w3-theme w3-mobile" style="padding-left:10px;"><i class="fa-solid fa-tents"></i>&nbsp;Fantastic Lodging</a>
   <a href="<%=request.getContextPath()%>/#houses" class="w3-bar-item w3-btn w3-mobile">Lodging Houses</a>
   <!-- <a href="#about" class="w3-bar-item w3-btn w3-mobile">About</a>
   <a href="#contact" class="w3-bar-item w3-btn w3-mobile">Contact</a> -->

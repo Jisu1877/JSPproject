@@ -4,10 +4,15 @@ public class ReservationVO {
 	private int idx;
 	private int lod_idx;
 	private int mem_idx;
+	private String stay_date;
 	private String check_in;
 	private String check_out;
 	private int number_guests;
-	private String status_yc;
+	private int payment_price;
+	private int term;
+	private String review;
+	private String state;
+	private String cancel_yc;
 	private String create_date;
 	
 	public int getIdx() {
@@ -28,6 +33,12 @@ public class ReservationVO {
 	public void setMem_idx(int mem_idx) {
 		this.mem_idx = mem_idx;
 	}
+	public String getStay_date() {
+		return stay_date;
+	}
+	public void setStay_date(String stay_date) {
+		this.stay_date = stay_date;
+	}
 	public String getCheck_in() {
 		return check_in;
 	}
@@ -46,11 +57,35 @@ public class ReservationVO {
 	public void setNumber_guests(int number_guests) {
 		this.number_guests = number_guests;
 	}
-	public String getStatus_yc() {
-		return status_yc;
+	public int getPayment_price() {
+		return payment_price;
 	}
-	public void setStatus_yc(String status_yc) {
-		this.status_yc = status_yc;
+	public void setPayment_price(int payment_price) {
+		this.payment_price = payment_price;
+	}
+	public int getTerm() {
+		return term;
+	}
+	public void setTerm(int term) {
+		this.term = term;
+	}
+	public String getReview() {
+		return review;
+	}
+	public void setReview(String review) {
+		this.review = review;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCancel_yc() {
+		return cancel_yc;
+	}
+	public void setCancel_yc(String cancel_yc) {
+		this.cancel_yc = cancel_yc;
 	}
 	public String getCreate_date() {
 		return create_date;
@@ -60,9 +95,11 @@ public class ReservationVO {
 	}
 	@Override
 	public String toString() {
-		return "ReservationVO [idx=" + idx + ", lod_idx=" + lod_idx + ", mem_idx=" + mem_idx + ", check_in=" + check_in
-				+ ", check_out=" + check_out + ", number_guests=" + number_guests + ", status_yc=" + status_yc
-				+ ", create_date=" + create_date + "]";
+		return "ReservationVO [idx=" + idx + ", lod_idx=" + lod_idx + ", mem_idx=" + mem_idx + ", stay_date="
+				+ stay_date + ", check_in=" + check_in + ", check_out=" + check_out + ", number_guests=" + number_guests
+				+ ", payment_price=" + payment_price + ", term=" + term + ", review=" + review + ", state=" + state
+				+ ", cancel_yc=" + cancel_yc + ", create_date=" + create_date + "]";
 	}
+	
 	
 }

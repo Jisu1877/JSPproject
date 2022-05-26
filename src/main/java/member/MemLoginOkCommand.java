@@ -41,7 +41,7 @@ public class MemLoginOkCommand implements MemberInterface {
 		HttpSession session = request.getSession();
 		
 		session.setAttribute("sMid", mid);
-		session.setAttribute("sName", vo.getName());
+		session.setAttribute("sMidx", vo.getIdx());
 		session.setAttribute("sLevel", vo.getLevel());
 		
 		//로그인 기록 테이블에 자료 저장
