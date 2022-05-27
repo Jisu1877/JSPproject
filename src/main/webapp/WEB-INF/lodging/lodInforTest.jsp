@@ -340,7 +340,6 @@ a {
    <div class="w3-container" id="lodging">
     <div style="margin-top:30px;"><h2>${lodVo.lod_name}</h2></div>
     <div style="font-size:18px; margin-bottom:10px;"><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${lodVo.address}</div>
-    
   	<div class="w3-row w3-text-white w3-large">
 	    <div class="w3-margin-bottom">
 	    <c:forEach var="fileVo" items="${fileList}" varStatus="status">
@@ -377,32 +376,58 @@ a {
 			  prevArrow:$('.prev'),
 		});
 		
-		$(document).ready(function(){       
-		       $( "#checkIn,#checkOut" ).datepicker({
-		    	   dateFormat: 'yy-mm-dd',
-					  prevText: '이전 달',
-					  nextText: '다음 달',
-					  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-					  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-					  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-					  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-					  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-					  showMonthAfterYear: true,
-					  yearSuffix: '년'
-		        });
-		       
-		       $('#checkIn').datepicker("option", "minDate", new Date());
-		       $('#checkIn').datepicker("option", "maxDate", $("#checkOut").val());
-		       $('#checkIn').datepicker("option", "onClose", function (selectedDate){
-		           $("#checkOut").datepicker( "option", "minDate", selectedDate );
-		           });
-		       
-		       $('#checkOut').datepicker();
-		       $('#checkOut').datepicker("option", "minDate", $("#checkIn").val());
-		       $('#checkOut').datepicker("option", "onClose", function (selectedDate){
-		           $("#checkIn").datepicker( "option", "maxDate", selectedDate );
-		          });
-		});
+	 	let resList = JSON.parse('${resListJson}');
+	 	$(document).ready(function() {
+	 	  
+	       $( "#checkIn,#checkOut" ).datepicker({
+	    	   dateFormat: 'yy-mm-dd',
+				  prevText: '이전 달',
+				  nextText: '다음 달',
+				  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+				  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+				  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+				  showMonthAfterYear: true,
+				  yearSuffix: '년',
+				  beforeShowDay: disableSelectedDates
+	        });
+	       let today = new Date();
+	       today.setDate(today.getDate() + 1);
+	       $('#checkIn').datepicker("option", "minDate", today);
+	       $('#checkIn').datepicker("option", "maxDate", $("#checkOut").val());
+	       $('#checkIn').datepicker("option", "onClose", function (selectedDate){
+           $("#checkOut").datepicker( "option", "minDate", selectedDate );
+           });
+	       
+	       $('#checkOut').datepicker();
+	       $('#checkOut').datepicker("option", "minDate", $("#checkIn").val());
+	       $('#checkOut').datepicker("option", "onClose", function (selectedDate){
+           $("#checkIn").datepicker( "option", "maxDate", selectedDate );
+           });
+	       
+	       function disableSelectedDates(date) {
+	    	   let flag = true;
+	    	   let tooltip = '';
+	    	   for (let i = 0; i < resList.length; i++) {
+		    	   if (resList[i].stay_date == getFormatDate(date)) {
+		    		   flag = false;
+		    		   tooltip = '예약됨';
+		    		   break;
+		    	   }	    		   
+	    	   }
+	    	   let result = [flag, '', tooltip];
+	    	   return result;
+	       }
+	       function getFormatDate(date){
+	    	    var year = date.getFullYear();              //yyyy
+	    	    var month = (1 + date.getMonth());          //M
+	    	    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+	    	    var day = date.getDate();                   //d
+	    	    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+	    	    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+	    	}
+		}); 
 	
 	</script>
 	
@@ -441,56 +466,29 @@ a {
 		    <h4><strong>Amenities</strong></h4>
 		    <div class="w3-row w3-large">
 		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
-		        <p><i class="fa fa-fw fa-wifi"></i> WiFi</p>
-		        <p><i class="fa fa-fw fa-tv"></i> TV</p>
-		      </div>
+			      <c:if test="${lodVo.option.air_conditioner == 'y' }">
+			        <p><span class="iconify" data-icon="iconoir:air-conditioner" data-width="25"></span> 에어컨</p>
+			      </c:if>
+			      <c:if test="${lodVo.option.tv == 'y'}">
+			       	 <p><span class="iconify" data-icon="gala:tv" data-width="25"></span> TV</p>
+			      </c:if>
+			      <c:if test="${lodVo.option.wifi == 'y'}">
+			         <p><i class="fa fa-wifi"></i> 무선인터넷</p>
+			      </c:if>
+			      </div>
 		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
-		        <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
-		        <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
-		      </div>
-		    </div>
-		    <hr>
-		    
-		    <div class="w3-row w3-large">
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
-		        <p><i class="fa fa-fw fa-wifi"></i> WiFi</p>
-		        <p><i class="fa fa-fw fa-tv"></i> TV</p>
-		      </div>
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
-		        <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
-		        <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
-		      </div>
-		    </div>
-		    <hr>
-		    
-		    <div class="w3-row w3-large">
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
-		        <p><i class="fa fa-fw fa-wifi"></i> WiFi</p>
-		        <p><i class="fa fa-fw fa-tv"></i> TV</p>
-		      </div>
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
-		        <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
-		        <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
-		      </div>
-		    </div>
-		    <hr>
-		    
-		    <div class="w3-row w3-large">
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-shower"></i> Shower</p>
-		        <p><i class="fa fa-fw fa-wifi"></i> WiFi</p>
-		        <p><i class="fa fa-fw fa-tv"></i> TV</p>
-		      </div>
-		      <div class="w3-col s6">
-		        <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
-		        <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
-		        <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
+		         <c:if test="${lodVo.option.washer == 'y'}">
+		         	<p><span class="iconify" data-icon="bxs:washer" data-width="25"></span> 세탁기</p>
+		         </c:if>
+		         <c:if test="${lodVo.option.kitchen == 'y'}">
+		        	<p><i class="fa-solid fa-fire-burner"></i> 주방시설</p>
+		         </c:if>
+		         <c:if test="${lodVo.option.heating == 'y'}">
+		        	<p><i class="fa-solid fa-temperature-high"></i> 난방</p>
+		         </c:if>
+		         <c:if test="${lodVo.option.toiletries == 'y'}">
+		        	<p><span class="iconify" data-icon="mdi:toothbrush-paste" data-width="25"></span> 세면도구</p>
+		         </c:if>
 		      </div>
 		    </div>
 		    <hr>
@@ -564,6 +562,7 @@ a {
 		</form>
 	  </div>
 	  
+</div>
 </div>
 <p><br/><p>
 

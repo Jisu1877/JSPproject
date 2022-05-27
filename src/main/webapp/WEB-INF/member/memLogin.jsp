@@ -29,13 +29,13 @@
     	//아이디찾기
     	function idFind() {
       		let url = "${ctp}/memIdFind.mem";
-   			window.open(url, "nWin", "width=700px,height=350px, left=500px, top=200px, resizable = no, scrollbars = no");
+   			window.open(url, "nWin", "width=500px,height=450px, left=500px, top=200px, resizable = no, scrollbars = no");
     	}
     	//비밀번호찾기
     	function pwdFind() {
     		let mid = document.getElementById("mid").value;
       		let url = "${ctp}/memPwdFind.mem";
-      		let winX = 700;
+      		let winX = 600;
             let winY = 450;
             let x = (window.screen.width/2) - (winX/2);
             let y = (window.screen.height/2) - (winY/2)

@@ -27,6 +27,10 @@
     	else if(msg == "accessNO") msg = "로그인이 필요한 서비스입니다. 로그인창으로 이동합니다.";
     	else if(msg == "reserInputOk") msg = "예약 완료되었습니다.";
     	else if(msg == "reserInputNo") msg = "예약에 실패했습니다.";
+    	else if(msg == "MemPwdFindOk") msg = "정보 확인이 완료되었습니다. 비밀번호 재생성을 진행합니다.";
+    	else if(msg == "MemPwdFindNo") msg = "입력하신 정보와 일치하는 회원이 없습니다.";
+    	else if(msg == "MemPwdInputNo") msg = "비밀번호 재생성에 실패했습니다.";
+    	else if(msg == "MemPwdInputOk") msg = "비밀번호 재생성이 완료되었습니다.";
     	
     	alert(msg);
     	if(url != "") location.href = url;

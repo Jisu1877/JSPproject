@@ -164,7 +164,7 @@
 			}
 			
 			if(changePoint != 0) {
-				 document.getElementById("appPoint").value = changePoint;
+				 document.getElementById("appPoint").value = Math.floor(changePoint);
 			}
 			else {
 				document.getElementById("appPoint").value  = ${vo.point};

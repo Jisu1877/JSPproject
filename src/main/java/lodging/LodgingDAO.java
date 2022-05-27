@@ -12,6 +12,7 @@ import conn.GetConn;
 import lodging.FileVO;
 import lodging.LodgingVO;
 import lodging.OptionVO;
+import reservation.ReservationVO;
 
 public class LodgingDAO {
 	GetConn getConn = GetConn.getInstance(); //메모리에 있는 instance 가져오기
@@ -159,5 +160,4 @@ public class LodgingDAO {
 		}
 		return fileVos;
 	}
-
 }

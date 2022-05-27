@@ -4,7 +4,7 @@ create table lodging (
 	idx int not null auto_increment,
     file_name varchar(255) not null,
     save_file_name varchar(255) not null,
-    catego$ry_code int not null,
+    category_code int not null,
     sub_category_code int not null,
     detail_category_code int not null,
     lod_name varchar(255) not null,

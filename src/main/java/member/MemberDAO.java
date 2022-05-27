@@ -166,5 +166,100 @@ public class MemberDAO {
 			}
 			return vo;
 		}
+		
+		//오버로딩 1
+		public MemberVO getMemInfor(String name, String tel) {  //getMemInfor 메소드 오버로딩
+			MemberVO vo = new MemberVO();
+			try {
+				sql = "select * from member where name = ? and tel = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, name);
+				pstmt.setString(2, tel);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					vo.setIdx(rs.getInt("idx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setPwd(rs.getString("pwd"));
+					vo.setName(rs.getString("name"));
+					vo.setGender(rs.getString("gender"));
+					vo.setTel(rs.getString("tel"));
+					vo.setEmail(rs.getString("email"));
+					vo.setFile_name(rs.getString("file_name"));
+					vo.setSave_file_name(rs.getString("save_file_name"));
+					vo.setPostcode(rs.getString("postcode"));
+					vo.setRoadAddress(rs.getString("roadAddress"));
+					vo.setDetailAddress(rs.getString("detailAddress"));
+					vo.setExtraAddress(rs.getString("extraAddress"));
+					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+					vo.setAgreement(rs.getInt("agreement"));
+					vo.setDel_yn(rs.getString("del_yn"));
+					vo.setDelete_date(rs.getString("delete_date"));
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러 : " + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return vo;
+		}
+		
+		// 오버로딩 2
+		public MemberVO getMemInfor(String mid, String name, String tel) {  //getMemInfor 메소드 오버로딩
+			MemberVO vo = new MemberVO();
+			try {
+				sql = "select * from member where mid = ? and name = ? and tel = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.setString(2, name);
+				pstmt.setString(3, tel);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					vo.setIdx(rs.getInt("idx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setPwd(rs.getString("pwd"));
+					vo.setName(rs.getString("name"));
+					vo.setGender(rs.getString("gender"));
+					vo.setTel(rs.getString("tel"));
+					vo.setEmail(rs.getString("email"));
+					vo.setFile_name(rs.getString("file_name"));
+					vo.setSave_file_name(rs.getString("save_file_name"));
+					vo.setPostcode(rs.getString("postcode"));
+					vo.setRoadAddress(rs.getString("roadAddress"));
+					vo.setDetailAddress(rs.getString("detailAddress"));
+					vo.setExtraAddress(rs.getString("extraAddress"));
+					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+					vo.setAgreement(rs.getInt("agreement"));
+					vo.setDel_yn(rs.getString("del_yn"));
+					vo.setDelete_date(rs.getString("delete_date"));
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러 : " + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return vo;
+		}
+
+		//비밀번호 재생성
+		public int memPwdInput(String pwd, String mid) {
+			int res = 0;
+			try {
+				sql = "update member set pwd = ? where mid = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pwd);
+				pstmt.setString(2, mid);
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
+		}
 
 }

@@ -35,16 +35,6 @@ public class ReserInputCommand implements ReservationInterface {
 			usePoint = Integer.parseInt(request.getParameter("usePoint"));
 		}
 		
-		System.out.println("checkIn : " + checkIn);
-		System.out.println("checkOut : " + checkOut);
-		System.out.println("peopleNum : " + peopleNum);
-		System.out.println("priceCal : " + priceCal);
-		System.out.println("dateDays : " + dateDays);
-		System.out.println("point : " + point);
-		System.out.println("mem_idx : " + mem_idx);
-		System.out.println("lod_idx : " + lod_idx);
-		System.out.println("usePoint : " + usePoint);
-		
 		
 		//숙박하는 모든 날짜 구해오기 전에, 
 		//반환값이 마지막 날은 포함하지 않기에 checkOut 날짜의 다음날을 checkOut에 먼저 넣어주는 작업을 진행.
@@ -82,7 +72,7 @@ public class ReserInputCommand implements ReservationInterface {
 		resvo.setCheck_out(checkOut);
 		resvo.setNumber_guests(peopleNum);
 		resvo.setPayment_price(priceCal);
-		resvo.setTerm(dateDays);
+		resvo.setTerm(dateDays + 1);
 		
 		//반복문을 통해 예약된 숙소예약일자만큼 DB에 넣기
 		ReservationDAO dao = new ReservationDAO();

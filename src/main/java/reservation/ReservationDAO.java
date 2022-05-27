@@ -46,6 +46,25 @@ public class ReservationDAO {
 		return res;
 	}
 
-	
+	// 이미 예약되어있는 날짜 가져오기
+	public ArrayList<ReservationVO> getLodStayDate(int idx) {
+		ArrayList<ReservationVO> resList = new ArrayList<ReservationVO>();
+		try {
+			sql = "select * from reservation where lod_idx = ? and stay_date > date_format(now(), '%Y-%m-%d')";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ReservationVO vo = new ReservationVO();
+				vo.setStay_date(rs.getString("stay_date"));
+				resList.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return resList;
+	}
 	
 }
