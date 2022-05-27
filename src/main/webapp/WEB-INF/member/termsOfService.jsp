@@ -31,14 +31,26 @@
 		}
     	
     	function checkAll() {
-    		if()
-    		document.getElementById("agreeCheck1").checked = false;
-    		document.getElementById("agreeCheck2").checked = false;
-    		document.getElementById("agreeCheck3").checked = false;
+    		if(!document.getElementById("agreeCheckAll").checked) {
+    			document.getElementById("agreeCheck1").checked = false;
+    			document.getElementById("agreeCheck2").checked = false;
+    			document.getElementById("agreeCheck3").checked = false;
+    			return false;
+    		}
+    		if(document.getElementById("agreeCheck1").checked) {
+    			document.getElementById("agreeCheck1").checked = false;
+    		}
+    		if(document.getElementById("agreeCheck2").checked) {
+    			document.getElementById("agreeCheck2").checked = false;
+    		}
+    		if(document.getElementById("agreeCheck3").checked) {
+    			document.getElementById("agreeCheck3").checked = false;
+    		}
     		
-    		$('#agreeCheck1').click();
-    		$('#agreeCheck2').click();
-    		$('#agreeCheck3').click();
+   			$('#agreeCheck1').click();
+   			$('#agreeCheck2').click();
+   			$('#agreeCheck3').click();
+    		
 		}
     	
     </script>

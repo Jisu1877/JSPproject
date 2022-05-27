@@ -130,4 +130,41 @@ public class MemberDAO {
 			return res;
 		}
 
+		//회원정보 idx로 가져오기
+		public MemberVO getMemInfor(int mem_idx) {
+			MemberVO vo = new MemberVO();
+			try {
+				sql = "select * from member where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, mem_idx);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					vo.setIdx(rs.getInt("idx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setPwd(rs.getString("pwd"));
+					vo.setName(rs.getString("name"));
+					vo.setGender(rs.getString("gender"));
+					vo.setTel(rs.getString("tel"));
+					vo.setEmail(rs.getString("email"));
+					vo.setFile_name(rs.getString("file_name"));
+					vo.setSave_file_name(rs.getString("save_file_name"));
+					vo.setPostcode(rs.getString("postcode"));
+					vo.setRoadAddress(rs.getString("roadAddress"));
+					vo.setDetailAddress(rs.getString("detailAddress"));
+					vo.setExtraAddress(rs.getString("extraAddress"));
+					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+					vo.setAgreement(rs.getInt("agreement"));
+					vo.setDel_yn(rs.getString("del_yn"));
+					vo.setDelete_date(rs.getString("delete_date"));
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러 : " + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return vo;
+		}
+
 }

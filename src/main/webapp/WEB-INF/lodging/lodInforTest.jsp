@@ -5,8 +5,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <% 
 	int mem_idx = session.getAttribute("sMidx") == null ? 0 : (int) session.getAttribute("sMidx"); 
-	pageContext.setAttribute("newLine", "\n"); 
+	String mid = session.getAttribute("sMid") == null ? "" : (String) session.getAttribute("sMid"); 
 	pageContext.setAttribute("mem_idx", mem_idx); 
+	pageContext.setAttribute("mid", mid); 
+	
+	pageContext.setAttribute("newLine", "\n"); 
 %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
@@ -495,7 +498,7 @@ a {
 		    
 	  </div>
   	  <div class="w3-col m6 l5">
-  	  	<form name="reservationForm" method="post" action="reserInput.res">
+  	  	<form name="reservationForm" method="post" action="payment_confirmation.res">
 			<div class="reservation" style="padding:20px">
 				<c:set var="priceFmt" value="${lodVo.price}"></c:set>
 				<div class="mb-2">
@@ -550,6 +553,9 @@ a {
 					</div>
 				</div>
 			</div>
+			<input type="hidden" name="address" value="${lodVo.address}"/>
+			<input type="hidden" name="lod_name" value="${lodVo.lod_name}"/>
+			<input type="hidden" name="mid" value="${mid}"/>
 			<input type="hidden" name="priceCal"/>
 			<input type="hidden" name="dateDays"/>
 			<input type="hidden" name="point"/>

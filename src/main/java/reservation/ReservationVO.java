@@ -15,6 +15,8 @@ public class ReservationVO {
 	private String cancel_yc;
 	private String create_date;
 	
+	private int point;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -93,12 +95,18 @@ public class ReservationVO {
 	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
 	@Override
 	public String toString() {
 		return "ReservationVO [idx=" + idx + ", lod_idx=" + lod_idx + ", mem_idx=" + mem_idx + ", stay_date="
 				+ stay_date + ", check_in=" + check_in + ", check_out=" + check_out + ", number_guests=" + number_guests
 				+ ", payment_price=" + payment_price + ", term=" + term + ", review=" + review + ", state=" + state
-				+ ", cancel_yc=" + cancel_yc + ", create_date=" + create_date + "]";
+				+ ", cancel_yc=" + cancel_yc + ", create_date=" + create_date + ", point=" + point + "]";
 	}
 	
 	
