@@ -44,6 +44,7 @@ public class Payment_confirmationCommand implements ReservationInterface {
 		request.setAttribute("mid", mid);
 		request.setAttribute("address", address);
 		request.setAttribute("ownPoint", memVo.getPoint());
+		request.setAttribute("memVo", memVo);
 	}
 
 }

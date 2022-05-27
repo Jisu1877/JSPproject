@@ -17,6 +17,9 @@
     	}
     </style>
     <script>
+    	let payment_price_cal = 0;
+    	let changePoint = 0;
+    	
     	function ownPointUse(i) {
 			let point = document.getElementById("point").value;
 			let ownPoint = ${ownPoint}
@@ -29,20 +32,39 @@
 					document.getElementById("zeroPoint").style.display = "none";
 					document.getElementById("pointUse").style.display = "block";
 					document.getElementById("pointUse").innerText = "-0" + point + "Point";
-				}
-				else {
 					
+					payment_price_cal = Number(payment_price) - Number(point2); 
+					
+					document.getElementById("payment").style.display = "none";
+					document.getElementById("priceCalc").style.display = "block";
+					document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+					
+					changePoint = payment_price_cal * (5/100);
+					let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+					
+					document.getElementById("originPoint").style.display = "none";
+					document.getElementById("changePoint").style.display = "block";
+					document.getElementById("changePoint").innerText = changePoint2 + " Point";
+					return false;
 				}
+				
 				document.getElementById("zeroPoint").style.display = "none";
 				document.getElementById("pointUse").style.display = "block";
 				
-				document.getElementById("pointUse").innerText = "-" + point2 + "Point";
+				document.getElementById("pointUse").innerText = "-" + point2 + " Point";
 				
-				let payment_price_cal = Number(payment_price) - Number(point2); 
+				payment_price_cal = Number(payment_price) - Number(point2); 
 				
 				document.getElementById("payment").style.display = "none";
 				document.getElementById("priceCalc").style.display = "block";
-				document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + "원";
+				document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+				
+				changePoint = payment_price_cal * (5/100);
+				let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+				
+				document.getElementById("originPoint").style.display = "none";
+				document.getElementById("changePoint").style.display = "block";
+				document.getElementById("changePoint").innerText = changePoint2 + " Point";
 				return false;
 			}
 			
@@ -60,28 +82,44 @@
 					if(point == "") {
 						document.getElementById("zeroPoint").style.display = "none";
 						document.getElementById("pointUse").style.display = "block";
-						document.getElementById("pointUse").innerText = "-0" + point + "Point";
+						document.getElementById("pointUse").innerText = "-0" + point + " Point";
 						
-						let payment_price_cal = Number(payment_price) - Number(point); 
+						payment_price_cal = Number(payment_price) - Number(point); 
 						
 						document.getElementById("payment").style.display = "none";
 						document.getElementById("priceCalc").style.display = "block";
-						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + "원";
+						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+						
+						changePoint = payment_price_cal * (5/100);
+						let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+						
+						document.getElementById("originPoint").style.display = "none";
+						document.getElementById("changePoint").style.display = "block";
+						document.getElementById("changePoint").innerText = changePoint2 + " Point";
+						
+						return false;
 					}
 					else {
 						document.getElementById("zeroPoint").style.display = "none";
 						document.getElementById("pointUse").style.display = "block";
 						
-						document.getElementById("pointUse").innerText = "-" + point + "Point";
+						document.getElementById("pointUse").innerText = "-" + point + " Point";
 						
-						let payment_price_cal = Number(payment_price) - Number(point); 
+						payment_price_cal = Number(payment_price) - Number(point); 
 						
 						document.getElementById("payment").style.display = "none";
 						document.getElementById("priceCalc").style.display = "block";
-						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + "원";
+						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+						
+						changePoint = payment_price_cal * (5/100);
+						let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+						
+						document.getElementById("originPoint").style.display = "none";
+						document.getElementById("changePoint").style.display = "block";
+						document.getElementById("changePoint").innerText = changePoint2 + " Point";
 					}
-				}
 			}
+		}
     	
     	
     	$(function() {
@@ -117,6 +155,21 @@
 				alert("결제내역 확인 체크박스를 체크해주세요.");
 	            return false;
 			}
+			
+			if(payment_price_cal != 0) {
+				document.getElementById("priceCal").value  = payment_price_cal;
+			}
+			else {
+				document.getElementById("priceCal").value = ${vo.payment_price};
+			}
+			
+			if(changePoint != 0) {
+				 document.getElementById("appPoint").value = changePoint;
+			}
+			else {
+				document.getElementById("appPoint").value  = ${vo.point};
+			}
+			payForm.submit();
 			
 		}
     </script>
@@ -164,13 +217,13 @@
 							</tr>
 							<tr>
 								<td><b>숙박 기간</b></td>
-								<td>총 ${vo.term}일</td>
+								<td>총 ${vo.term}박</td>
 							</tr>
 							<tr>
 								<td><b>포인트 사용</b></td>
 								<td>
 									<div class="input-group mb-1">
-						    			<input class="input w3-border form-control" id="point" name="point" type="number" onchange="ownPointUse(0)">
+						    			<input class="input w3-border form-control" id="point" name="usePoint" type="number" onchange="ownPointUse(0)">
 						    			<div class="input-group-append">
 									      	<input type="button" value="전액사용" class="btn btn-outline-danger" onclick="ownPointUse(1)"/>
 									    </div>
@@ -208,7 +261,8 @@
 							</tr>
 							<tr>
 								<td><b>포인트 적립</b></td>
-								<td style="font-size: 20px;"><fmt:formatNumber value="${vo.point}"/> Point</td>
+								<td style="font-size: 20px;" id="originPoint"><fmt:formatNumber value="${vo.point}"/> Point</td>
+								<td style="font-size: 20px;" id="changePoint"></td>
 							</tr>
 							<tr>
 								<td colspan="2"><hr></td>
@@ -238,7 +292,14 @@
 						</table>
 					</div>
 				</div>
-				<input type="hidden" name=""/>
+				<input type="hidden" name="checkIn" value="${vo.check_in}"/>
+				<input type="hidden" name="checkOut" value="${vo.check_out}"/>
+				<input type="hidden" name="peopleNum" value="${vo.number_guests}"/>
+				<input type="hidden" name="priceCal" id="priceCal"/>
+				<input type="hidden" name="dateDays" value="${vo.term}"/>
+				<input type="hidden" name="point" id="appPoint"/>
+				<input type="hidden" name="mem_idx" value="${memVo.idx}"/>
+				<input type="hidden" name="lod_idx" value="${vo.lod_idx}"/>
 			</form>
 		</div>
 	</div>

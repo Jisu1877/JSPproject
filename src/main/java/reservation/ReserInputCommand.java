@@ -24,9 +24,27 @@ public class ReserInputCommand implements ReservationInterface {
 		int peopleNum = request.getParameter("peopleNum") == null ? 0 : Integer.parseInt(request.getParameter("peopleNum"));
 		int priceCal = request.getParameter("priceCal") == null ? 0 : Integer.parseInt(request.getParameter("priceCal"));
 		int dateDays = request.getParameter("dateDays") == null ? 0 : Integer.parseInt(request.getParameter("dateDays"));
-		int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));
 		int mem_idx = request.getParameter("mem_idx") == null ? 0 : Integer.parseInt(request.getParameter("mem_idx"));
 		int lod_idx = request.getParameter("lod_idx") == null ? 0 : Integer.parseInt(request.getParameter("lod_idx"));
+		int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));;
+		int usePoint;
+		if(request.getParameter("usePoint") == null || request.getParameter("usePoint").equals("")) {
+			usePoint = 0;
+		}
+		else {
+			usePoint = Integer.parseInt(request.getParameter("usePoint"));
+		}
+		
+		System.out.println("checkIn : " + checkIn);
+		System.out.println("checkOut : " + checkOut);
+		System.out.println("peopleNum : " + peopleNum);
+		System.out.println("priceCal : " + priceCal);
+		System.out.println("dateDays : " + dateDays);
+		System.out.println("point : " + point);
+		System.out.println("mem_idx : " + mem_idx);
+		System.out.println("lod_idx : " + lod_idx);
+		System.out.println("usePoint : " + usePoint);
+		
 		
 		//숙박하는 모든 날짜 구해오기 전에, 
 		//반환값이 마지막 날은 포함하지 않기에 checkOut 날짜의 다음날을 checkOut에 먼저 넣어주는 작업을 진행.
