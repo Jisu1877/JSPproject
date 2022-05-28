@@ -13,6 +13,7 @@ create table member (
     detailAddress varchar(255),
     extraAddress varchar(255),
     create_date datetime default now(),
+    lastDate dateime default now(),
     level int default 1,
     point int default 1000,
     agreement int default 2,
@@ -43,6 +44,8 @@ create table mem_log (
 
 select * from mem_log;
 
+
+select *,(select timestampdiff(DAY, delete_date, NOW()) as applyDiff from member where del_yn = 'y') from member order by idx desc;
 
 
 

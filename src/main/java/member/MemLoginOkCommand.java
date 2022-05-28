@@ -47,6 +47,9 @@ public class MemLoginOkCommand implements MemberInterface {
 		//로그인 기록 테이블에 자료 저장
 		int res = dao.setMem_log(vo.getIdx(), hostIp);
 		
+		//최종방문일 업데이트
+		int res2 = dao.setLastDate(mid);
+		
 		//아이디 저장 체크시..
 		String idCheck = request.getParameter("idCheck") == null ? "off" : request.getParameter("idCheck");
 		Cookie cookieMid = new Cookie("cMid", mid);
@@ -58,7 +61,7 @@ public class MemLoginOkCommand implements MemberInterface {
 		}
 		response.addCookie(cookieMid);
 		
-		if(res == 1) {
+		if(res == 1 && res2 == 1) {
 			request.setAttribute("msg", "loginOk");
 			request.setAttribute("url", request.getContextPath()+"/");
 		}

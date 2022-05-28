@@ -25,7 +25,7 @@ public class MemberDAO {
 	public String memIdCheck(String mid) {
 		String name = "";
 		try {
-			sql = "select * from member where mid = ?";
+			sql = "select * from member where mid = ? and del_yn = 'n'";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
@@ -45,7 +45,7 @@ public class MemberDAO {
 	public String memTelCheck(String tel) {
 		String name = "";
 		try {
-			sql = "select * from member where tel = ?";
+			sql = "select * from member where tel = ? and del_yn = 'n'";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, tel);
 			rs = pstmt.executeQuery();
@@ -64,7 +64,7 @@ public class MemberDAO {
 	public int setMemJoinOk(MemberVO vo) {
 		int res = 0;
 		try {
-			sql = "insert into member values(default,?,?,?,?,?,?,?,?,?,?,?,?,default,default,default,?,default,default)";
+			sql = "insert into member values(default,?,?,?,?,?,?,?,?,?,?,?,?,default,default,default,default,?,default,default)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getMid());
 			pstmt.setString(2, vo.getPwd());
@@ -130,7 +130,7 @@ public class MemberDAO {
 			return res;
 		}
 
-		//회원정보 idx로 가져오기
+		//회원정보 idx로 1건 가져오기
 		public MemberVO getMemInfor(int mem_idx) {
 			MemberVO vo = new MemberVO();
 			try {
@@ -153,6 +153,7 @@ public class MemberDAO {
 					vo.setDetailAddress(rs.getString("detailAddress"));
 					vo.setExtraAddress(rs.getString("extraAddress"));
 					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLastDate(rs.getString("lastDate"));
 					vo.setLevel(rs.getInt("level"));
 					vo.setPoint(rs.getInt("point"));
 					vo.setAgreement(rs.getInt("agreement"));
@@ -191,6 +192,7 @@ public class MemberDAO {
 					vo.setDetailAddress(rs.getString("detailAddress"));
 					vo.setExtraAddress(rs.getString("extraAddress"));
 					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLastDate(rs.getString("lastDate"));
 					vo.setLevel(rs.getInt("level"));
 					vo.setPoint(rs.getInt("point"));
 					vo.setAgreement(rs.getInt("agreement"));
@@ -230,6 +232,7 @@ public class MemberDAO {
 					vo.setDetailAddress(rs.getString("detailAddress"));
 					vo.setExtraAddress(rs.getString("extraAddress"));
 					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLastDate(rs.getString("lastDate"));
 					vo.setLevel(rs.getInt("level"));
 					vo.setPoint(rs.getInt("point"));
 					vo.setAgreement(rs.getInt("agreement"));
@@ -261,5 +264,86 @@ public class MemberDAO {
 			}
 			return res;
 		}
+
+		// 페이징처리를 위한 전체 레코드수 구하기
+		public int totRecCnt() {
+			int totRecCnt = 0;
+			try {
+				sql = "select count(*) as cnt from member";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totRecCnt = rs.getInt("cnt");
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return totRecCnt;
+		}
+		
+		//최종방문일 업데이트
+		public int setLastDate(String mid) {
+			int res2 = 0;
+			try {
+				sql = "update member set lastDate = now() where mid = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				pstmt.executeUpdate();
+				res2 = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res2;
+		}
+
+		// 한페이지의 분량을 정해서 회원정보 가져오기
+		public ArrayList<MemberVO> getMemList(int startIndexNo, int pageSize) {
+			ArrayList<MemberVO> memList = new ArrayList<MemberVO>();
+			try {
+				sql = "select *,timestampdiff(DAY, delete_date, NOW()) as applyDiff from member order by idx desc limit ?, ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, startIndexNo);
+				pstmt.setInt(2, pageSize);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					vo = new MemberVO();
+					vo.setIdx(rs.getInt("idx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setPwd(rs.getString("pwd"));
+					vo.setName(rs.getString("name"));
+					vo.setGender(rs.getString("gender"));
+					vo.setTel(rs.getString("tel"));
+					vo.setEmail(rs.getString("email"));
+					vo.setFile_name(rs.getString("file_name"));
+					vo.setSave_file_name(rs.getString("save_file_name"));
+					vo.setPostcode(rs.getString("postcode"));
+					vo.setRoadAddress(rs.getString("roadAddress"));
+					vo.setDetailAddress(rs.getString("detailAddress"));
+					vo.setExtraAddress(rs.getString("extraAddress"));
+					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLastDate(rs.getString("lastDate"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+					vo.setAgreement(rs.getInt("agreement"));
+					vo.setDel_yn(rs.getString("del_yn"));
+					vo.setDelete_date(rs.getString("delete_date"));
+					vo.setApplyDiff(rs.getInt("applyDiff"));
+					
+					memList.add(vo);
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return memList;
+		}
+
+
+
 
 }

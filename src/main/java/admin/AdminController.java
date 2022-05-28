@@ -36,6 +36,16 @@ public class AdminController extends HttpServlet {
 		if(com.equals("lod_management")) {
 			viewPage += "/admin/lod_management.jsp";
 		}
+		if(com.equals("mem_management")) {
+			command = new Mem_managementCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/mem_management.jsp";
+		}
+		if(com.equals("memInfor")) {
+			command = new MemInforCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/adMemInfor.jsp";
+		}
 		if(com.equals("lod_input")) {
 			viewPage += "/admin/lod_input.jsp";
 		}

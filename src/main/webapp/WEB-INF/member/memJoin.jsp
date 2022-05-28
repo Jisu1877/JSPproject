@@ -280,7 +280,6 @@
 		
 			function idCheck() {
 		  		let mid = myForm.mid.value;
-		  		/* let url = "${ctp}/memIdCheckOk.mem?mid="+mid; */
 		  		
 		  		if(mid == "") {
 					alert("아이디를 입력하세요");
@@ -293,7 +292,7 @@
 		  			url : "${ctp}/memIdCheck",
 		  			data : {mid : mid},
 		  			success : function(data) {
-						if(data == "lodNameOk") {
+						if(data == "idOk") {
 							idCheckSw = 1;
 							alert("사용가능한 아이디입니다.");
 							$('#mid').attr('readonly', true);
@@ -301,7 +300,6 @@
 						else {
 							alert("중복된 아이디입니다. 다시 입력해주세요.");
 							myForm.mid.value = "";
-							/* window.open(url, "nWin", "width=500px,height=250px"); */
 						}
 					},
 					error : function() {
@@ -380,7 +378,7 @@
 		<div class="w3-third w3-margin-bottom">
 		    <form name="myForm" method="post" action="${ctp}/memJoinOk.mem" class="was-validated" enctype="multipart/form-data">
 		    	<div id="profile" style="text-align:center">
-		    		<label for="picture" style="font-size:16px; font-weight: bold; background-color:yellow;">Profile picture</label>
+		    		<label for="picture" style="font-size:16px; font-weight: bold; background-color:yellow;">Profile Picture</label>
 		    		<!-- <img id="previewImage" name="previewImage" src="images/noimage.jpg" width="200px"/><br><br> margin-top:0px"-->
 		    		<div id='previewId' style="text-align:center;" ></div><div id="noimageID" style="text-align:center;"><img id="noimage" src="images/noimage.jpg" width="200px"/></div>
 					<input type="button" id="photoDelete" value="삭제" class="w3-button w3-black w3-border w3-padding-small w3-tiny" style="display: none;" onclick="previewDelete()"/>	    		

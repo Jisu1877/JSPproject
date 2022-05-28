@@ -19,7 +19,7 @@
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="<%=request.getContextPath()%>/adminHome.ad" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-house-user"></i>  Admin Home</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  회원 관리</a>
+    <a href="<%=request.getContextPath()%>/mem_management.ad" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  회원 관리</a>
     <a href="<%=request.getContextPath()%>/lod_management.ad" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-tents"></i>  숙소 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-calendar-check"></i>  예약 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-file-pen"></i>  리뷰 관리</a>

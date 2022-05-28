@@ -15,6 +15,7 @@ public class MemberVO {
 	private String detailAddress;
 	private String extraAddress;
 	private String create_date;
+	private String lastDate;
 	private int level;
 	private int point;
 	private int agreement;
@@ -108,6 +109,12 @@ public class MemberVO {
 	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
+	public String getLastDate() {
+		return lastDate;
+	}
+	public void setLastDate(String lastDate) {
+		this.lastDate = lastDate;
+	}
 	public int getLevel() {
 		return level;
 	}
@@ -155,9 +162,9 @@ public class MemberVO {
 		return "MemberVO [idx=" + idx + ", mid=" + mid + ", pwd=" + pwd + ", name=" + name + ", gender=" + gender
 				+ ", tel=" + tel + ", email=" + email + ", file_name=" + file_name + ", save_file_name="
 				+ save_file_name + ", postcode=" + postcode + ", roadAddress=" + roadAddress + ", detailAddress="
-				+ detailAddress + ", extraAddress=" + extraAddress + ", create_date=" + create_date + ", level=" + level
-				+ ", point=" + point + ", agreement=" + agreement + ", del_yn=" + del_yn + ", delete_date="
-				+ delete_date + ", strLevel=" + strLevel + ", applyDiff=" + applyDiff + "]";
+				+ detailAddress + ", extraAddress=" + extraAddress + ", create_date=" + create_date + ", lastDate="
+				+ lastDate + ", level=" + level + ", point=" + point + ", agreement=" + agreement + ", del_yn=" + del_yn
+				+ ", delete_date=" + delete_date + ", strLevel=" + strLevel + ", applyDiff=" + applyDiff + "]";
 	}
 	
 }
