@@ -180,7 +180,7 @@
 <div class="container" style="margin-bottom:100px">
 		<div class="container p-3">
 			<h1 class="headerJoin text-center"><strong> 결제 확인</strong></h1><p><br></p>
-			<form name="payForm" method="post" action="reserInput.res">
+			<form name="payForm" method="post" action="reserInput.res" onsubmit="return payInput();">
 				<div class="w3-row-padding w3-padding-16">
 					<div class="w3-half" style="border: 1px solid black; margin-bottom: 20px;">
 						<table class="table table-borderless" style="font-size : 17px;">

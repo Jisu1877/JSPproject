@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>memJoin.jsp</title>
+    <title>memUpdate.jsp</title>
     <%@ include file="/include/bs4.jsp" %>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
@@ -184,48 +184,19 @@
 		}
 		
 	
-		let idCheckSw = 0;
-	    let telCheckSw = 0;
 		
 		function fCheck() {
 				let name = myForm.name.value;
-				let mid = myForm.mid.value;
-				let pwd = myForm.pwd.value;
 				let email1 = myForm.email1.value;
 				let email2 = myForm.email2.value;
 				let email = email1 + '@' + email2;
-				let tel1 = myForm.tel1.value;
-			    let tel2 = myForm.tel2.value; 
-			    let tel3 = myForm.tel3.value;
-			    let tel = myForm.tel1.value + "-" + myForm.tel2.value + "-" + myForm.tel3.value;
-			    let fName = myForm.myphoto.value;
+			    let fName = document.getElementById("myphoto").value;
 			    
-			    let regMid = /^[a-z0-9_]{4,20}$/;
-				let regPwd = /(?=.*[a-zA-Z])(?=.*?[#?!@$%^&*-]).{6,20}/;
 				let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-				let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
-				
-				let submitFlag = 0;
-				
 				
 				if(name == "") {
 					alert("성명을 입력하세요");
 					myForm.name.focus();
-					return false;
-				}
-				else if(mid == "") {
-					alert("아이디를 입력하세요");
-					myForm.mid.focus();
-					return false;
-				}
-				else if(pwd == "") {
-					alert("비밀번호를 입력하세요");
-					myForm.pwd.focus();
-					return false;
-				}
-				else if(tel2 == "" || tel3 == "") {
-					alert("연락처를 입력하세요");
-					myForm.tel2.focus();
 					return false;
 				}
 				else if(email1 == "") {
@@ -233,42 +204,20 @@
 					myForm.email1.focus();
 					return false;
 				}
-				else if(!regMid.test(mid)) {
-		            alert("아이디는 4~20자의 영문 소문자, 숫자와 특수기호(_)만 사용가능합니다.");
-		            myForm.mid.focus();
-		            return false;
-		        }
-				else if(!regPwd.test(pwd)) {
-		            alert("비밀번호는 1개이상의 문자와 특수문자 조합의 6~20 자리로 작성해주세요.");
-		            myForm.pwd.focus();
-		            return false;
-		        }
 				else if(!regEmail.test(email)) {
 		            alert("이메일 형식에 맞지않습니다.");
 		            myForm.email1.focus();
 		            return false;
 		        }
 				else {
-					submitFlag = 1;
-				}
-				if(tel2 != "" || tel3 != "") {
-					if(!regTel.test(tel)) {
-				        alert("전화번호 형식에 맞지않습니다.(000-0000-0000)");
-				        myForm.tel2.focus();
-				        return false;
-				    }
-				    else {
-				    	submitFlag = 1;
-				    }
-			    }
-			
-				if(idCheckSw == 0) {
-					alert("아이디 중복체크버튼을 눌러주세요!");
-				}
-				else if(telCheckSw == 0) {
-					alert("연락처 중복체크버튼을 눌러주세요!");
-				}
-				else {
+					//프로필 사진을 변경했는지 여부 확인
+					if(fName == "") {
+						document.getElementById("flag").value = "no";
+					}
+					else {
+						document.getElementById("flag").value = "yes";
+					}
+					
 					//묶여진 필드(email/tel)를 폼태그안에 hidden태그의 값으로 저장시켜준다.
 					myForm.email.value = email;
 					myForm.tel.value = tel;
@@ -278,72 +227,7 @@
 				
 			}	
 		
-			function idCheck() {
-		  		let mid = myForm.mid.value;
-		  		
-		  		if(mid == "") {
-					alert("아이디를 입력하세요");
-					myForm.mid.focus();
-					return false;
-				}
-		  		
-		  		$.ajax({
-		  			type : "post",
-		  			url : "${ctp}/memIdCheck",
-		  			data : {mid : mid},
-		  			success : function(data) {
-						if(data == "idOk") {
-							idCheckSw = 1;
-							alert("사용가능한 아이디입니다.");
-							$('#mid').attr('readonly', true);
-						}
-						else {
-							alert("중복된 아이디입니다. 다시 입력해주세요.");
-							myForm.mid.value = "";
-						}
-					},
-					error : function() {
-						alert("전송오류.");
-					}
-		  		});
-			}
 			
-			
-			function telCheck() {
-				let tel1 = myForm.tel1.value;
-			    let tel2 = myForm.tel2.value; 
-			    let tel3 = myForm.tel3.value;
-			    let tel = myForm.tel1.value + "-" + myForm.tel2.value + "-" + myForm.tel3.value;
-		  		
-		  		if(tel2 == "" || tel3 == "") {
-					alert("연락처를 입력하세요");
-					myForm.tel2.focus();
-					return false;
-				}
-		  		
-		  		$.ajax({
-		  			type : "post",
-		  			url : "${ctp}/memTelCheck",
-		  			data : {tel : tel},
-		  			success : function(data) {
-						if(data == "telOk") {
-							telCheckSw = 1;
-							alert("사용가능한 연락처입니다.");
-							$("#tel1 option").not(":selected").attr("disabled", "disabled"); //셀렉트박스 선택못하게 하기
-							$('#tel2').attr('readonly', true); //재입력 못하게 막기
-							$('#tel3').attr('readonly', true); //재입력 못하게 막기
-						}
-						else {
-							alert("중복된 연락처입니다. 다시 입력해주세요.");
-							myForm.tel2.value = "";
-							myForm.tel3.value = "";
-						}
-					},
-					error : function() {
-						alert("전송오류.");
-					}
-		  		});
-			}
 	</script>
 	<style>
 	  	.headerJoin {
@@ -376,12 +260,17 @@
 	<div class="w3-row-padding w3-padding-16">
 		<div class="w3-third w3-margin-bottom"></div>
 		<div class="w3-third w3-margin-bottom">
-		    <form name="myForm" method="post" action="${ctp}/memJoinOk.mem" class="was-validated" enctype="multipart/form-data">
+		    <form name="myForm" method="post" action="${ctp}/memUpdateOk.ad" class="was-validated" enctype="multipart/form-data">
 		    	<div id="profile" style="text-align:center">
 		    		<label for="picture" style="font-size:16px; font-weight: bold; background-color:yellow;">Profile Picture</label>
 		    		<!-- <img id="previewImage" name="previewImage" src="images/noimage.jpg" width="200px"/><br><br> margin-top:0px"-->
 		    		<div id='previewId' style="text-align:center;" ></div><div id="noimageID" style="text-align:center;">
-	    			<img id="noimage" src="images/noimage.jpg" width="200px"/>
+		    		<c:if test="${empty vo.idx}">
+		    			<img id="noimage" src="images/noimage.jpg" width="200px"/>
+		    		</c:if>
+		    		<c:if test="${!empty vo.idx}">
+		    			<img id="noimage" src="${ctp}/data/member/${vo.save_file_name}" width="200px"/>
+		    		</c:if>
 		    		</div>
 					<input type="button" id="photoDelete" value="삭제" class="w3-button w3-black w3-border w3-padding-small w3-tiny" style="display: none;" onclick="previewDelete()"/>	    		
 		    		<img class="uplode" src="images/carmera.png" width="50px" onclick="javascript:$('#myphoto').click();">
@@ -391,61 +280,34 @@
 		    	<div class="form-group">
 		    		<label for="name">성명 : &nbsp; &nbsp;</label>
 		      		<div class="input-group mb-3">
-		    			<input class="input w3-padding-16 w3-border form-control" id="name" name="name" type="text" placeholder="성명을 입력하세요." required>
+		    			<input class="input w3-padding-16 w3-border form-control" id="name" name="name" value="${vo.name}" type="text" placeholder="성명을 입력하세요." required>
 		    		</div>
 		    	</div>
 		    	<div class="form-group">
 		    		<label for="mid">아이디 : &nbsp; &nbsp;</label>
 		      		<div class="input-group mb-3">
-		    			<input class="input w3-padding-16 w3-border form-control" id="mid" name="mid" type="text" placeholder="아이디를 입력하세요." required>
-		    			<div class="input-group-append">
-					      	<input type="button" value="중복체크" class="btn w3-theme" onclick="idCheck()"/>
-					    </div>
-					    <div class="invalid-feedback">&nbsp; 4~20자의 영문 소문자, 숫자와 특수기호(_)만 사용가능합니다.</div>
-		    		</div>
-		    	</div>
-		    	<div class="form-group">
-		    		<label for="pwd">비밀번호 : &nbsp; &nbsp;</label>
-		      		<div class="input-group mb-3">
-		    			<input class="input w3-padding-16 w3-border form-control" id="pwd" name="pwd" type="password" placeholder="비밀번호를 입력하세요." required>
-					    <div class="invalid-feedback">&nbsp; 6~20자 영문 대 소문자, 숫자, 특수문자를 사용하세요.<br>&nbsp; (1개이상의 문자와 특수문자 조합 필수)</div>
+		    			<input class="input w3-padding-16 w3-border form-control" id="mid" name="mid" type="text" value="${vo.mid}" readonly>
 		    		</div>
 		    	</div>
 		    	<div class="form-group">
 			      <label for="tel">연락처 :</label>
 			      <div class="input-group mb-3">
-				      <div class="input-group-prepend">
-						      <select name="tel1" id="tel1" class="w3-select w3-border">
-								    <option value="010" selected>010</option>
-								    <option value="02">서울</option>
-								    <option value="031">경기</option>
-								    <option value="032">인천</option>
-								    <option value="041">충남</option>
-								    <option value="042">대전</option>
-								    <option value="043">충북</option>
-						        <option value="051">부산</option>
-						        <option value="052">울산</option>
-						        <option value="061">전북</option>
-						        <option value="062">광주</option>
-								  </select><span>&nbsp; &nbsp;</span><span style="margin-top:6px">-</span> <span>&nbsp; &nbsp;</span>
-				      </div>
-				      <input type="text" name="tel2" id="tel2" size=8 maxlength=4 class="w3-border"/><span>&nbsp; &nbsp;</span><span style="margin-top:6px">-</span><span>&nbsp; &nbsp;</span>
-				      <input type="text" name="tel3" id="tel3" size=8 maxlength=4 class="w3-border"/>&nbsp; &nbsp;
-				      <input type="button" value="중복체크" class="btn w3-theme" onclick="telCheck()"/>
+				      <input class="input w3-padding-16 w3-border form-control" id="tel" name="tel" value="${vo.tel}" type="text" readonly>
 				  </div> 
 			   </div>
 			   <div class="form-group">
 			      <label for="email">Email address:</label>
+			      	<c:set var="emailArray" value="${fn:split(vo.email, '@')}"/>
 					<div class="input-group mb-3">
-					  <input type="text" class="form-control" placeholder="Email을 입력하세요." id="email1" name="email1" required />
+					  <input type="text" class="form-control" placeholder="Email을 입력하세요." id="email1" name="email1" value="${emailArray[0]}" required />
 					  <div class="input-group-append">
 					    <select name="email2" class="custom-select w3-border">
-						    <option value="naver.com" selected>naver.com</option>
-						    <option value="hanmail.net">hanmail.net</option>
-						    <option value="hotmail.com">hotmail.com</option>
-						    <option value="gmail.com">gmail.com</option>
-						    <option value="nate.com">nate.com</option>
-						    <option value="yahoo.com">yahoo.com</option>
+						    <option value="naver.com" ${emailArray[1] == 'naver.com' ? 'selected' : ''}>naver.com</option>
+						    <option value="hanmail.net"  ${emailArray[1] == 'hanmail.net' ? 'selected' : ''}>hanmail.net</option>
+						    <option value="hotmail.com"  ${emailArray[1] == 'hotmail.com' ? 'selected' : ''}>hotmail.com</option>
+						    <option value="gmail.com"  ${emailArray[1] == 'gmail.com' ? 'selected' : ''}>gmail.com</option>
+						    <option value="nate.com"  ${emailArray[1] == 'nate.com' ? 'selected' : ''}>nate.com</option>
+						    <option value="yahoo.com"  ${emailArray[1] == 'yahoo.com' ? 'selected' : ''}>yahoo.com</option>
 						  </select>
 					  </div>
 					</div>
@@ -455,33 +317,36 @@
 			      <label for="gender">성별 :</label>
 			      <div class="form-check-inline">
 		        	<div class="form-check">
-					    <input type="radio" class="w3-radio gender" name="gender" value="m" checked>남자&nbsp;&nbsp;&nbsp;
-					    <input type="radio" class="w3-radio gender" name="gender" value="f">여자
+					    <input type="radio" class="w3-radio gender" name="gender" value="m" ${vo.gender == 'm' ? 'checked' : ''}>남자&nbsp;&nbsp;&nbsp;
+					    <input type="radio" class="w3-radio gender" name="gender" value="f" ${vo.gender == 'f' ? 'checked' : ''}>여자
 					</div>
 				 </div>
 			  </div>
 			  <div class="form-group">
 			      <label for="address">주소 :</label><br>
 					<div class="input-group mb-1">
-						<input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" class="form-control w3-border">
+						<input type="text" name="postcode" id="sample6_postcode" value="${vo.postcode}" placeholder="우편번호" class="form-control w3-border">
 						<div class="input-group-append">
 							<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn w3-black">
 						</div>
 					</div>
-					<input type="text" name="roadAddress" id="sample6_address" size="50" placeholder="주소" class="form-control mb-1 w3-border">
+					<input type="text" name="roadAddress" value="${vo.roadAddress}" id="sample6_address" size="50" placeholder="주소" class="form-control mb-1 w3-border">
 					<div class="input-group mb-1">
-						<input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소" class="form-control w3-border"> &nbsp;&nbsp;
+						<input type="text" name="detailAddress" value="${vo.detailAddress}" id="sample6_detailAddress" placeholder="상세주소" class="form-control w3-border"> &nbsp;&nbsp;
 						<div class="input-group-append">
-							<input type="text" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목" class="form-control w3-border">
+							<input type="text" name="extraAddress" value="${vo.extraAddress}" id="sample6_extraAddress" placeholder="참고항목" class="form-control w3-border">
 						</div>
 					</div>
 			  </div>
 			  <p><br></p>
-		      <p style="text-align: center;"><button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">회원가입</button></p>
+		      <p style="text-align: center;"><button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">수정하기</button></p>
 		      <input type="hidden" name="photo"/>
 			  <input type="hidden" name="email"/>
-			  <input type="hidden" name="tel"/>
-			  <input type="hidden" name="agreementCheck" value="${agreementCheck}"/>
+			  <input type="hidden" name="flag" id="flag"/>
+			  <input type="hidden" name="idx" value="${param.idx}"/>
+			  <input type="hidden" name="applyDiff" value="${param.applyDiff}"/>
+			  <input type="hidden" name="pag" value="${param.pag}"/>
+			  <input type="hidden" name="pageSize" value="${param.pageSize}"/>
 		    </form>
 	    </div>
 	    <div class="w3-third w3-margin-bottom">

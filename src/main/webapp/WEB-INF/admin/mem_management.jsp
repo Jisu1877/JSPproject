@@ -28,6 +28,18 @@
 		let pageSize = $("#pageSize").val();
 		location.href="mem_management.ad?pag=${pag}&pageSize="+pageSize;
 	}
+	
+	function memDelete(idx) {
+		let ans = confirm("해당 회원을 삭제(탈퇴처리)하시겠습니까?");
+		
+		if(!ans) {
+			return false;
+		}
+		else {
+			$('input[name="idx"]').val(idx);
+			$('form[name="deleteForm"]').submit();
+		}
+	}
 </script>
 </head>
 <body class="w3-light-grey">
@@ -59,6 +71,9 @@
 			  		<h2 class="text-center">회원 관리</h2>
 			  		<table class="table table-borderless">
 						<tr>
+							<td>
+								<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i>회원 아이디를 클릭하면 상세정보 조회가 가능합니다.</div>
+							</td>
 							<td class="text-right">
 								<select name="pageSize" id="pageSize" onchange="pageCheck()">
 									<option value="5" ${pageSize == 5 ? 'selected' : '' }>5건</option>
@@ -81,7 +96,7 @@
 			  				<tr>
 			  					<td>${vo.idx}</td>
 			  					<td>
-			  						<a href="${ctp}/memInfor.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}">${vo.mid}</a>
+			  						<a href="${ctp}/memInfor.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">${vo.mid}</a>
 			  					</td>
 			  					<td>${vo.name}</td>
 			  					<td>
@@ -89,16 +104,18 @@
 			  							활동중
 			  						</c:if> 
 			  						<c:if test="${vo.del_yn == 'y'}">
-			  							<font color="red">탈퇴신청</font><br>
-										경과일 : <font color="blue"> ${vo.applyDiff}일</font><br>
+			  							<font color="red">탈퇴</font><br>
+										<%--  경과일 : <font color="blue"> ${vo.applyDiff}일</font><br>
 										<c:if test="${vo.applyDiff > 30}">
 											<button type="button" class="btn w3-black btn-sm" onclick="javascript:userDelCheck(${vo.idx})">탈퇴처리</button>
-										</c:if>
+										</c:if> --%>
 			  						</c:if> 
 			  					</td>
 			  					<td>
-			  						<input type="button" value="수정" class="btn btn-secondary btn-sm"/>
-			  						<input type="button" value="삭제" class="btn btn-danger btn-sm"/>
+			  						<c:if test="${vo.del_yn == 'n'}">
+				  						<a class="btn btn-secondary btn-sm" href="memUpdate.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">수정</a>
+				  						<a class="btn btn-danger btn-sm" onclick="memDelete(${vo.idx});">삭제</a>
+			  						</c:if> 
 			  					</td>
 			  				</tr>
 			  			</c:forEach>
@@ -135,6 +152,13 @@
 	  	<div class="w3-col m2 l2 w3-margin-bottom"></div>
 	 </div>
   </section>
+	<div style="display:none;">
+	<form name="deleteForm" action="memDelete.ad" method="POST">
+		<input type="hidden" name="idx" value="">
+		<input type="hidden" name="pag" value="${pag}">
+		<input type="hidden" name="pageSize" value="${pageSize}">
+	 </form>
+	</div>
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey text-center">
     <p>Copyright © The Fantastic Lodging. All Rights reserved.</p>

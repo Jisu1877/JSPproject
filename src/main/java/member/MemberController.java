@@ -81,6 +81,7 @@ public class MemberController extends HttpServlet {
 			viewPage = "/message/message.jsp";
 		}
 		
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

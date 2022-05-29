@@ -25,7 +25,7 @@ public class MemberDAO {
 	public String memIdCheck(String mid) {
 		String name = "";
 		try {
-			sql = "select * from member where mid = ? and del_yn = 'n'";
+			sql = "select * from member where mid = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
@@ -45,7 +45,7 @@ public class MemberDAO {
 	public String memTelCheck(String tel) {
 		String name = "";
 		try {
-			sql = "select * from member where tel = ? and del_yn = 'n'";
+			sql = "select * from member where tel = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, tel);
 			rs = pstmt.executeQuery();
@@ -341,6 +341,63 @@ public class MemberDAO {
 				getConn.rsClose();
 			}
 			return memList;
+		}
+
+		// 회원정보 수정하기(관리자모드)
+		public int setMemUpdateOk(MemberVO vo) {
+			int res = 0;
+			try {
+				if(!vo.getFile_name().equals("")) {
+					sql = "update member set name = ?, gender = ?, email = ?, file_name = ?, save_file_name = ?, postcode = ?, roadAddress = ?, detailAddress = ?, extraAddress = ? where idx = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, vo.getName());
+					pstmt.setString(2, vo.getGender());
+					pstmt.setString(3, vo.getEmail());
+					pstmt.setString(4, vo.getFile_name());
+					pstmt.setString(5, vo.getSave_file_name());
+					pstmt.setString(6, vo.getPostcode());
+					pstmt.setString(7, vo.getRoadAddress());
+					pstmt.setString(8, vo.getDetailAddress());
+					pstmt.setString(9, vo.getExtraAddress());
+					pstmt.setInt(10, vo.getIdx());
+				}
+				else {
+					sql = "update member set name = ?, gender = ?, email = ?, postcode = ?, roadAddress = ?, detailAddress = ?, extraAddress = ? where idx = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, vo.getName());
+					pstmt.setString(2, vo.getGender());
+					pstmt.setString(3, vo.getEmail());
+					pstmt.setString(4, vo.getPostcode());
+					pstmt.setString(5, vo.getRoadAddress());
+					pstmt.setString(6, vo.getDetailAddress());
+					pstmt.setString(7, vo.getExtraAddress());
+					pstmt.setInt(8, vo.getIdx());
+				}
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
+		}
+
+		//회원 탈퇴처리
+		public int memDelete(int idx) {
+			int res = 0;
+			try {
+				sql = "update member set del_yn = 'y', delete_date = now() where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
 		}
 
 

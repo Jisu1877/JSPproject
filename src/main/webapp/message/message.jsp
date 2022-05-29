@@ -31,6 +31,10 @@
     	else if(msg == "MemPwdFindNo") msg = "입력하신 정보와 일치하는 회원이 없습니다.";
     	else if(msg == "MemPwdInputNo") msg = "비밀번호 재생성에 실패했습니다.";
     	else if(msg == "MemPwdInputOk") msg = "비밀번호 재생성이 완료되었습니다.";
+    	else if(msg == "adMemUpdateOk") msg = "회원정보 수정이 완료되었습니다.";
+    	else if(msg == "adMemUpdateNo") msg = "회원정보 수정에 실패했습니다.";
+    	else if(msg == "adMemDeleteOk") msg = "회원 삭제처리가 완료되었습니다.";
+    	else if(msg == "adMemDeleteNo") msg = "회원 삭제처리에 실패했습니다.";
     	
     	alert(msg);
     	if(url != "") location.href = url;

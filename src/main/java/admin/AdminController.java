@@ -30,27 +30,42 @@ public class AdminController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/memLogin.mem");
 			dispatcher.forward(request, response);
 		}
-		if(com.equals("adminHome")) {
+		else if(com.equals("adminHome")) {
 			viewPage += "/admin/adminHome.jsp";
 		}
-		if(com.equals("lod_management")) {
+		else if(com.equals("lod_management")) {
 			viewPage += "/admin/lod_management.jsp";
 		}
-		if(com.equals("mem_management")) {
+		else if(com.equals("mem_management")) {
 			command = new Mem_managementCommand();
 			command.execute(request, response); 
 			viewPage += "/admin/mem_management.jsp";
 		}
-		if(com.equals("memInfor")) {
+		else if(com.equals("memInfor")) {
 			command = new MemInforCommand();
 			command.execute(request, response); 
 			viewPage += "/admin/adMemInfor.jsp";
 		}
-		if(com.equals("lod_input")) {
+		else if(com.equals("lod_input")) {
 			viewPage += "/admin/lod_input.jsp";
 		}
-		if(com.equals("lod_Input_Ok")) {
+		else if(com.equals("lod_Input_Ok")) {
 			command = new Lod_Input_OkCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("memUpdate")) {
+			command = new MemUpdateCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/memUpdate.jsp";
+		}
+		else if(com.equals("memUpdateOk")) {
+			command = new MemUpdateOkCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("memDelete")) {
+			command = new MemDeleteCommand();
 			command.execute(request, response); 
 			viewPage = "/message/message.jsp";
 		}

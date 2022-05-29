@@ -62,7 +62,7 @@
 		      <div class="w3-card w3-round w3-white">
 		        <div class="w3-container"><br>
 		         <h4 class="w3-center">Profile Picture</h4>
-		         <p class="w3-center"><img src="${ctp}/data/member/${vo.save_file_name}"" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+		         <p class="w3-center"><img src="${ctp}/data/member/${vo.save_file_name}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
 		         <hr>
 		         <table class="table table-borderless">
 		         	<colgroup>
@@ -116,21 +116,24 @@
 			         	<tr>
 			         		<td>주소</td>
 			         		<td>
-			         			${vo.postcode}<br> ${vo.roadAddress}<br>
-			         			${vo.detailAddress} | ${vo.extraAddress}
+			         			<c:if test="${!empty vo.postcode}">
+				         			${vo.postcode}<br> ${vo.roadAddress}<br>
+				         			${vo.detailAddress} | ${vo.extraAddress}
+			         			</c:if>
+			         			<c:if test="${empty vo.postcode}">미입력</c:if>
 				         	<hr>
 			         		</td>
 			         	</tr>
 			         	<tr>
 			         		<td>가입일</td>
 			         		<td>
-			         			${vo.create_date}
+			         			${fn:substring(vo.create_date, 0, 19)}
 			         		</td>
 			         	</tr>
 			         	<tr>
 			         		<td>최종접속일</td>
 			         		<td>
-			         			${vo.lastDate}
+			         			${fn:substring(vo.lastDate, 0, 19)}
 			         		</td>
 			         	</tr>
 			         	<tr>
@@ -147,34 +150,37 @@
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>동의여부</td>
+			         		<td>프로모션 정보<br> 수신 동의여부</td>
 			         		<td>
-			         			${vo.agreement}
+			         			<c:if test="${vo.agreement == 3}">동의함</c:if>
+			         			<c:if test="${vo.agreement != 3}">미동의</c:if>
 			         		</td>
 			         	</tr>
 			         	<tr>
 			         		<td>활동여부</td>
 			         		<td>
 			         			<c:if test="${vo.del_yn == 'y'}">
-				         			<font color="red">탈퇴신청</font><br>
-				         			경과일 : <font color="blue"> ${applyDiff}일</font><br>
+				         			<font color="red">탈퇴</font><br>
+				         			<%-- 경과일 : <font color="blue"> ${applyDiff}일</font><br>
 									<c:if test="${applyDiff > 30}">
 										<button type="button" class="btn w3-black btn-sm" onclick="javascript:userDelCheck(${vo.idx})">탈퇴처리</button>
-									</c:if>
-									탈퇴신청일 : ${vo.delete_date}
+									</c:if> --%>
+									탈퇴일 : ${vo.delete_date}
 			         			</c:if>
 			         			<c:if test="${vo.del_yn == 'n'}">활동중</c:if>
 			         		</td>
 			         	</tr>
 			         </table>
-			      <div style="text-align: center">
-		              <button type="button" class="w3-button w3-theme"> 회원정보 수정</button> &nbsp;&nbsp;
-		              <button type="button" class="w3-button w3-theme"> 탈퇴처리</button> 
-		          </div>
 	            </div>
 	          </div>
+		      
 	        </div>
 	      </div>
+	      <div style="text-align: center" class="mt-3">
+	            <a class="w3-button w3-theme" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
+	            <button type="button" class="w3-button w3-theme"> 탈퇴처리</button> &nbsp;&nbsp;
+	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 회원목록으로</a> 
+	        </div>     
        	</div>  
        	 <div class="w3-col m2 l2 w3-margin-bottom"></div>
       </div>   

@@ -33,7 +33,7 @@ public class MemJoinOkCommand implements MemberInterface {
 		String email = multipartRequest.getParameter("email") == null? "" : multipartRequest.getParameter("email");
 		String file_name = multipartRequest.getOriginalFileName("myphoto")  == null ? "": multipartRequest.getOriginalFileName("myphoto"); //form태그의 name 
 		// 실제로 서버에 저장되는 파일명
-		String save_file_name = multipartRequest.getFilesystemName("myphoto") == null ? "": multipartRequest.getFilesystemName("myphoto");; 
+		String save_file_name = multipartRequest.getFilesystemName("myphoto") == null ? "": multipartRequest.getFilesystemName("myphoto");
 		String postcode = multipartRequest.getParameter("postcode") == null ? "" : multipartRequest.getParameter("postcode");
 		String roadAddress = multipartRequest.getParameter("roadAddress") == null ? "" : multipartRequest.getParameter("roadAddress");
 		String detailAddress = multipartRequest.getParameter("detailAddress") == null ? "" : multipartRequest.getParameter("detailAddress");
@@ -82,7 +82,7 @@ public class MemJoinOkCommand implements MemberInterface {
 		vo.setExtraAddress(extraAddress);
 		vo.setAgreement(agreement);
 		
-		System.out.println("vo : " + vo);
+		//System.out.println("vo : " + vo);
 		
 		int res = dao.setMemJoinOk(vo);
 		
