@@ -307,7 +307,20 @@ public class LodgingDAO {
 	
 	//파일테이블에서 사진 삭제
 	public int fileDelete(String fName) {
-		
-		return 0;
+		int res = 0;
+		try {
+			sql = "delete from file where save_file_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fName);
+			pstmt.executeUpdate();
+			res = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
 	}
+	
+
 }

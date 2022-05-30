@@ -35,10 +35,13 @@
 <script>
    	'use strict';
    	let nameCheckSw = 0;
-   	let cnt = 1;
+   	let cnt = 0;
    	function fileBoxAppend() {
+   		//이미 등록된 사진 개수
+   		let fileItem = $('.file_item').length;
+   		//추가 사진 등록창 추가한 개수
 		const fileCount = $('.file_div').length;
-		if (fileCount >= 9) {
+		if (fileCount >= 10 - fileItem) {
 			alert('더 이상 추가할 수 없습니다.');
 			return;
 		}
@@ -64,7 +67,7 @@
    			data : {fName : fName},
    			success : function(data) {
    				if(data == "deleteOk") {
-					alert("해당사진이 삭제되었습니다.");
+					alert("삭제완료.");
 					location.reload();
 				}
 				else {
@@ -77,7 +80,7 @@
    		});
 	}
    	
-   	function lod_input() {
+   	function lod_update() {
    		//값 가져오기
 		var code = $("#category_code option:selected").val();
 		var codeSub = $("#sub_category_code option:selected").val();
@@ -91,7 +94,15 @@
 		var bed = document.getElementById("bed").value;
 		var bathroom = document.getElementById("bathroom").value;
    		
-   		let fName = $("#fName1").val();
+   		let fName = document.getElementById("thumbFile").value;
+   		
+   		if(fName != "") {
+   			document.getElementById("flag").value = "yes";
+   		}
+   		else {
+   			document.getElementById("flag").value = "no";
+   		}
+   		
    		let maxSize = 1024 * 1024 * 20;
    		
    		if(code == "") {
@@ -122,11 +133,12 @@
    			alert("상세설명을 입력하세요.");
    			return false;
    		}
-   		else if(fName.trim() == "") {
+/*    		else if(fName.trim() == "") {
    			alert("썸네일 사진 등록(최소 1장)은 필수사항입니다.");
    			return false;
    		}
-   		else if(bedroom.trim() == "") {
+ */   	
+ 		else if(bedroom.trim() == "") {
    			alert("침실개수를 입력하세요.");
    			return false;
    		}
@@ -140,12 +152,24 @@
    		}
    		
    		let fileSize = 0;
+   		if(fName.indexOf(" ") != -1) { // 혹시 파일명에 공백이 있으면~~~
+			alert("업로드 파일명에 공백을 포함할 수 없습니다.");
+			return false;
+		}
+		else if(fName != ""){
+			let ext = fName.substring(fName.lastIndexOf(".")+1);
+    		let uExt = ext.toUpperCase();
+    		fileSize += document.getElementById("thumbFile").files[0].size; //파일 선택이 1개밖에 안되기 때문에 0번 배열에만 파일이 있는 상태이다.
+
+    		if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG" && uExt != "JFIF") {
+    			alert("업로드 가능한 파일은 'JPG/GIF/PNG/JPEG/JFIF' 입니다.");
+    			return false;
+    		}
+		}
+   		
    		for(let i=1; i<=cnt; i++) {
    			let imsiName = "fName" + i;
    			
-   			if(imsiName == "fName1") {
-   				document.getElementById("sumFname").value = document.getElementById("fName1").value;
-   			}
    			if(document.getElementById(imsiName) != null) {
 	   			fName = document.getElementById(imsiName).value;
 	   			
@@ -220,7 +244,7 @@
 		<div class="w3-row-padding w3-padding-16">
 			<div class="w3-col m2 l2 w3-margin-bottom"></div>
 			<div class="w3-col m8 l8 w3-margin-bottom">
-			    <form name="myForm" method="post" action="${ctp}/lod_Input_Ok.ad" class="was-validated" enctype="multipart/form-data">
+			    <form name="myForm" method="post" action="${ctp}/lodUpdateOk.ad" class="was-validated" enctype="multipart/form-data">
 			    	<div class="form-group">
 			    		<div class="w3-row-padding w3-padding-16">
 			      		<div class="input-group mb-3 w3-third">
@@ -534,16 +558,26 @@
 					    		<div style="text-align:right">
 									<input type="button" value="사진 추가" onclick="fileBoxAppend()" class="btn w3-small w3-theme mb-2"/><br>
 								</div>
-								<div style="margin-bottom: 20px; font-size: 18px;">
-									<div>
-										[등록된 사진]<br>
-										<c:forEach var="fileVo" items="${fileList}" varStatus="st">
-											${st.count}. ${fileVo.file_name} <c:if test="${st.count != 1}"><a href="javascript:photoDel(${fileVo.save_file_name});" style="font-size: 15px; color:red;">삭제</a></c:if><br>
-										</c:forEach>
-									</div>
+								<div style="margin-bottom: 20px; font-size: 18px;" id="file_append">
+									[등록된 사진]<br>
+									<c:set var="thumbFile_save_file_name" value=""/>
+									<div style="font-size:13px; color:gray; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> <font color="red">사진 삭제시 새로 입력한 모든 값이 리셋됩니다.</font></div>
+									<c:forEach var="fileVo" items="${fileList}" varStatus="st">
+										<div class="file_item">
+											${st.count}. ${fileVo.file_name}
+											<c:if test="${st.count != 1}">
+												<a href="javascript:photoDel('${fileVo.save_file_name}');" style="font-size: 13px; color:red;">삭제</a>
+											</c:if>
+										<c:if test="${st.count == 1 }">
+											<c:set var="thumbFile_file_name" value="${fileVo.save_file_name}"/>
+											<span style="color:bule; font-size: 13px;">(썸네일)</span>
+										</c:if><br>
+										</div>
+									</c:forEach>
 								</div>
 								<div class="mb-2">썸네일 사진 : </div>
-								<input type="file" name="fName1" id="fName1" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif" />
+								<div style="font-size:0.9em; color:grey; margin-top:0px; margin-bottom: 10px;"><i class="fa-solid fa-circle-exclamation"></i> 썸네일 사진 변경을 원하는 경우에만 등록하세요.</div>
+								<input type="file" name="thumbFile" id="thumbFile" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif" />
 							</div>
 							<div class="mb-2" id="photoLabel" style="display: none">추가 사진 :</div>
 							<div class="form-group" id="fileBoxInsert"></div><br>
@@ -688,10 +722,14 @@
 				  
 				  <p><br></p>
 			      <p style="text-align: center;">
-			      <button class="w3-btn w3-theme w3-padding-large" type="button" onclick="lod_input()">등록</button>&nbsp;&nbsp;
+			      <button class="w3-btn w3-theme w3-padding-large" type="button" onclick="lod_update()">수정</button>&nbsp;&nbsp;
 			      <button class="w3-btn w3-black w3-padding-large" type="button" onclick="location.href='${ctp}/lodInfor.ad?lodIdx=${lodVo.idx}&pag=${pag}&pageSize=${pageSize}';">돌아가기</button>
 			      </p>
-			      <input type="hidden" name="sumFname" id="sumFname"/>
+			      <input type="hidden" name="flag" id="flag">
+			      <input type="hidden" name="thumbFile_save_file_name" id="${thumbFile_save_file_name}">
+			      <input type="hidden" name="lodIdx" value="${lodVo.idx}">
+			      <input type="hidden" name="pag" value="${pag}">
+			      <input type="hidden" name="pageSize" value="${pageSize}">
 			    </form>
 			    	</div>
 			    </div>

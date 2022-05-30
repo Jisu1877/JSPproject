@@ -35,6 +35,8 @@
     	else if(msg == "adMemUpdateNo") msg = "회원정보 수정에 실패했습니다.";
     	else if(msg == "adMemDeleteOk") msg = "회원 탈퇴처리가 완료되었습니다.";
     	else if(msg == "adMemDeleteNo") msg = "회원 탈퇴처리에 실패했습니다.";
+    	else if(msg == "lodUpdateOk") msg = "숙소정보 수정이 완료되었습니다.";
+    	else if(msg == "lodUpdateNo") msg = "숙소정보 수정에 실패했습니다.";
     	
     	alert(msg);
     	if(url != "") location.href = url;

@@ -42,7 +42,6 @@
 			alert('더 이상 추가할 수 없습니다.');
 			return;
 		}
-		cnt++;
 		let fileBox = "";
 		fileBox += '<div id="fBox'+cnt+'" class="form-group file_div">';
 		fileBox += '<input type="file" name="fName'+cnt+'" id="fName'+cnt+'" style="width:85%; float:left"/>';
@@ -50,11 +49,11 @@
 		fileBox += '</div>';
    		document.getElementById("photoLabel").style.display = "block";
 		$("#fileBoxInsert").append(fileBox);
+		cnt++;
 	}
    	
    	function deleteBox(cnt) {
 		$("#fBox"+cnt).remove();
-		
 	}
    	
    	function lodNameCheck() {
@@ -103,7 +102,7 @@
 		var bed = document.getElementById("bed").value;
 		var bathroom = document.getElementById("bathroom").value;
    		
-   		let fName = $("#fName1").val();
+   		let fName = document.getElementById("thumbFile").value;
    		let maxSize = 1024 * 1024 * 20;
    		
    		if(code == "") {
@@ -160,12 +159,24 @@
    		}
    		
    		let fileSize = 0;
+   		if(fName.indexOf(" ") != -1) { // 혹시 파일명에 공백이 있으면~~~
+			alert("업로드 파일명에 공백을 포함할 수 없습니다.");
+			return false;
+		}
+		else if(fName != ""){
+			let ext = fName.substring(fName.lastIndexOf(".")+1);
+    		let uExt = ext.toUpperCase();
+    		fileSize += document.getElementById("thumbFile").files[0].size; //파일 선택이 1개밖에 안되기 때문에 0번 배열에만 파일이 있는 상태이다.
+
+    		if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG" && uExt != "JFIF") {
+    			alert("업로드 가능한 파일은 'JPG/GIF/PNG/JPEG/JFIF' 입니다.");
+    			return false;
+    		}
+		}
+   		
    		for(let i=1; i<=cnt; i++) {
    			let imsiName = "fName" + i;
    			
-   			if(imsiName == "fName1") {
-   				document.getElementById("sumFname").value = document.getElementById("fName1").value;
-   			}
    			if(document.getElementById(imsiName) != null) {
 	   			fName = document.getElementById(imsiName).value;
 	   			
@@ -557,7 +568,7 @@
 								<input type="button" value="사진 추가" onclick="fileBoxAppend()" class="btn w3-small w3-theme mb-2"/><br>
 								</div>
 								<div class="mb-2">썸네일 사진 : </div>
-								<input type="file" name="fName1" id="fName1" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif" />
+								<input type="file" name="thumbFile" id="thumbFile" class="form-control-file border" accept=".jpg, .gif, .png, .jpeg, .jfif" />
 							</div>
 							<div class="mb-2" id="photoLabel" style="display: none">추가 사진 :</div>
 							<div class="form-group" id="fileBoxInsert"></div><br>

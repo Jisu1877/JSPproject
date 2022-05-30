@@ -132,5 +132,89 @@ public class AdminDAO {
 		return optRes;
 	}
 	
+	//숙소 업데이트하기
+	public int setLodUpdate(LodgingVO lodVO, String flag) {
+		int res = 0;
+		try {
+			if(flag.equals("yes")) {
+				sql = "update lodging set file_name = ?, save_file_name = ?, category_code = ?, sub_category_code = ?, detail_category_code = ?, lod_name = ?, price = ?, country = ?, address = ?, explanation = ?, number_guests = ? where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, lodVO.getFile_name());
+				pstmt.setString(2, lodVO.getSave_file_name());
+				pstmt.setInt(3, lodVO.getCategory_code());
+				pstmt.setInt(4, lodVO.getSub_category_code());
+				pstmt.setInt(5, lodVO.getDetail_category_code());
+				pstmt.setString(6, lodVO.getLod_name());
+				pstmt.setInt(7, lodVO.getPrice());
+				pstmt.setString(8, lodVO.getCountry());
+				pstmt.setString(9, lodVO.getAddress());
+				pstmt.setString(10, lodVO.getExplanation());
+				pstmt.setInt(11, lodVO.getNumber_guests());
+				pstmt.setInt(12, lodVO.getIdx());
+			}
+			else {
+				sql = "update lodging set category_code = ?, sub_category_code = ?, detail_category_code = ?, lod_name = ?, price = ?, country = ?, address = ?, explanation = ?, number_guests = ? where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, lodVO.getCategory_code());
+				pstmt.setInt(2, lodVO.getSub_category_code());
+				pstmt.setInt(3, lodVO.getDetail_category_code());
+				pstmt.setString(4, lodVO.getLod_name());
+				pstmt.setInt(5, lodVO.getPrice());
+				pstmt.setString(6, lodVO.getCountry());
+				pstmt.setString(7, lodVO.getAddress());
+				pstmt.setString(8, lodVO.getExplanation());
+				pstmt.setInt(9, lodVO.getNumber_guests());
+				pstmt.setInt(10, lodVO.getIdx());
+			}
+			pstmt.executeUpdate();
+			res = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+	
+	//옵션 업데이트하기
+	public int udateOptionInfor(OptionVO optionVo) {
+		int optRes = 0;
+		try {
+			sql = "update lod_option set air_conditioner = ?, tv = ?, wifi = ?, washer = ?, kitchen = ?, heating = ?, toiletries = ?, bedroom = ?, bed = ?, bathroom = ? where lod_idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, optionVo.getAir_conditioner());
+			pstmt.setString(2, optionVo.getTv());
+			pstmt.setString(3, optionVo.getWifi());
+			pstmt.setString(4, optionVo.getWasher());
+			pstmt.setString(5, optionVo.getKitchen());
+			pstmt.setString(6, optionVo.getHeating());
+			pstmt.setString(7, optionVo.getToiletries());
+			pstmt.setInt(8, optionVo.getBedroom());
+			pstmt.setInt(9, optionVo.getBed());
+			pstmt.setInt(10, optionVo.getBathroom());
+			pstmt.setInt(11, optionVo.getLod_idx());
+			pstmt.executeUpdate();
+			optRes = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return optRes;
+	}
+	
+	//썸네일 삭제
+	public void thumbfileDelete() {
+		try {
+			sql = "delete from file where file_order = 1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+	}
+	
 
 }

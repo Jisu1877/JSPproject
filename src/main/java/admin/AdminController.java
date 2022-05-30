@@ -83,6 +83,11 @@ public class AdminController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage += "/admin/lodUpdate.jsp";
 		}
+		else if(com.equals("lodUpdateOk")) {
+			command = new LodUpdateOkCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

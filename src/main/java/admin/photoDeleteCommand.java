@@ -19,5 +19,12 @@ public class photoDeleteCommand extends HttpServlet {
 		LodgingDAO lodDao = new LodgingDAO();
 		
 		int res = lodDao.fileDelete(fName);
+		
+		if(res == 1) {
+			response.getWriter().write("deleteOk");
+		}
+		else {
+			response.getWriter().write("deleteNo");
+		}
 	}
 }

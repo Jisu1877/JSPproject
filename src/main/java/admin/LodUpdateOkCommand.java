@@ -1,4 +1,4 @@
-package lodging;
+package admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import admin.AdminDAO;
-import admin.AdminInterface;
+import lodging.FileVO;
+import lodging.LodgingDAO;
+import lodging.LodgingVO;
+import lodging.OptionVO;
 
-public class Lod_Input_OkCommand implements AdminInterface {
+public class LodUpdateOkCommand implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,30 +27,6 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		MultipartRequest multipartRequest = new MultipartRequest(request, realPath, maxSize, encoding, new DefaultFileRenamePolicy());
 		
 		Enumeration<?> fileNames =  multipartRequest.getFileNames();
-		
-//		String file = "";
-//		ArrayList<String> originalFileNameList = new ArrayList<String>(10);
-//		ArrayList<String> filesystemNameList = new ArrayList<String>(10);
-		
-		/*
-		//서버에 사진등록
-		while(fileNames.hasMoreElements()) {
-			String name = (String) fileNames.nextElement();
-			if (name != null && !name.equals("")) {
-				FileVO vo = new FileVO();
-				String originalFileName = multipartRequest.getOriginalFileName(name);
-				String filesystemName = multipartRequest.getFilesystemName(name);
-				vo.setFile_name(originalFileName);
-				vo.setSave_file_name(filesystemName);
-				fileList.add(vo);
-			}
-//			file = (String)fileNames.nextElement();
-//			originalFileNameList.add(multipartRequest.getOriginalFileName(file));
-//			filesystemNameList.add(multipartRequest.getFilesystemName(file));
-		}
-		*/
-		//System.out.println("originalFileName : " + originalFileName);
-		//System.out.println("filesystemName : " + filesystemName);
 		
 		//필수 입력 값 가져오기
 		int category_code = multipartRequest.getParameter("category_code") == null? 2 : Integer.parseInt(multipartRequest.getParameter("category_code"));
@@ -61,14 +39,35 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		String explanation = multipartRequest.getParameter("explanation") == null? "" : multipartRequest.getParameter("explanation");
 		int number_guests = multipartRequest.getParameter("number_guests") == null? 2 : Integer.parseInt(multipartRequest.getParameter("number_guests"));
 		
-		//썸네일 사진 파일명만 따로 알아오기
-		String thumbFileName = multipartRequest.getOriginalFileName("thumbFile")  == null ? "": multipartRequest.getOriginalFileName("thumbFile"); //form태그의 name 
-		String saveThumbFileName = multipartRequest.getFilesystemName("thumbFile") == null ? "": multipartRequest.getFilesystemName("thumbFile");
+		int lodIdx = multipartRequest.getParameter("lodIdx") == null? 2 : Integer.parseInt(multipartRequest.getParameter("lodIdx"));
+		int pag = multipartRequest.getParameter("pag") == null? 2 : Integer.parseInt(multipartRequest.getParameter("pag"));
+		int pageSize = multipartRequest.getParameter("pageSize") == null? 2 : Integer.parseInt(multipartRequest.getParameter("pageSize"));
+		//썸네일 사진을 새로 등록헀으면 'yes'
+		String flag = multipartRequest.getParameter("flag") == null? "" : multipartRequest.getParameter("flag");
+		//기존 썸네일 사진 이름
+		String thumbFile_save_file_name = multipartRequest.getParameter("thumbFile_save_file_name") == null? "" : multipartRequest.getParameter("thumbFile_save_file_name");
+
+		LodgingVO lodVO = new LodgingVO();
+		AdminDAO dao = new AdminDAO();
+		
+		System.out.println(thumbFile_save_file_name);
+		
+		if(flag.equals("yes")) {
+			//썸네일 사진 파일명만 따로 알아오기
+			String thumbFileName = multipartRequest.getOriginalFileName("thumbFile")  == null ? "": multipartRequest.getOriginalFileName("thumbFile"); //form태그의 name 
+			String saveThumbFileName = multipartRequest.getFilesystemName("thumbFile") == null ? "": multipartRequest.getFilesystemName("thumbFile");
+			lodVO.setFile_name(thumbFileName);
+			lodVO.setSave_file_name(saveThumbFileName);
+			
+			//기존 썸네일 삭제
+			dao.thumbfileDelete();
+			
+			// 썸네일 등록
+			dao.setFileName(thumbFileName, saveThumbFileName, lodIdx, 1);
+		}
 		
 		//vo에 필수입력값 모두 set 하기
-		LodgingVO lodVO = new LodgingVO();
-		lodVO.setFile_name(thumbFileName);
-		lodVO.setSave_file_name(saveThumbFileName);
+		lodVO.setIdx(lodIdx);
 		lodVO.setCategory_code(category_code);
 		lodVO.setSub_category_code(sub_category_code);
 		lodVO.setDetail_category_code(detail_category_code);
@@ -79,29 +78,11 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		lodVO.setExplanation(explanation);
 		lodVO.setNumber_guests(number_guests);
 		
-		//System.out.println("lodVO : " + lodVO);
+		//필수입력사항 DB에 업데이트
+		int lodRes = dao.setLodUpdate(lodVO, flag);
 		
-		//필수입력사항 DB에 넣기
-		AdminDAO dao = new AdminDAO();
-		
-		int lodRes = dao.setLodInput(lodVO);
-		
-		lodVO = dao.getlodInfor(lod_name);
-		int lodIdx = lodVO.getIdx();
-		
-		// 섬네일 등록
-		dao.setFileName(thumbFileName, saveThumbFileName, lodIdx, 1);
-		
-		
-		//file 정렬하기
-//		String[] fileArray = new String[originalFileNameList.size()];
-//		for(int i=0; i<originalFileNameList.size(); i++) {
-//			fileArray[i] = multipartRequest.getOriginalFileName("fName"+(i+1))  == null ? "": multipartRequest.getOriginalFileName("fName"+(i+1));
-//		}
-		
-		//추가사진내용(썸네일 사진까지 포함해서) file DB에 저장하기
-//		int[] fileResults = new int[originalFileNameList.size()];
-		
+//		lodVO = dao.getlodInfor(lod_name);
+//		int lodIdx = lodVO.getIdx();
 		
 		// 첨부파일 리스트에 차곡차곡 넣기
 		ArrayList<FileVO> fileList = new ArrayList<FileVO>(5);
@@ -128,30 +109,7 @@ public class Lod_Input_OkCommand implements AdminInterface {
 				dao.setFileName(file.getFile_name(), file.getSave_file_name(), lodIdx, i+2);
 			}
 		}
-		/* 첨부파일 처리 */
-		
-		/*
-		for(int i=0; i<originalFileNameList.size(); i++) {
-			if(originalFileNameList.get(i) != null && !originalFileNameList.get(i).equals("")) {
-				int file_order = 0;
-				boolean sw = true;
-				int j = 0;
-				int temp = 1;
-				while(sw) {
-					if(originalFileNameList.get(j) != null) {
-						if(originalFileNameList.get(j).equals(fileArray[i])) {
-							file_order = temp;
-							sw = false;
-						}
-						j++;
-						temp++;
-					}
-				}
-				fileResults[i] = dao.setFileName(originalFileNameList.get(i), filesystemNameList.get(i), lodIdx, file_order);
-			}
-		}
-		*/
-		
+				
 		//옵션입력내용 값 모두 받아오기
 		String air_conditioner = multipartRequest.getParameter("air_conditioner") == null? "" : multipartRequest.getParameter("air_conditioner");
 		String tv = multipartRequest.getParameter("tv") == null? "" : multipartRequest.getParameter("tv");
@@ -179,16 +137,15 @@ public class Lod_Input_OkCommand implements AdminInterface {
 		optionVo.setBed(bed);
 		optionVo.setBathroom(bathroom);
 		
-		int optRes = dao.setOptionInfor(optionVo);
+		int optRes = dao.udateOptionInfor(optionVo);
 		
 		if(lodRes == 1 && optRes == 1) {
-			request.setAttribute("msg", "lodInputOk");
-			request.setAttribute("url", request.getContextPath()+"/lod_management.ad");
+			request.setAttribute("msg", "lodUpdateOk");
 		}
 		else {
-			request.setAttribute("msg", "lodInputNo");
-			request.setAttribute("url", request.getContextPath()+"/lod_input.ad");
+			request.setAttribute("msg", "lodUpdateNo");
 		}
+		request.setAttribute("url", request.getContextPath()+"/lodInfor.ad?lodIdx="+lodIdx+"&pag="+pag+"&pageSize="+pageSize);
 		
 	}
 
