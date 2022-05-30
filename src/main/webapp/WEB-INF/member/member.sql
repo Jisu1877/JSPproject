@@ -30,7 +30,7 @@ select * from member;
 
 insert into member values(default, 'admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '관리자', 'f', '010-9039-1877', 'ljs1877@gmail.com', 'noimage', 'noimage', '27844', '충북 진천군 이월면 진광로 121', '101동 403호', '(부영아파트)',  default, default, default, default, default, null);
 
-
+update member set point = point + 2000, point = point - 500 where idx = 2;
 
 
 create table mem_log (

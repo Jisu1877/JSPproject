@@ -47,10 +47,13 @@
 					  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
 					  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
 					  showMonthAfterYear: true,
-					  yearSuffix: '년'
+					  yearSuffix: '년',
+					  //beforeShowDay: disableSelectedDates
 		        });
+		       let today = new Date();
+		       today.setDate(today.getDate() + 1);
 		       
-		       $('#checkIn').datepicker("option", "minDate", new Date());
+		       $('#checkIn').datepicker("option", "minDate", today);
 		       $('#checkIn').datepicker("option", "maxDate", $("#checkOut").val());
 		       $('#checkIn').datepicker("option", "onClose", function (selectedDate){
 		           $("#checkOut").datepicker( "option", "minDate", selectedDate );
@@ -146,12 +149,12 @@
            <div class="w3-half">
             <label><i class="fa-solid fa-map-location-dot"></i>&nbsp; travel area </label>
             <select class="w3-select w3-border" name="area" title="숙박할 지역">
-            	<option value="어디든지" selected>Like anywhere! 어디든지!</option>
-            	<option value="유럽">유럽</option>
-            	<option value="아시아">아시아</option>
-            	<option value="미국">미국</option>
-            	<option value="프랑스">프랑스</option>
-            	<option value="이탈리아">이탈리아</option>
+            	<option value="106" selected>Like anywhere! 어디든지!</option>
+            	<option value="100">유럽</option>
+            	<option value="101">아시아</option>
+            	<option value="102">미국</option>
+            	<option value="103">프랑스</option>
+            	<option value="104">이탈리아</option>
             </select>
           </div>
           <div class="w3-half w3-margin-bottom">

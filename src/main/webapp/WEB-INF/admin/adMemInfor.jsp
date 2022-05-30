@@ -17,7 +17,17 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script type="text/javascript">
-	
+		function memDelete(idx) {
+			let ans = confirm("해당 회원을 탈퇴처리 하시겠습니까?");
+			
+			if(!ans) {
+				return false;
+			}
+			else {
+				$('input[name="idx"]').val(idx);
+				$('form[name="deleteForm"]').submit();
+			}
+		}
 	</script>
 	<style>
 		html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -28,7 +38,6 @@
 			color : black;
 		}
 	</style>
-	
 </head>
 <body class="w3-light-grey">
 <!-- Top container -->
@@ -178,7 +187,7 @@
 	      </div>
 	      <div style="text-align: center" class="mt-3">
 	            <a class="w3-button w3-theme" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
-	            <button type="button" class="w3-button w3-theme"> 탈퇴처리</button> &nbsp;&nbsp;
+	            <a class="w3-button w3-theme" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
 	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 회원목록으로</a> 
 	        </div>     
        	</div>  
@@ -194,6 +203,13 @@
   </footer>
 
   <!-- End page content -->
+</div>
+<div style="display:none;">
+	<form name="deleteForm" action="memDelete.ad" method="POST">
+		<input type="hidden" name="idx" value="">
+		<input type="hidden" name="pag" value="${pag}">
+		<input type="hidden" name="pageSize" value="${pageSize}">
+	 </form>
 </div>
 
 <script>

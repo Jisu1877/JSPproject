@@ -30,7 +30,7 @@
 	}
 	
 	function memDelete(idx) {
-		let ans = confirm("해당 회원을 삭제(탈퇴처리)하시겠습니까?");
+		let ans = confirm("해당 회원을 탈퇴처리 하시겠습니까?");
 		
 		if(!ans) {
 			return false;
@@ -114,7 +114,7 @@
 			  					<td>
 			  						<c:if test="${vo.del_yn == 'n'}">
 				  						<a class="btn btn-secondary btn-sm" href="memUpdate.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">수정</a>
-				  						<a class="btn btn-danger btn-sm" onclick="memDelete(${vo.idx});">삭제</a>
+				  						<a class="btn btn-danger btn-sm" onclick="memDelete(${vo.idx});">탈퇴</a>
 			  						</c:if> 
 			  					</td>
 			  				</tr>

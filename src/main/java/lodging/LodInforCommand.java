@@ -21,7 +21,7 @@ public class LodInforCommand implements LodgingInterface {
 		LodgingDAO lodDao = new LodgingDAO();
 		ReservationDAO resDao = new ReservationDAO();
 		
-		//idx에 해당하는 숙소 상세정보가져오기s
+		//idx에 해당하는 숙소 상세정보가져오기
 		LodgingVO lodVo = lodDao.getLodInfor(idx);
 		
 		//idx에 해당하는 숙소 사진 파일 가져오기
@@ -29,6 +29,7 @@ public class LodInforCommand implements LodgingInterface {
 		
 		//이미 예약되어있는 날짜 가져오기
 		ArrayList<ReservationVO> resList =  resDao.getLodStayDate(idx);
+		//Gson 형식으로 바꾸기
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(resList);
 		

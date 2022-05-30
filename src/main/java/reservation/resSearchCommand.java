@@ -16,7 +16,7 @@ public class resSearchCommand implements ReservationInterface {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String checkIn = request.getParameter("checkIn") == null ? "" : request.getParameter("checkIn");
 		String checkOut = request.getParameter("checkOut") == null ? "" : request.getParameter("checkOut");
-		String area = request.getParameter("area") == null ? "" : request.getParameter("area");
+		int area = request.getParameter("area") == null ? 105 : Integer.parseInt(request.getParameter("area"));
 		int peopleNum = request.getParameter("peopleNum") == null ? 0 : Integer.parseInt(request.getParameter("peopleNum"));
 		
 		ReservationVO resvo = new ReservationVO();
@@ -27,7 +27,8 @@ public class resSearchCommand implements ReservationInterface {
 		//System.out.println("resvo :" + resvo);
 		
 		LodgingDAO lodDao = new LodgingDAO();
-		ArrayList<LodgingVO> lodVos = lodDao.getLodList();
+		// 예약날짜가 겹치는 숙소 제외 검색
+		ArrayList<LodgingVO> lodVos = lodDao.getLodList(checkIn, checkOut, area, peopleNum);
 		
 		request.setAttribute("lodVos", lodVos);
 		request.setAttribute("resVO", resvo);

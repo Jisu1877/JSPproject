@@ -51,7 +51,7 @@
 				document.getElementById("zeroPoint").style.display = "none";
 				document.getElementById("pointUse").style.display = "block";
 				
-				document.getElementById("pointUse").innerText = "-" + point2 + " Point";
+				document.getElementById("pointUse").innerText = "-" + point2.toLocaleString() + " Point";
 				
 				payment_price_cal = Number(payment_price) - Number(point2); 
 				
@@ -103,7 +103,7 @@
 						document.getElementById("zeroPoint").style.display = "none";
 						document.getElementById("pointUse").style.display = "block";
 						
-						document.getElementById("pointUse").innerText = "-" + point + " Point";
+						document.getElementById("pointUse").innerText = "-" + point.toLocaleString() + " Point";
 						
 						payment_price_cal = Number(payment_price) - Number(point); 
 						

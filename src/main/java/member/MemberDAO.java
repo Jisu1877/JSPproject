@@ -400,6 +400,25 @@ public class MemberDAO {
 			return res;
 		}
 
+		//예약시 포인트 적립과 사용포인트 차감
+		public int setPoint(int mem_idx, int point, int usePoint) {
+			int res2 = 0;
+			try {
+				sql = "update member set point = point + ?, point = point - ? where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, point);
+				pstmt.setInt(2, usePoint);
+				pstmt.setInt(3, mem_idx);
+				pstmt.executeUpdate();
+				res2 = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res2;
+		}
+
 
 
 

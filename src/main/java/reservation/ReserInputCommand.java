@@ -15,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.MemberDAO;
+
 public class ReserInputCommand implements ReservationInterface {
 
 	@Override
@@ -26,7 +28,9 @@ public class ReserInputCommand implements ReservationInterface {
 		int dateDays = request.getParameter("dateDays") == null ? 0 : Integer.parseInt(request.getParameter("dateDays"));
 		int mem_idx = request.getParameter("mem_idx") == null ? 0 : Integer.parseInt(request.getParameter("mem_idx"));
 		int lod_idx = request.getParameter("lod_idx") == null ? 0 : Integer.parseInt(request.getParameter("lod_idx"));
-		int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));;
+		//적립포인트
+		int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));
+		//차감포인트
 		int usePoint;
 		if(request.getParameter("usePoint") == null || request.getParameter("usePoint").equals("")) {
 			usePoint = 0;
@@ -40,26 +44,27 @@ public class ReserInputCommand implements ReservationInterface {
 		//반환값이 마지막 날은 포함하지 않기에 checkOut 날짜의 다음날을 checkOut에 먼저 넣어주는 작업을 진행.
 		
 		//다음날짜 구해오는 메소드가 date 타입이라서 checkOut을 Date 타입으로 변환
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date checkOutDate;
-		Date checkout = null;
-		try {
-			checkOutDate = new Date(sdf.parse(checkOut).getTime());
-			checkout = getNextDay(checkOutDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		Date checkOutDate;
+//		Date checkout = null;
+//		try {
+//			checkOutDate = new Date(sdf.parse(checkOut).getTime());
+//			checkout = getNextDay(checkOutDate);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//다음날짜가 되어 날짜형식으로 반환된 값을 다시 문자열로 변환
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		String nextDay = dateFormat.format(checkout);
 		
-		//다음날짜가 되어 날짜형식으로 반환된 값을 다시 문자열로 변환
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String nextDay = dateFormat.format(checkout);
 		
-		
-		//숙박하는 모든 날짜 구해오기(체크아웃 다음 날짜를 넣어주기)
+		//숙박하는 모든 날짜 구해오기(체크아웃날짜는 예약이 되어야하기에 마지막날짜를 포함하지 않는것이 맞음.)
+		//그래서 다음날짜 구해오는 메소드가 필요 없어짐.
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		LocalDate startDate = LocalDate.parse(checkIn, formatter);
-		LocalDate endDate = LocalDate.parse(nextDay, formatter);
+		LocalDate endDate = LocalDate.parse(checkOut, formatter);
 
 		//System.out.println(getDatesBetweenTwoDates(startDate, endDate));
 		//System.out.println(getDatesBetweenTwoDates(startDate, endDate).size());
@@ -91,7 +96,12 @@ public class ReserInputCommand implements ReservationInterface {
 			}
 			i++;
 		}
-		if(res == 1) {
+		
+		//member 테이블의 포인트 적립과 차감
+		MemberDAO memDao = new MemberDAO();
+		int res2 = memDao.setPoint(mem_idx, point, usePoint);
+		
+		if(res == 1 && res2 == 1) {
 			request.setAttribute("msg", "reserInputOk");
 			request.setAttribute("url", request.getContextPath()+"/"); //일단은 홈으로 보내고 마이페이지 만들면 예약현황으로 보내기
 		}
@@ -103,11 +113,13 @@ public class ReserInputCommand implements ReservationInterface {
 		
 	}
 	
+	//두 날짜의 사이 날짜 구해오는 메소드
 	public static List<LocalDate> getDatesBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
 		return startDate.datesUntil(endDate)
         	.collect(Collectors.toList());
 	}
 	
+	//다음 날짜 구하는 메소드
 	 private java.util.Date getNextDay(java.util.Date today){
 		  Calendar cal=Calendar.getInstance();
 		  

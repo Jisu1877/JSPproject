@@ -50,6 +50,7 @@ public class ReservationDAO {
 	public ArrayList<ReservationVO> getLodStayDate(int idx) {
 		ArrayList<ReservationVO> resList = new ArrayList<ReservationVO>();
 		try {
+			//stay_date > date_format(now(), '%Y-%m-%d') -> 이걸 쓴 이유는 과거내용은 이미 지워졌으니 오늘 이후 내용만 가져오는 것.
 			sql = "select * from reservation where lod_idx = ? and stay_date > date_format(now(), '%Y-%m-%d')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);

@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <title>resSearch.jsp</title>
     <%@ include file="/include/bs4.jsp" %>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     	<script>
 		$.datepicker.setDefaults({
 			  dateFormat: 'yy-mm-dd',
@@ -76,12 +77,12 @@
 	    <div class="w3-col m2">
 	      <label><i class="fa-solid fa-map-location-dot"></i>&nbsp; 지역 </label>
 	      <select class="w3-select w3-border" name="area" title="숙박할 지역">
-            	<option value="어디든지" ${area == '어디든지' ? 'selected' : '' }>어디든지</option>
-            	<option value="유럽" ${area == '유럽' ? 'selected' : '' }>유럽</option>
-            	<option value="아시아" ${area == '아시아' ? 'selected' : '' }>아시아</option>
-            	<option value="미국" ${area == '미국' ? 'selected' : '' }>미국</option>
-            	<option value="프랑스" ${area == '프랑스' ? 'selected' : '' }>프랑스</option>
-            	<option value="이탈리아" ${area == '이탈리아' ? 'selected' : '' }>이탈리아</option>
+            	<option value="어디든지" ${area == 106 ? 'selected' : '' }>어디든지</option>
+            	<option value="유럽" ${area == 100 ? 'selected' : '' }>유럽</option>
+            	<option value="아시아" ${area == 101 ? 'selected' : '' }>아시아</option>
+            	<option value="미국" ${area == 102 ? 'selected' : '' }>미국</option>
+            	<option value="프랑스" ${area == 103 ? 'selected' : '' }>프랑스</option>
+            	<option value="이탈리아" ${area == 104 ? 'selected' : '' }>이탈리아</option>
             </select>
 	    </div>
 	    <div class="w3-col m2">
