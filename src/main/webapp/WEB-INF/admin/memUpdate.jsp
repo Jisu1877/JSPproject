@@ -230,12 +230,12 @@
 			
 	</script>
 	<style>
-	  	.headerJoin {
+	  /* 	.headerJoin {
 	  		font-size: 60px;
 	        color: black;
 	        font-weight: bolder;
 	        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	  	}
+	  	} */
 	  	.gender {
 	  		accent-color: grey;
 	  	}
@@ -248,12 +248,22 @@
 	</style>
 	
 </head>
-<body>
-<%@ include file="/include/nav2.jsp" %>
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right w3-white"><a href="${ctp}/">Home</a></span>
+</div>
+
+<%@ include file="/include/admin_sidebarMenu.jsp" %>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px; margin-top:43px;">
+
 <p><br/><p>
   <div class="w3-container" id="contact">
-    <h2 class="headerJoin text-center">JOIN</h2>
-    <h4 class="text-center">Welcome to join us!</h4><br>
+    <h2 class="headerJoin text-center">Member Update</h2>
 <!--     <i class="fa fa-map-marker w3-text-red" style="width:30px"></i> Chicago, US<br>
     <i class="fa fa-phone w3-text-red" style="width:30px"></i> Phone: +00 151515<br>
     <i class="fa fa-envelope w3-text-red" style="width:30px"> </i> Email: mail@mail.com<br> -->
@@ -288,12 +298,14 @@
 		      		<div class="input-group mb-3">
 		    			<input class="input w3-padding-16 w3-border form-control" id="mid" name="mid" type="text" value="${vo.mid}" readonly>
 		    		</div>
+		    			<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 아이디 수정이 불가합니다.</div>
 		    	</div>
 		    	<div class="form-group">
 			      <label for="tel">연락처 :</label>
 			      <div class="input-group mb-3">
 				      <input class="input w3-padding-16 w3-border form-control" id="tel" name="tel" value="${vo.tel}" type="text" readonly>
 				  </div> 
+				      <div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 연락처는 수정이 불가합니다.<br> 변경 필요시 개발자에게 문의하세요.</div>
 			   </div>
 			   <div class="form-group">
 			      <label for="email">Email address:</label>
@@ -339,7 +351,10 @@
 					</div>
 			  </div>
 			  <p><br></p>
-		      <p style="text-align: center;"><button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">수정하기</button></p>
+		      <p style="text-align: center;">
+		      <button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">수정하기</button>
+		      <button class="w3-button w3-black w3-padding-large" type="button" onclick="location.href='${ctp}/memInfor.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}';">돌아가기</button>
+		      </p>
 		      <input type="hidden" name="photo"/>
 			  <input type="hidden" name="email"/>
 			  <input type="hidden" name="flag" id="flag"/>
@@ -353,6 +368,11 @@
 	    </div>
     </div>
   </div>
-  <%@ include file="/include/footer.jsp" %>
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey text-center">
+    <p>Copyright © The Fantastic Lodging. All Rights reserved.</p>
+    <p>Happiness & Rest & Peace</p>
+  </footer>
+ </div>
 </body>
 </html>

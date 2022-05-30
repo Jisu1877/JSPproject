@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import lodging.LodInforCommand;
 import lodging.Lod_Input_OkCommand;
+import lodging.LodgingInterface;
 import member.MemJoinOkCommand;
 
 @WebServlet("*.ad")
@@ -34,6 +36,8 @@ public class AdminController extends HttpServlet {
 			viewPage += "/admin/adminHome.jsp";
 		}
 		else if(com.equals("lod_management")) {
+			command = new Lod_managementCommand();
+			command.execute(request, response); 
 			viewPage += "/admin/lod_management.jsp";
 		}
 		else if(com.equals("mem_management")) {
@@ -68,6 +72,16 @@ public class AdminController extends HttpServlet {
 			command = new MemDeleteCommand();
 			command.execute(request, response); 
 			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("lodInfor")) {
+			LodgingInterface lod_command = new LodInforCommand();
+			lod_command.execute(request, response); 
+			viewPage += "/admin/adLodInfor.jsp";
+		}
+		else if(com.equals("lodUpdate")) {
+			command = new LodUpdateCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/lodUpdate.jsp";
 		}
 		
 		

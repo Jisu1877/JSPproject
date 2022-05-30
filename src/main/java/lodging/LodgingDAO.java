@@ -232,4 +232,82 @@ public class LodgingDAO {
 		}
 		return lodVos;
 	}
+	
+	// 페이징처리를 위한 전체 레코드수 구하기
+	public int totRecCnt() {
+		int totRecCnt = 0;
+		try {
+			sql = "select count(*) as cnt from lodging";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return totRecCnt;
+	}
+	
+	//페이징처리를 추가한 전체 숙소리스트 가져오기 메소드
+	public ArrayList<LodgingVO> getLodList(int startIndexNo, int pageSize) {
+		ArrayList<LodgingVO> lodVos = new ArrayList<LodgingVO>();
+		try {
+			sql = "select * from lodging l " + 
+				  "LEFT JOIN lod_option lo " +
+				  "ON l.idx = lo.lod_idx " + 
+				  "order by l.idx desc limit ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startIndexNo);
+			pstmt.setInt(2, pageSize);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				lodVo = new LodgingVO();
+				
+				lodVo.setIdx(rs.getInt("idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("create_date"));
+				
+				optVo = new OptionVO();
+				optVo.setOpt_idx(rs.getInt("opt_idx"));
+				optVo.setLod_idx(rs.getInt("lod_idx"));
+				optVo.setAir_conditioner(rs.getString("air_conditioner"));
+				optVo.setTv(rs.getString("tv"));
+				optVo.setWifi(rs.getString("wifi"));
+				optVo.setWasher(rs.getString("washer"));
+				optVo.setKitchen(rs.getString("kitchen"));
+				optVo.setHeating(rs.getString("heating"));
+				optVo.setToiletries(rs.getString("toiletries"));
+				optVo.setBedroom(rs.getInt("bedroom"));
+				optVo.setBed(rs.getInt("bed"));
+				optVo.setBathroom(rs.getInt("bathroom"));
+				
+				lodVo.setOption(optVo);
+				
+				lodVos.add(lodVo);
+			} 
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return lodVos;
+	}
+	
+	//파일테이블에서 사진 삭제
+	public int fileDelete(String fName) {
+		
+		return 0;
+	}
 }

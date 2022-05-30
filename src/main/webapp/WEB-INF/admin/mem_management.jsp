@@ -68,11 +68,11 @@
 	  	<div class="w3-col m2 l2 w3-margin-bottom"></div>
 		  	<div class="w3-col m8 l8 w3-margin-bottom">
 			  	<div>
-			  		<h2 class="text-center">회원 관리</h2>
+			  		<h2 class="text-center"><i class="fa fa-users fa-fw"></i> 회원 관리</h2>
 			  		<table class="table table-borderless">
 						<tr>
 							<td>
-								<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i>회원 아이디를 클릭하면 상세정보 조회가 가능합니다.</div>
+								<div style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 회원 아이디를 클릭하면 상세정보 조회가 가능합니다.</div>
 							</td>
 							<td class="text-right">
 								<select name="pageSize" id="pageSize" onchange="pageCheck()">
@@ -113,8 +113,8 @@
 			  					</td>
 			  					<td>
 			  						<c:if test="${vo.del_yn == 'n'}">
-				  						<a class="btn btn-secondary btn-sm" href="memUpdate.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">수정</a>
-				  						<a class="btn btn-danger btn-sm" onclick="memDelete(${vo.idx});">탈퇴</a>
+				  						<a class="btn btn-outline-dark btn-sm" href="memUpdate.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">수정</a>
+				  						<a class="btn btn-outline-danger btn-sm" onclick="memDelete(${vo.idx});">탈퇴</a>
 			  						</c:if> 
 			  					</td>
 			  				</tr>

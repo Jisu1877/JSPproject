@@ -26,12 +26,33 @@
 			let payment_price = ${vo.payment_price}
 			
 			if(i == 1) {
-				document.getElementById("point").value = ownPoint;
-				let point2 = document.getElementById("point").value;
-				if(point2 == "") {
+				if(ownPoint > payment_price) {
+					document.getElementById("point").value = payment_price;
+					let point2 = document.getElementById("point").value;
+					if(point2 == "") {
+						document.getElementById("zeroPoint").style.display = "none";
+						document.getElementById("pointUse").style.display = "block";
+						document.getElementById("pointUse").innerText = "-0" + point + "Point";
+						
+						payment_price_cal = Number(payment_price) - Number(point2); 
+						
+						document.getElementById("payment").style.display = "none";
+						document.getElementById("priceCalc").style.display = "block";
+						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+						
+						changePoint = payment_price_cal * (5/100);
+						let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+						
+						document.getElementById("originPoint").style.display = "none";
+						document.getElementById("changePoint").style.display = "block";
+						document.getElementById("changePoint").innerText = changePoint2 + " Point";
+						return false;
+					}
+					
 					document.getElementById("zeroPoint").style.display = "none";
 					document.getElementById("pointUse").style.display = "block";
-					document.getElementById("pointUse").innerText = "-0" + point + "Point";
+					
+					document.getElementById("pointUse").innerText = "-" + point2.toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); + " Point";
 					
 					payment_price_cal = Number(payment_price) - Number(point2); 
 					
@@ -46,79 +67,68 @@
 					document.getElementById("changePoint").style.display = "block";
 					document.getElementById("changePoint").innerText = changePoint2 + " Point";
 					return false;
+					}
 				}
 				
-				document.getElementById("zeroPoint").style.display = "none";
-				document.getElementById("pointUse").style.display = "block";
-				
-				document.getElementById("pointUse").innerText = "-" + point2.toLocaleString() + " Point";
-				
-				payment_price_cal = Number(payment_price) - Number(point2); 
-				
-				document.getElementById("payment").style.display = "none";
-				document.getElementById("priceCalc").style.display = "block";
-				document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
-				
-				changePoint = payment_price_cal * (5/100);
-				let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
-				
-				document.getElementById("originPoint").style.display = "none";
-				document.getElementById("changePoint").style.display = "block";
-				document.getElementById("changePoint").innerText = changePoint2 + " Point";
-				return false;
-			}
-			
-			if(point > ownPoint) {
-				alert("보유하신 포인트보다 많은 포인트를 입력하셨습니다.");
-				document.getElementById("point").focus();
-				return false;
-			}
-			else if(point < 0) {
-				alert("포인트는 음수값을 입력할 수 없습니다.");
-				document.getElementById("point").focus();
-				return false;
-			}
-			else {
-					if(point == "") {
-						document.getElementById("zeroPoint").style.display = "none";
-						document.getElementById("pointUse").style.display = "block";
-						document.getElementById("pointUse").innerText = "-0" + point + " Point";
-						
-						payment_price_cal = Number(payment_price) - Number(point); 
-						
-						document.getElementById("payment").style.display = "none";
-						document.getElementById("priceCalc").style.display = "block";
-						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
-						
-						changePoint = payment_price_cal * (5/100);
-						let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
-						
-						document.getElementById("originPoint").style.display = "none";
-						document.getElementById("changePoint").style.display = "block";
-						document.getElementById("changePoint").innerText = changePoint2 + " Point";
-						
-						return false;
-					}
-					else {
-						document.getElementById("zeroPoint").style.display = "none";
-						document.getElementById("pointUse").style.display = "block";
-						
-						document.getElementById("pointUse").innerText = "-" + point.toLocaleString() + " Point";
-						
-						payment_price_cal = Number(payment_price) - Number(point); 
-						
-						document.getElementById("payment").style.display = "none";
-						document.getElementById("priceCalc").style.display = "block";
-						document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
-						
-						changePoint = payment_price_cal * (5/100);
-						let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
-						
-						document.getElementById("originPoint").style.display = "none";
-						document.getElementById("changePoint").style.display = "block";
-						document.getElementById("changePoint").innerText = changePoint2 + " Point";
-					}
-			}
+				if(point > ownPoint) {
+					alert("보유하신 포인트보다 많은 포인트를 입력하셨습니다.");
+					document.getElementById("point").value = "";
+					document.getElementById("point").focus();
+					return false;
+				}
+				else if(point > payment_price) {
+					alert("결제금액보다 많은 포인트를 입력하셨습니다.");
+					document.getElementById("point").value = "";
+					document.getElementById("point").focus();
+					return false;
+				}
+				else if(point < 0) {
+					alert("포인트는 음수값을 입력할 수 없습니다.");
+					document.getElementById("point").value = "";
+					document.getElementById("point").focus();
+					return false;
+				}
+				else {
+						if(point == "") {
+							document.getElementById("zeroPoint").style.display = "none";
+							document.getElementById("pointUse").style.display = "block";
+							document.getElementById("pointUse").innerText = "-0" + point + " Point";
+							
+							payment_price_cal = Number(payment_price) - Number(point); 
+							
+							document.getElementById("payment").style.display = "none";
+							document.getElementById("priceCalc").style.display = "block";
+							document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+							
+							changePoint = payment_price_cal * (5/100);
+							let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+							
+							document.getElementById("originPoint").style.display = "none";
+							document.getElementById("changePoint").style.display = "block";
+							document.getElementById("changePoint").innerText = changePoint2 + " Point";
+							
+							return false;
+						}
+						else {
+							document.getElementById("zeroPoint").style.display = "none";
+							document.getElementById("pointUse").style.display = "block";
+							
+							document.getElementById("pointUse").innerText = "-" + point.toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); + " Point";
+							
+							payment_price_cal = Number(payment_price) - Number(point); 
+							
+							document.getElementById("payment").style.display = "none";
+							document.getElementById("priceCalc").style.display = "block";
+							document.getElementById("priceCalc").innerText = payment_price_cal.toLocaleString() + " 원";
+							
+							changePoint = payment_price_cal * (5/100);
+							let changePoint2 = Math.floor(changePoint).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+							
+							document.getElementById("originPoint").style.display = "none";
+							document.getElementById("changePoint").style.display = "block";
+							document.getElementById("changePoint").innerText = changePoint2 + " Point";
+						}
+				}
 		}
     	
     	

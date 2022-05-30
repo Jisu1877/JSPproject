@@ -24,6 +24,5 @@
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-calendar-check"></i>  예약 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-file-pen"></i>  리뷰 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  공지사항 관리</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
   </div>
 </nav>

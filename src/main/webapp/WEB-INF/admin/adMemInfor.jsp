@@ -12,10 +12,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 	<script type="text/javascript">
 		function memDelete(idx) {
 			let ans = confirm("해당 회원을 탈퇴처리 하시겠습니까?");
@@ -36,6 +33,10 @@
 		}
 		a:hover {
 			color : black;
+		}
+		.title {
+			font-weight: bold;
+			background-color: rgb(228, 228, 228);
 		}
 	</style>
 </head>
@@ -64,7 +65,7 @@
 	  <!-- The Grid -->
 	  <div class="w3-row">
 	    <!-- Left Column -->
-      	<h2 class="text-center"><i class="fa-solid fa-id-card"></i> 회원 정보 상세조회</h2><br>
+      	<h2 class="text-center"><span>&nbsp;<i class="fa fa-users fa-fw"></i> &nbsp;회원 정보 상세조회&nbsp;</span></h2><br>
 	    <div class="w3-col m2 l2 w3-margin-bottom"></div>
 	    <div class="w3-col m3 l3 w3-margin-bottom">
 		      <!-- Profile -->
@@ -75,23 +76,23 @@
 		         <hr>
 		         <table class="table table-borderless">
 		         	<colgroup>
-						<col style="width:30%;">
-						<col style="width:70%;">
+						<col style="width:40%;">
+						<col style="width:60%;">
 					</colgroup>
 		         	<tr>
-		         		<td>회원번호</td>
+		         		<td class="title">회원번호</td>
 		         		<td>${vo.idx}번</td>
 		         	</tr>
 		         	<tr>
-		         		<td>아이디</td>
+		         		<td class="title">아이디</td>
 		         		<td>${vo.mid}</td>
 		         	</tr>
 		         	<tr>
-		         		<td>성명</td>
+		         		<td class="title">성명</td>
 		         		<td>${vo.name}</td>
 		         	</tr>
 		         	<tr>
-		         		<td>성별</td>
+		         		<td class="title">성별</td>
 		         		<td>
 		         			<c:if test="${vo.gender == 'm'}">남자</c:if>
 		         			<c:if test="${vo.gender == 'f'}">여자</c:if>
@@ -115,15 +116,15 @@
 							<col style="width:70%;">
 						</colgroup>
 			         	<tr>
-			         		<td>전화번호</td>
+			         		<td class="title">전화번호</td>
 			         		<td>${vo.tel}</td>
 			         	</tr>
 			         	<tr>
-			         		<td>Email</td>
+			         		<td class="title">Email</td>
 			         		<td>${vo.email}</td>
 			         	</tr>
 			         	<tr>
-			         		<td>주소</td>
+			         		<td class="title">주소</td>
 			         		<td>
 			         			<c:if test="${!empty vo.postcode}">
 				         			${vo.postcode}<br> ${vo.roadAddress}<br>
@@ -134,39 +135,39 @@
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>가입일</td>
+			         		<td class="title">가입일</td>
 			         		<td>
 			         			${fn:substring(vo.create_date, 0, 19)}
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>최종접속일</td>
+			         		<td class="title">최종접속일</td>
 			         		<td>
 			         			${fn:substring(vo.lastDate, 0, 19)}
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>회원등급</td>
+			         		<td class="title">회원등급</td>
 			         		<td>
 			         			<c:if test="${vo.level == '1'}">정회원</c:if>
 			         			<c:if test="${vo.level == '0'}">관리자</c:if>
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>보유 포인트</td>
+			         		<td class="title">보유 포인트</td>
 			         		<td>
 			         			${vo.point} Point
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>프로모션 정보<br> 수신 동의여부</td>
+			         		<td class="title">프로모션 정보<br> 수신 동의여부</td>
 			         		<td>
 			         			<c:if test="${vo.agreement == 3}">동의함</c:if>
 			         			<c:if test="${vo.agreement != 3}">미동의</c:if>
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td>활동여부</td>
+			         		<td class="title">활동여부</td>
 			         		<td>
 			         			<c:if test="${vo.del_yn == 'y'}">
 				         			<font color="red">탈퇴</font><br>
@@ -186,9 +187,9 @@
 	        </div>
 	      </div>
 	      <div style="text-align: center" class="mt-3">
-	            <a class="w3-button w3-theme" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
-	            <a class="w3-button w3-theme" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
-	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 회원목록으로</a> 
+	            <a class="w3-button w3-black" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
+	            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
+	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 목록으로</a> 
 	        </div>     
        	</div>  
        	 <div class="w3-col m2 l2 w3-margin-bottom"></div>

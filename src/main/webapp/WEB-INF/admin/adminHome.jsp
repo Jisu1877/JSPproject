@@ -41,7 +41,7 @@
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+    <h5><b><i class="fa fa-dashboard"></i> Dashboard</b></h5>
   </header>
 
   <div class="w3-row-padding w3-margin-bottom">
@@ -94,7 +94,7 @@
         <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
       </div>
       <div class="w3-twothird">
-        <h5>Feeds</h5>
+        <h5>예약현황</h5>
         <table class="w3-table w3-striped w3-white">
           <tr>
             <td><i class="fa fa-user w3-text-blue w3-large"></i></td>

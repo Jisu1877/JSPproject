@@ -22,6 +22,13 @@
 		color : black;
 	}
 </style>
+<script>
+	'use strict';
+	function pageCheck() {
+		let pageSize = $("#pageSize").val();
+		location.href="lod_management.ad?pag=${pag}&pageSize="+pageSize;
+	}
+</script>
 </head>
 <body class="w3-light-grey">
 
@@ -46,13 +53,74 @@
   </header>
   <section>
   	<div class="w3-row">
-	  	<div class="w3-col m1 l1"></div>
-	  	<div class="w3-col m10 l10">
-	  	<div class="text-right">
-	  		<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad';">숙소등록</button>
+	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
+	  	<div class="w3-col m10 l10 w3-margin-bottom">
+  			<h2 class="text-center"><i class="fa-solid fa-tents"></i> 숙소 관리</h2>
+	  		<table class="table table-borderless" >
+		  		<tr>
+		  			<td class="text-right" style="margin-bottom: 0px; padding-bottom: 0px">
+						<select name="pageSize" id="pageSize" onchange="pageCheck()">
+							<option value="5" ${pageSize == 5 ? 'selected' : '' }>5건</option>
+							<option value="10" ${pageSize == 10 ? 'selected' : '' }>10건</option>
+							<option value="15" ${pageSize == 15 ? 'selected' : '' }>15건</option>
+							<option value="20" ${pageSize == 20 ? 'selected' : '' }>20건</option>
+						</select>
+				  		&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad';">숙소등록</button>
+		  			</td>
+		  		</tr>
+		  	</table>
+		  	<table class="table table-hover text-center">
+				<tr class="w3-lime">
+					<th>번호</th>
+					<th>숙소명</th>
+					<th>국가</th>
+					<th>등록일</th>
+					<th>비고</th>
+				</tr>
+				<c:forEach var="vo" items="${lodList}">
+					<tr>
+						<td>${vo.idx}</td>
+						<td>
+							<a href="${ctp}/lodInfor.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.lod_name}</a>
+						</td>
+						<td>${vo.country}</td>
+						<td>${fn:substring(vo.create_date, 0, 19)}</td>
+						<td>
+							<a class="btn btn-outline-secondary btn-sm" href="lodUpdate.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">수정</a>
+	  						<a class="btn btn-outline-danger btn-sm" onclick="lodDelete(${vo.idx});">삭제</a>
+						</td>
+					</tr>
+				</c:forEach>
+		  	</table>
+		  	<br>
+		  	<!-- 블록 페이징 처리 시작 -->
+			<div class="text-center">
+				<ul class="pagination justify-content-center pagination-sm">
+				  <c:if test="${pag > 1}">
+				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=1&pageSize=${pageSize}">◁◁</a></li>
+				  </c:if>
+				  <c:if test="${curBlock > 0}">
+				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">◀</a></li>
+				  </c:if>
+				  <c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize)+blockSize}">
+				    <c:if test="${i <= totPage && i == pag}">
+				      <li class="page-item active"><a class="page-link text-light border-secondary bg-secondary" href="lod_management.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li>
+				    </c:if>
+				    <c:if test="${i <= totPage && i != pag}">
+				      <li class="page-item"><a class="page-link text-secondary" href='lod_management.ad?pag=${i}&pageSize=${pageSize}'>${i}</a></li>
+				    </c:if>
+				  </c:forEach>
+				  <c:if test="${curBlock < lastBlock}">
+				     <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock+1)*blockSize + 1}&pageSize=${pageSize}&pageSize=${pageSize}">▶</a></li>
+				  </c:if>
+				  <c:if test="${pag != totPage}">
+					 <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${totPage}&pageSize=${pageSize}">▷▷</a></li>
+				  </c:if>
+				 </ul>
+			</div>
+			<!-- 블록 페이징 처리 끝 -->
 	  	</div>
-	  	</div>
-	  	<div class="w3-col m1 l1"></div>
+	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
 	 </div>
   </section>
   <!-- Footer -->
