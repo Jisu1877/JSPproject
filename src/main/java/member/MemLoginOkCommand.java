@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import conn.SecurityUtil;
+import reservation.ReservationDAO;
 
 public class MemLoginOkCommand implements MemberInterface {
 
@@ -50,6 +51,16 @@ public class MemLoginOkCommand implements MemberInterface {
 		//최종방문일 업데이트
 		int res2 = dao.setLastDate(mid);
 		
+		//예약테이블 업데이트
+		ReservationDAO resDao = new ReservationDAO();
+		//업데이트를 위해 오늘 날짜 알아오기
+		Date day = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("YYYY-MM-dd");
+		String today = sf.format(day);
+		
+		//예약테이블 업데이트 처리(사용완료)
+		int res3 = resDao.setUpdate(today);
+		
 		//아이디 저장 체크시..
 		String idCheck = request.getParameter("idCheck") == null ? "off" : request.getParameter("idCheck");
 		Cookie cookieMid = new Cookie("cMid", mid);
@@ -61,7 +72,7 @@ public class MemLoginOkCommand implements MemberInterface {
 		}
 		response.addCookie(cookieMid);
 		
-		if(res == 1 && res2 == 1) {
+		if(res == 1 && res2 == 1 && res3 == 1) {
 			request.setAttribute("msg", "loginOk");
 			request.setAttribute("url", request.getContextPath()+"/");
 		}

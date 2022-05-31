@@ -28,8 +28,10 @@ public class ReserInputCommand implements ReservationInterface {
 		int dateDays = request.getParameter("dateDays") == null ? 0 : Integer.parseInt(request.getParameter("dateDays"));
 		int mem_idx = request.getParameter("mem_idx") == null ? 0 : Integer.parseInt(request.getParameter("mem_idx"));
 		int lod_idx = request.getParameter("lod_idx") == null ? 0 : Integer.parseInt(request.getParameter("lod_idx"));
+		
 		//적립포인트
 		int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));
+		
 		//차감포인트
 		int usePoint;
 		if(request.getParameter("usePoint") == null || request.getParameter("usePoint").equals("")) {
@@ -78,6 +80,7 @@ public class ReserInputCommand implements ReservationInterface {
 		resvo.setNumber_guests(peopleNum);
 		resvo.setPayment_price(priceCal);
 		resvo.setTerm(dateDays + 1);
+		resvo.setPoint(point);
 		
 		//반복문을 통해 예약된 숙소예약일자만큼 DB에 넣기
 		ReservationDAO dao = new ReservationDAO();
@@ -97,9 +100,9 @@ public class ReserInputCommand implements ReservationInterface {
 			i++;
 		}
 		
-		//member 테이블의 포인트 적립과 차감
+		//member 테이블의 포인트 차감
 		MemberDAO memDao = new MemberDAO();
-		int res2 = memDao.setPoint(mem_idx, point, usePoint);
+		int res2 = memDao.setPoint(mem_idx, usePoint);
 		
 		if(res == 1 && res2 == 1) {
 			request.setAttribute("msg", "reserInputOk");

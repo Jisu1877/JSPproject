@@ -30,7 +30,8 @@
 	}
 	
 	function lodDelete(lodIdx) {
-		let ans = confirm("해당 숙소를 정말 삭제하시겠습니까?");
+		let ans = confirm("해당 숙소를 정말 판매중지하시겠습니까?");
+		if(!ans) return false;
 		
 		$.ajax({
    			type : "post",
@@ -38,15 +39,15 @@
    			data : {lodIdx : lodIdx},
    			success : function(data) {
    				if(data == "exist") {
-   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 삭제를 진행하세요.");
+   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 진행하세요.");
    					return false;
    				}
    				else if(data == "deleteOk") {
-					alert("삭제완료.");
+					alert("판매중지처리 완료.");
 					location.reload();
 				}
 				else {
-					alert("숙소 삭제에 실패했습니다.");
+					alert("숙소 판매중지 처리에 실패했습니다.");
 				}
    			},
 			error : function() {
@@ -82,7 +83,7 @@
 	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
 	  	<div class="w3-col m10 l10 w3-margin-bottom">
   			<h2 class="text-center"><i class="fa-solid fa-tents"></i> 숙소 관리</h2>
-	  		<table class="table table-borderless" >
+	  		<table class="table table-borderless">
 		  		<tr>
 		  			<td class="text-right" style="margin-bottom: 0px; padding-bottom: 0px">
 						<select name="pageSize" id="pageSize" onchange="pageCheck()">
@@ -99,8 +100,8 @@
 				<tr class="w3-lime">
 					<th>번호</th>
 					<th>숙소명</th>
-					<th>국가</th>
 					<th>등록일</th>
+					<th>상태</th>
 					<th>비고</th>
 				</tr>
 				<c:forEach var="vo" items="${lodList}">
@@ -109,11 +110,16 @@
 						<td>
 							<a href="${ctp}/lodInfor.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.lod_name}</a>
 						</td>
-						<td>${vo.country}</td>
 						<td>${fn:substring(vo.create_date, 0, 19)}</td>
 						<td>
-							<a class="btn btn-outline-secondary btn-sm" href="lodUpdate.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">수정</a>
-	  						<a class="btn btn-outline-danger btn-sm" onclick="lodDelete(${vo.idx});">삭제</a>
+							<c:if test="${vo.del_yn == 'y'}"><font color="red">판매중지</font></c:if>
+							<c:if test="${vo.del_yn == 'n'}">판매중</c:if>
+						</td>
+						<td>
+							<c:if test="${vo.del_yn == 'n'}">
+								<a class="btn btn-outline-secondary btn-sm" href="lodUpdate.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">수정</a>
+		  						<a class="btn btn-outline-danger btn-sm" onclick="lodDelete(${vo.idx});">판매중지</a>
+	  						</c:if>
 						</td>
 					</tr>
 				</c:forEach>

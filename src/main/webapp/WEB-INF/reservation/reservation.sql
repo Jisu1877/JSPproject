@@ -44,3 +44,7 @@ order by l.idx desc;
 select * from reservation where lod_idx = 18 and state = '예약';
 
 select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = 6 group by re.check_in order by re.idx desc;
+select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = 6 group by re.create_date order by re.idx desc;
+
+
+update reservation set state = '사용완료' where check_out <= '2022-05-31';

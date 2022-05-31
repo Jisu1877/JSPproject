@@ -21,7 +21,7 @@ public class lodDeleteCommand extends HttpServlet {
 		
 		LodgingDAO dao = new LodgingDAO();
 		ReservationDAO resDao = new ReservationDAO();
-		
+		//예약내역이 있는지 확인하기 
 		ArrayList<ReservationVO> resList = resDao.checkRes(lodIdx);
 		
 		if(resList.size() >= 1) {

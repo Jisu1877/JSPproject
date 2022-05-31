@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.apache.catalina.webresources.EmptyResource;
 
 import conn.GetConn;
+import lodging.LodgingVO;
 
 public class ReservationDAO {
 	GetConn getConn = GetConn.getInstance(); //메모리에 있는 instance 가져오기
@@ -26,7 +27,7 @@ public class ReservationDAO {
 	public int setReserInput(ReservationVO vo,  String stay_date) {
 		int res = 0;
 		try {
-			sql = "insert into reservation values(default, ?,?,?,?,?,?,?,?,null,default,default,default)";
+			sql = "insert into reservation values(default, ?,?,?,?,?,?,?,?,null,default,default,default,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getLod_idx());
 			pstmt.setInt(2, vo.getMem_idx());
@@ -36,6 +37,7 @@ public class ReservationDAO {
 			pstmt.setInt(6, vo.getNumber_guests());
 			pstmt.setInt(7, vo.getPayment_price());
 			pstmt.setInt(8, vo.getTerm());
+			pstmt.setInt(9, vo.getPoint());
 			pstmt.executeUpdate();
 			res = 1;
 		} catch (SQLException e) {
@@ -96,13 +98,13 @@ public class ReservationDAO {
 	public ArrayList<ReservationVO> getResList(int idx) {
 		ArrayList<ReservationVO> resList = new ArrayList<ReservationVO>();
 		try {
-			sql = "select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = ? group by re.check_in order by re.idx desc;";
+			sql = "select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = ? group by re.create_date order by re.idx desc;";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ReservationVO vo = new ReservationVO();
+				vo = new ReservationVO();
 				vo.setIdx(rs.getInt("idx"));
 				vo.setLod_idx(rs.getInt("lod_idx"));
 				vo.setMem_idx(rs.getInt("mem_idx"));
@@ -117,6 +119,23 @@ public class ReservationDAO {
 				vo.setCancel_yn(rs.getString("cancel_yn"));
 				vo.setCreate_date(rs.getString("create_date"));
 				
+				LodgingVO lodVo = new LodgingVO();
+				lodVo.setIdx(rs.getInt("l.idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("l.create_date"));
+				
+				vo.setLodVo(lodVo);
+				
 				resList.add(vo);
 			}
 		} catch (SQLException e) {
@@ -125,6 +144,29 @@ public class ReservationDAO {
 			getConn.rsClose();
 		}
 		return resList;
+	}
+	
+	//예약테이블 업데이트
+	public int setUpdate(String today) {
+		int res = 0;
+		try {
+			sql = "update reservation set state = '사용완료' where check_out <= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, today);
+			pstmt.executeUpdate();
+			getConn.pstmtClose();
+
+			sql = "update reservation set state = '사용중' where check_in = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, today);
+			pstmt.executeUpdate();
+			res = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
 	}
 	
 }

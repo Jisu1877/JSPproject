@@ -37,6 +37,7 @@ public class LodgingDAO {
 			sql = "select * from lodging l " + 
 				  "LEFT JOIN lod_option lo " +
 				  "ON l.idx = lo.lod_idx " + 
+				  "where del_yn = 'n' " +
 				  "order by l.idx desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -56,6 +57,9 @@ public class LodgingDAO {
 				lodVo.setExplanation(rs.getString("explanation"));
 				lodVo.setNumber_guests(rs.getInt("number_guests"));
 				lodVo.setCreate_date(rs.getString("create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				lodVo.setRating(rs.getDouble("rating"));
+				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
 				
 				optVo = new OptionVO();
 				optVo.setOpt_idx(rs.getInt("opt_idx"));
@@ -109,6 +113,9 @@ public class LodgingDAO {
 				lodVo.setExplanation(rs.getString("explanation"));
 				lodVo.setNumber_guests(rs.getInt("number_guests"));
 				lodVo.setCreate_date(rs.getString("create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				lodVo.setRating(rs.getDouble("rating"));
+				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
 				
 				optVo = new OptionVO();
 				optVo.setOpt_idx(rs.getInt("opt_idx"));
@@ -171,6 +178,7 @@ public class LodgingDAO {
 						"where l.idx NOT IN " +
 						"(select re.lod_idx from reservation re LEFT JOIN lodging ll ON re.lod_idx = ll.idx where re.stay_date = ? or re.stay_date = ? group by re.lod_idx) " +
 						"and l.number_guests >= ? " +
+						"and l.del_yn = 'n' " +
 						"order by l.idx desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, checkIn);
@@ -182,6 +190,7 @@ public class LodgingDAO {
 						"where l.idx NOT IN " +
 						"(select re.lod_idx from reservation re LEFT JOIN lodging ll ON re.lod_idx = ll.idx where re.stay_date = ? or re.stay_date = ? group by re.lod_idx) " +
 						"and l.number_guests >= ? and l.category_code = ? " +
+						"and l.del_yn = 'n' " +
 						"order by l.idx desc";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, checkIn);
@@ -206,6 +215,9 @@ public class LodgingDAO {
 				lodVo.setExplanation(rs.getString("explanation"));
 				lodVo.setNumber_guests(rs.getInt("number_guests"));
 				lodVo.setCreate_date(rs.getString("create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				lodVo.setRating(rs.getDouble("rating"));
+				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
 				
 				optVo = new OptionVO();
 				optVo.setOpt_idx(rs.getInt("opt_idx"));
@@ -278,6 +290,9 @@ public class LodgingDAO {
 				lodVo.setExplanation(rs.getString("explanation"));
 				lodVo.setNumber_guests(rs.getInt("number_guests"));
 				lodVo.setCreate_date(rs.getString("create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				lodVo.setRating(rs.getDouble("rating"));
+				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
 				
 				optVo = new OptionVO();
 				optVo.setOpt_idx(rs.getInt("opt_idx"));
@@ -326,7 +341,7 @@ public class LodgingDAO {
 	public int lodDelete(int lodIdx) {
 		int res = 0;
 		try {
-			sql = "delete from lodging where idx = ?";
+			sql = "update lodging set del_yn = 'y' where idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, lodIdx);
 			pstmt.executeUpdate();

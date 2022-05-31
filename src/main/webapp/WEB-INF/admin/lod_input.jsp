@@ -289,10 +289,9 @@
 				            	<option value="307">호숫가</option>
 				            	<option value="308">한적한 시골</option>
 				            	<option value="309">열대지역</option>
-				            	<option value="310">통나무집</option>
-				            	<option value="311">멋진 수영장</option>
-				            	<option value="312">캐슬</option>
-				            	<option value="313">북극</option>
+				            	<option value="310">멋진 수영장</option>
+				            	<option value="311">캐슬</option>
+				            	<option value="312">북극</option>
 				            </select>
 			    		</div>
 			    		</div>

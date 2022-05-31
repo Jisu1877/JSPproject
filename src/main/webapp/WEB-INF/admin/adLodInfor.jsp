@@ -192,14 +192,23 @@
 			         			${fn:substring(lodVo.create_date, 0, 19)}
 			         		</td>
 			         	</tr>
+			         	<tr>
+			         		<td class="title">상태</td>
+			         		<td>
+			         			<c:if test="${lodVo.del_yn == 'y'}"><font color="red">판매중지</font></c:if>
+								<c:if test="${lodVo.del_yn == 'n'}">판매중</c:if>
+			         		</td>
+			         	</tr>
 			         </table>
 	            </div>
 	          </div>
 	        </div>
 	      </div>
 	      <div style="text-align: center" class="mt-3">
-	            <a class="w3-button w3-black" href="lodUpdate.ad?lodIdx=${param.lodIdx}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
-	            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 숙소삭제</a> &nbsp;&nbsp;
+	      		<c:if test="${lodVo.del_yn == 'n'}">
+		            <a class="w3-button w3-black" href="lodUpdate.ad?lodIdx=${param.lodIdx}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
+		            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 숙소삭제</a> &nbsp;&nbsp;
+	            </c:if>
 	            <a href="${ctp}/lod_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 목록으로</a> 
 	        </div>     
        	</div>  
@@ -209,7 +218,9 @@
 		        <img src="${ctp}/data/lodging/${lodVo.save_file_name}" alt="Cinque Terre" style="width:100%">
 		        <span class="w3-display-bottomleft w3-padding" style="background-color: black;">메인 사진</span>
 		      </div>
-		      <div id="more"><a href="javascript:moreContent();" style="color:black"><b> More</b> 👇</a></div>
+		      <c:if test="${fileList.size() >= 1}">
+		      	<div id="more"><a href="javascript:moreContent();" style="color:black"><b> More</b> 👇</a></div>
+		      </c:if>
 			    <div class="w3-row-padding w3-text-white w3-large" id="sub" style="display: none">
 			      <c:forEach var="fileVo" items="${fileList}" varStatus="st">
 			      	<div class="w3-row-padding" style="margin:0 -16px">

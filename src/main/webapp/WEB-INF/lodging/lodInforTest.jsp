@@ -453,13 +453,13 @@ a {
 			    <div class="w3-row w3-large" id="shortCont">
 				    ${fn:substring(lodVo.explanation, 0, 50)}
 				    <c:if test="${fn:length(lodVo.explanation) > 49}">
-				    ...<span style="text-decoration: underline;" class="more"><a href="javascript:moreContent();">더보기</a></span>
+				    ...<span style="text-decoration: underline;" class="more"><a href="javascript:moreContent();" style="color:orange;">더보기</a></span>
 				    </c:if>
 			    </div>
 			    <div class="w3-row w3-large" style="display: none" id="moreCont">
 			    	<c:if test="${fn:indexOf(lodVo.explanation,newLine) != -1}">${fn:replace(lodVo.explanation,newLine,"<br>")}</c:if>
 				  	<c:if test="${fn:indexOf(lodVo.explanation,newLine) == -1}">${lodVo.explanation}</c:if>
-				  	<span style="text-decoration: underline;" class="more"><a href="javascript:shortContent();">접기</a></span>
+				  	<span style="text-decoration: underline;" class="more"><a href="javascript:shortContent();" style="color:orange;">접기</a></span>
 			    </div>
 		    </div>
 		    <p></p>

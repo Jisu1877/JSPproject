@@ -14,8 +14,11 @@ public class LodgingVO {
 	private String explanation;
 	private int number_guests;
 	private String create_date;
-	private OptionVO option;
 	
+	private OptionVO option;
+	private String del_yn;
+	private double rating;
+	private int ratingCnt;
 	public int getIdx() {
 		return idx;
 	}
@@ -100,15 +103,33 @@ public class LodgingVO {
 	public void setOption(OptionVO option) {
 		this.option = option;
 	}
+	public String getDel_yn() {
+		return del_yn;
+	}
+	public void setDel_yn(String del_yn) {
+		this.del_yn = del_yn;
+	}
+	public double getRating() {
+		return rating;
+	}
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+	public int getRatingCnt() {
+		return ratingCnt;
+	}
+	public void setRatingCnt(int ratingCnt) {
+		this.ratingCnt = ratingCnt;
+	}
 	@Override
 	public String toString() {
 		return "LodgingVO [idx=" + idx + ", file_name=" + file_name + ", save_file_name=" + save_file_name
-				+ ", file_order=" + ", category_code=" + category_code + ", sub_category_code="
-				+ sub_category_code + ", detail_category_code=" + detail_category_code + ", lod_name=" + lod_name
-				+ ", price=" + price + ", country=" + country + ", address=" + address + ", explanation=" + explanation
-				+ ", number_guests=" + number_guests + ", create_date=" + create_date + ", option=" + option + "]";
+				+ ", category_code=" + category_code + ", sub_category_code=" + sub_category_code
+				+ ", detail_category_code=" + detail_category_code + ", lod_name=" + lod_name + ", price=" + price
+				+ ", country=" + country + ", address=" + address + ", explanation=" + explanation + ", number_guests="
+				+ number_guests + ", create_date=" + create_date + ", option=" + option + ", del_yn=" + del_yn
+				+ ", rating=" + rating + ", ratingCnt=" + ratingCnt + "]";
 	}
-	
 	
 
 }

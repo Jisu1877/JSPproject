@@ -336,7 +336,7 @@
 								<td id="priceCalc" style="display: none; font-size: 23px;"></td>
 							</tr>
 							<tr>
-								<td><b>포인트 적립</b></td>
+								<td><b>예상 적립포인트</b></td>
 								<td style="font-size: 20px;" id="originPoint"><fmt:formatNumber value="${vo.point}"/> Point</td>
 								<td style="font-size: 20px;" id="changePoint"></td>
 							</tr>
@@ -348,9 +348,12 @@
 								<td style="font-size: 20px;">
 									<div class="btn-group">
 										<input type="button" value="카드" class="btn btn-outline-warning w3-text-black button-class1" onclick="buttonCheck()"/>
-										<input type="button" value="실시간계좌이체" class="btn btn-outline-warning w3-text-black button-class2" onclick="buttonCheck()"/>
+										<input type="button" value="계좌이체" class="btn btn-outline-warning w3-text-black button-class2" onclick="buttonCheck()"/>
 									</div>
 								</td>
+							</tr>
+							<tr>
+								<td style="font-size:13px; color:grey;" colspan="2"><i class="fa-solid fa-circle-exclamation"></i> 구매확정 후 리뷰작성시 포인트가 적립됩니다.</td>
 							</tr>
 							<tr>
 								<td colspan="2">
