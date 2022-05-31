@@ -68,4 +68,63 @@ public class ReservationDAO {
 		return resList;
 	}
 	
+	//예약내역이 있는지 체크 메소드
+	public ArrayList<ReservationVO> checkRes(int lodIdx) {
+		ArrayList<ReservationVO> resList = new ArrayList<ReservationVO>();
+		try {
+			sql = "select * from reservation where lod_idx = ? and state = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lodIdx);
+			pstmt.setString(2, "예약");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				vo = new ReservationVO();
+				vo.setCheck_in(rs.getString("check_in"));
+				
+				resList.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return resList;
+	}
+
+	//회원당 예약리스트 가져오기
+	public ArrayList<ReservationVO> getResList(int idx) {
+		ArrayList<ReservationVO> resList = new ArrayList<ReservationVO>();
+		try {
+			sql = "select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = ? group by re.check_in order by re.idx desc;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReservationVO vo = new ReservationVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setLod_idx(rs.getInt("lod_idx"));
+				vo.setMem_idx(rs.getInt("mem_idx"));
+				vo.setStay_date(rs.getString("stay_date")); //체크인날짜로 그룹화한거라 체크인날짜와 동일함.
+				vo.setCheck_in(rs.getString("check_in"));
+				vo.setCheck_out(rs.getString("check_out"));
+				vo.setNumber_guests(rs.getInt("number_guests"));
+				vo.setPayment_price(rs.getInt("payment_price"));
+				vo.setTerm(rs.getInt("term"));
+				vo.setReview(rs.getString("review"));
+				vo.setState(rs.getString("state"));
+				vo.setCancel_yn(rs.getString("cancel_yn"));
+				vo.setCreate_date(rs.getString("create_date"));
+				
+				resList.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return resList;
+	}
+	
 }

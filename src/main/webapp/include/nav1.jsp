@@ -22,6 +22,9 @@
   <!-- <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Login</a> -->
   <%  if(level != 99) { %>
   		<a href="<%=request.getContextPath()%>/memLogOut.mem" class="w3-bar-item w3-btn w3-right w3-light-grey w3-mobile">Logout</a>
+  		<%  if(level != 99 && level != 0) { %>
+  			<a href="<%=request.getContextPath()%>/memMypage.mem" class="w3-bar-item w3-btn w3-right w3-black w3-hover-theme w3-mobile">MyPage</a>
+  		<% } %>
   <% } else {%>
   		<a href="<%=request.getContextPath()%>/memLogin.mem" class="w3-bar-item w3-btn w3-right w3-light-grey w3-mobile">Login</a>
   <% } %>

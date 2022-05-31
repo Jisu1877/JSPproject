@@ -198,7 +198,7 @@
 	        </div>
 	      </div>
 	      <div style="text-align: center" class="mt-3">
-	            <a class="w3-button w3-black" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
+	            <a class="w3-button w3-black" href="lodUpdate.ad?lodIdx=${param.lodIdx}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
 	            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 숙소삭제</a> &nbsp;&nbsp;
 	            <a href="${ctp}/lod_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 목록으로</a> 
 	        </div>     

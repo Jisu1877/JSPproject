@@ -80,6 +80,11 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage = "/message/message.jsp";
 		}
+		else if(com.equals("memMypage")) {
+			command = new MemMypageCommand();
+			command.execute(request, response); 
+			viewPage += "/member/memMypage.jsp";
+		}
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

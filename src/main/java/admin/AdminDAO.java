@@ -204,10 +204,11 @@ public class AdminDAO {
 	}
 	
 	//썸네일 삭제
-	public void thumbfileDelete() {
+	public void thumbfileDelete(int lodIdx) {
 		try {
-			sql = "delete from file where file_order = 1";
+			sql = "delete from file where lod_idx = ? and file_order = 1";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lodIdx);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("sql 에러" + e.getMessage());

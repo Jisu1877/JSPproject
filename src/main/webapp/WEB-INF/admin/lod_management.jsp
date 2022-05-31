@@ -28,6 +28,32 @@
 		let pageSize = $("#pageSize").val();
 		location.href="lod_management.ad?pag=${pag}&pageSize="+pageSize;
 	}
+	
+	function lodDelete(lodIdx) {
+		let ans = confirm("해당 숙소를 정말 삭제하시겠습니까?");
+		
+		$.ajax({
+   			type : "post",
+   			url : "${ctp}/lodDeleteCommand",
+   			data : {lodIdx : lodIdx},
+   			success : function(data) {
+   				if(data == "exist") {
+   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 삭제를 진행하세요.");
+   					return false;
+   				}
+   				else if(data == "deleteOk") {
+					alert("삭제완료.");
+					location.reload();
+				}
+				else {
+					alert("숙소 삭제에 실패했습니다.");
+				}
+   			},
+			error : function() {
+				alert("전송오류.");
+			}
+   		});
+	}
 </script>
 </head>
 <body class="w3-light-grey">

@@ -322,5 +322,22 @@ public class LodgingDAO {
 		return res;
 	}
 	
+	//숙소 삭제하기
+	public int lodDelete(int lodIdx) {
+		int res = 0;
+		try {
+			sql = "delete from lodging where idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lodIdx);
+			pstmt.executeUpdate();
+			res = 1;
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+	
 
 }

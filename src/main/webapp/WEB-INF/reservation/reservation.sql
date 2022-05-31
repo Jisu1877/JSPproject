@@ -41,4 +41,6 @@ where l.idx NOT IN
 and l.number_guests >= 1
 order by l.idx desc;
 
+select * from reservation where lod_idx = 18 and state = '예약';
 
+select * from reservation re LEFT JOIN lodging l ON re.lod_idx = l.idx where re.mem_idx = 6 group by re.check_in order by re.idx desc;

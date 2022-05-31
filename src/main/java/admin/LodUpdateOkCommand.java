@@ -60,7 +60,7 @@ public class LodUpdateOkCommand implements AdminInterface {
 			lodVO.setSave_file_name(saveThumbFileName);
 			
 			//기존 썸네일 삭제
-			dao.thumbfileDelete();
+			dao.thumbfileDelete(lodIdx);
 			
 			// 썸네일 등록
 			dao.setFileName(thumbFileName, saveThumbFileName, lodIdx, 1);
