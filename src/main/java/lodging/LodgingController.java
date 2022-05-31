@@ -31,6 +31,11 @@ public class LodgingController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage += "/lodging/lodInforTest.jsp";
 		}
+		else if(com.equals("lodCategory")) {
+			//command = new LodCategoryCommand();
+			//command.execute(request, response); 
+			viewPage += "/lodging/lodInforTest.jsp";
+		}
 		/*
 		 * if(level != 99) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근) RequestDispatcher
 		 * dispatcher = request.getRequestDispatcher("/memLogin.mem");

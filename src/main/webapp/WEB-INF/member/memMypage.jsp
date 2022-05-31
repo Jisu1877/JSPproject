@@ -119,15 +119,26 @@
 	        		<th class="text-center">결제금액</th>
 	        		<th class="text-center">상태</th>
 	        	</tr>
+	        	<fmt:parseDate var="todayDate" value="${today}" pattern="yyyy-MM-dd"/>
+	        	<fmt:parseNumber var="nowNum" value="${todayDate.time / (1000*60*60*24)}" integerOnly="true"/>
 	        	<c:forEach var="resVo" items="${resList}">
 	        		<tr>
 	        			<td class="text-center">
-	        				<c:if test="${resVo.check_in > today}">
-	        					<input type="button" class="btn btn-dark btn-sm" value="예약취소">
-	        				</c:if>
-	        				<c:if test="${resVo.check_out < today}">
-	        					<input type="button" class="btn btn-warning btn-sm" value="구매확정">
-	        				</c:if>
+	        				<fmt:parseDate var="checkInDate" value="${resVo.check_in}" pattern="yyyy-MM-dd"/>
+	        				<fmt:parseNumber var="checkInNum" value="${checkInDate.time / (1000*60*60*24)}" integerOnly="true"/>
+	        				<c:choose>
+	        					<c:when test="${checkInNum - nowNum >= 7}">
+		        					<input type="button" class="btn btn-outline-dark btn-sm" value="예약취소">
+	        					</c:when>
+	        					<c:when test="${checkInNum - nowNum < 7 && resVo.check_out >= today}">
+		        					<input type="button" class="btn btn-danger btn-sm" value="취소불가" disabled>
+	        					</c:when>
+	        					<c:otherwise>
+			        				<c:if test="${resVo.check_out < today}">
+			        					<input type="button" class="btn btn-warning btn-sm" value="구매확정">
+			        				</c:if>
+	        					</c:otherwise>
+	        				</c:choose>
 	        			</td>
 	        			<td class="text-center">${resVo.idx}</td>
 	        			<td>${resVo.lodVo.lod_name}</td>
@@ -143,7 +154,7 @@
 	        		</tr>
 	        	</c:forEach>
 	        </table>
-	        <div style="font-size:0.9em; color:grey; margin-top:8px"><i class="fa-solid fa-circle-exclamation"></i><font color="red"> 예약취소시 사용한 포인트는 재적립 되지 않습니다.</font></div>
+	        <div style="font-size:0.9em; color:grey; margin-top:8px"><i class="fa-solid fa-circle-exclamation"></i> 체크인 날짜로부터 일주일 전까지만 취소가 가능하며,<font color="red"> 예약취소시 사용한 포인트는 재적립 되지 않습니다.</font></div>
 	    </form>
         <p><br></p>
         </div>

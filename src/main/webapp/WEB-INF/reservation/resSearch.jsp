@@ -36,15 +36,39 @@
 		function searchCheck() {
 			let checkIn = document.getElementById("checkIn").value;
 			let checkOut = document.getElementById("checkOut").value;
+			let peopleNum = document.getElementById("peopleNum").value;
 			
-			if(checkIn > checkOut) {
-				alert("숙박 시작날짜는 마지막날짜보다 늦을 수 없습니다.");
+			let regDate = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+			
+			if(checkIn != "" && checkOut != "") {
+				if(!regDate.test(checkIn)) {
+					alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+					document.getElementById("checkIn").focus();
+					return false;
+				}
+				else if(!regDate.test(checkOut)) {
+					alert("입력하신 날짜가 날짜형식에 맞지 않습니다.");
+					document.getElementById("checkOut").focus();
+					return false;
+				}
+				else if(checkIn == checkOut) {
+					alert("체크인 날짜와 체크아웃 날짜가 같습니다. 1박 이상으로 선택해주세요.");
+					document.getElementById("checkOut").focus();
+					return false;
+				}
+			}
+			if(peopleNum <= 0) {
+				alert("숙박인원은 1명 이상부터 검색가능합니다.");
+				document.getElementById("peopleNum").focus();
 				return false;
 			}
-			else {
-				myForm.submit();
+			else if(peopleNum == "") {
+				alert("숙박인원을 입력해주세요.");
+				document.getElementById("peopleNum").focus();
+				return false;
 			}
 			
+			myForm.submit();
 		}
 	</script>
 	<style>
@@ -56,15 +80,50 @@
 	.houses a:hover {
 		color:black;
 	}
+	@media screen and (max-width:1000px) { 
+	 	#category {
+	 		display: none;
+	 	}
+	 }
 	</style>
 </head>
 <body>
 <%@ include file="/include/nav2.jsp" %>
 <div class="container" style="max-width:1500px;">
+	<div id="category" style="margin-top: 40px;">
+		<h3 style="text-align: center; margin-bottom: 30px;">Lodging Houses</h3>
+	  <!--  <h5 class="text-center">Choose a theme!</h5> -->
+	    <div style="text-align: center">
+		    <span><i class="fa-solid fa-palette" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>&nbsp;&nbsp;<i class="fa-solid fa-campground" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-igloo" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-umbrella-beach" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-brands fa-fort-awesome" style="font-size:32px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-house-flood-water" style="font-size:32px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-dungeon" style="font-size:32px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-water-ladder" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><span class="iconify" data-icon="icon-park:dome" style="font-size:32px; margin-bottom: 8px;"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><span class="iconify" data-icon="emojione-monotone:palm-tree" style="font-size:32px; margin-bottom: 8px;"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><span class="iconify" data-icon="emojione-monotone:house-with-garden" style="font-size:32px; margin-bottom: 8px;"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span><i class="fa-solid fa-panorama" style="font-size:30px;"></i></span><br>
+		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>디자인</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>캠핑장</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>북극</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>해변근처</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>캐슬</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>호숫가</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>동굴</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>멋진수영장</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		    <span>돔하우스</span>&nbsp;&nbsp;
+		    <span>열대지역</span>&nbsp;&nbsp;
+		    <span>한적한시골</span>&nbsp;&nbsp;
+		    <a href="#"><span>최고의전망</span></a>&nbsp;&nbsp;
+	    </div>
+	 </div>
 	<div style="margin-top:20px; margin-left:10px;">
 		<h3><strong>Search</strong></h3>
 	</div>
-	<form>
+	<form name="myForm" action="${ctp}/resSearch.res">
 	  <div class="w3-row-padding">
 	    <div class="w3-col m3">
 	      <label><i class="fa fa-calendar-o"></i> Check In</label>
@@ -77,12 +136,12 @@
 	    <div class="w3-col m2">
 	      <label><i class="fa-solid fa-map-location-dot"></i>&nbsp; 지역 </label>
 	      <select class="w3-select w3-border" name="area" title="숙박할 지역">
-            	<option value="어디든지" ${area == 106 ? 'selected' : '' }>어디든지</option>
-            	<option value="유럽" ${area == 100 ? 'selected' : '' }>유럽</option>
-            	<option value="아시아" ${area == 101 ? 'selected' : '' }>아시아</option>
-            	<option value="미국" ${area == 102 ? 'selected' : '' }>미국</option>
-            	<option value="프랑스" ${area == 103 ? 'selected' : '' }>프랑스</option>
-            	<option value="이탈리아" ${area == 104 ? 'selected' : '' }>이탈리아</option>
+            	<option value="106" ${area == 106 ? 'selected' : '' }>어디든지</option>
+            	<option value="100" ${area == 100 ? 'selected' : '' }>유럽</option>
+            	<option value="101" ${area == 101 ? 'selected' : '' }>아시아</option>
+            	<option value="102" ${area == 102 ? 'selected' : '' }>미국</option>
+            	<option value="103" ${area == 103 ? 'selected' : '' }>프랑스</option>
+            	<option value="104" ${area == 104 ? 'selected' : '' }>이탈리아</option>
             </select>
 	    </div>
 	    <div class="w3-col m2">
@@ -91,10 +150,11 @@
 	    </div>
 	    <div class="w3-col m2">
 	      <label><i class="fa fa-search"></i></label>
-	      <button class="w3-button w3-block w3-black">Search</button>
+	      <button class="w3-button w3-block w3-black w3-hover-black" onclick="searchCheck()">Search</button>
 	    </div>
 	  </div>
 	</form>
+	
 
 	<div class="w3-row-padding w3-padding-16 houses">
    <c:forEach var="lodVO" items="${lodVos}">
@@ -102,7 +162,7 @@
    	 	  	
 	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
-	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
+	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>
 	        <h6><b>￦<fmt:formatNumber value="${priceFmt}"/>/박</b></h6>
 	        <p class="w3-opacity">

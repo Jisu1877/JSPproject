@@ -31,6 +31,6 @@
   <% if(level == 0) { %>
 		<a href="<%=request.getContextPath()%>/adminHome.ad" class="w3-bar-item w3-btn w3-right w3-black w3-hover-theme w3-mobile">Admin</a>
   <% } else if(level == 99) { %>
-  		<a href="<%=request.getContextPath()%>/termsOfService.mem" class="w3-bar-item w3-btn w3-right w3-light-grey w3-mobile">Join</a>
+  		<a href="<%=request.getContextPath()%>/termsOfService.mem" class="w3-bar-item w3-btn w3-right w3-black w3-hover-theme w3-mobile">Join</a>
   <% } %>
 </div>

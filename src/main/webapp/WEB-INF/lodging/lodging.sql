@@ -81,3 +81,19 @@ create table lod_detail_category (
 );
 
 select * from lodging l LEFT JOIN lod_option lo ON l.idx = lo.lod_idx;
+
+select * from lodging l LEFT JOIN lod_option lo ON l.idx = lo.lod_idx LEFT JOIN reservation re ON l.idx = re.lod_idx where del_yn = 'n' and l.idx = (select re.lod_idx from reservation group by re.lod_idx order by count(*) desc limit 0, 3);
+select * from lodging l LEFT JOIN lod_option lo ON l.idx = lo.lod_idx where del_yn = 'n' and l.idx IN (select lod_idx from reservation group by lod_idx order by count(*) desc limit 0, 3);
+
+select *, count(create_date) as cnt from reservation group by lod_idx order by cnt desc limit 0, 3;
+select *, count(*) as cnt from reservation group by check_in order by cnt desc limit 0, 3;
+select *, count(*) as cnt from reservation group by create_date order by cnt desc limit 0, 3;
+
+select * from reservation;
+
+select l.*, lo.* from reservation r 
+join lodging l
+on r.lod_idx = l.idx
+join lod_option lo
+on r.lod_idx = lo.lod_idx
+group by lod_idx order by count(*) desc limit 0, 3;

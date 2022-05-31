@@ -492,6 +492,9 @@ a {
 		      </div>
 		    </div>
 		    <hr>
+		    <div class="text-left">
+		    	<a class="w3-button w3-black w3-hover-black" onclick="history.back();">돌아가기</a>
+		    </div>
 		    
 		    
 	  </div>

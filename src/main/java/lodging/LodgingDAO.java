@@ -30,15 +30,84 @@ public class LodgingDAO {
 	ReservationVO resVo = null;
 	
 	//숙소 정보 모두 가져오기(최신자료순)
-	public ArrayList<LodgingVO> getLodList() {
+	public ArrayList<LodgingVO> getLodList(int i) {
 
 		ArrayList<LodgingVO> lodVos = new ArrayList<LodgingVO>();
 		try {
-			sql = "select * from lodging l " + 
-				  "LEFT JOIN lod_option lo " +
-				  "ON l.idx = lo.lod_idx " + 
-				  "where del_yn = 'n' " +
-				  "order by l.idx desc";
+			//전체조회
+			if(i == 0) {
+				sql = "select * from lodging l " + 
+						"LEFT JOIN lod_option lo " +
+						"ON l.idx = lo.lod_idx " + 
+						"where del_yn = 'n'"; 
+						//+"order by l.idx desc";
+			}
+			//신규등록 3개 가져오기
+			else {
+				sql = "select * from lodging l " + 
+						"LEFT JOIN lod_option lo " +
+						"ON l.idx = lo.lod_idx " + 
+						"where del_yn = 'n' " +
+						"order by l.idx desc limit 0, 3";
+			}
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				lodVo = new LodgingVO();
+				
+				lodVo.setIdx(rs.getInt("idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				lodVo.setRating(rs.getDouble("rating"));
+				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
+				
+				optVo = new OptionVO();
+				optVo.setOpt_idx(rs.getInt("opt_idx"));
+				optVo.setLod_idx(rs.getInt("lod_idx"));
+				optVo.setAir_conditioner(rs.getString("air_conditioner"));
+				optVo.setTv(rs.getString("tv"));
+				optVo.setWifi(rs.getString("wifi"));
+				optVo.setWasher(rs.getString("washer"));
+				optVo.setKitchen(rs.getString("kitchen"));
+				optVo.setHeating(rs.getString("heating"));
+				optVo.setToiletries(rs.getString("toiletries"));
+				optVo.setBedroom(rs.getInt("bedroom"));
+				optVo.setBed(rs.getInt("bed"));
+				optVo.setBathroom(rs.getInt("bathroom"));
+				
+				lodVo.setOption(optVo);
+				
+				lodVos.add(lodVo);
+			} 
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return lodVos;
+	}
+	
+	//Best숙소알아오기
+	public ArrayList<LodgingVO> getBestLodList() {
+		ArrayList<LodgingVO> lodVos = new ArrayList<LodgingVO>();
+		try {
+			sql = "select l.*, lo.* from reservation r " + 
+					"join lodging l " +
+					"on r.lod_idx = l.idx " + 
+					"join lod_option lo " + 
+					"on r.lod_idx = lo.lod_idx " + 
+					"group by lod_idx order by count(*) desc limit 0, 3"; 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
