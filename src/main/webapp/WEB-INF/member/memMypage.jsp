@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<% pageContext.setAttribute("newLine", "\n");  %>
 <% 
 	Date today = new Date();
 	SimpleDateFormat sf = new SimpleDateFormat("YYYY-MM-dd");
@@ -31,6 +32,80 @@
 	  		white-space:nowrap;
 	  	}
     </style>
+    <script>
+    	function stateChange(lodIdx,memIdx,checkIn,checkOut,flag) {
+    		if(flag == 0) {
+				let ans = confirm("해당 예약을 취소하시겠습니까?");
+				if(!ans) return false;
+    		}
+    		else {
+    			let ans = confirm("해당 예약을 구매확정하시겠습니까?");
+				if(!ans) return false;
+    		}
+			
+			let query = {
+				lodIdx : lodIdx,
+				memIdx : memIdx,
+				checkIn : checkIn,
+				checkOut : checkOut,
+				flag : flag
+			}
+			$.ajax({
+				type : "post",
+				url : "${ctp}/stateChange.res",
+				data : query,
+				success : function(data) {
+					if(data == "cancelOk") {
+						alert("예약취소가 완료되었습니다.");
+						location.reload();
+					}
+					else if(data == "confirmationOk") {
+						alert("구매확정이 완료되었습니다.");
+						let ans = confirm("리뷰 작성 창으로 이동하시겠습니까?\n리뷰작성시 500Point가 적립됩니다.");
+						if(!ans) {
+							location.reload();
+						}else {
+							location.href="${ctp}/writeAreview.lod?lodIdx="+lodIdx+"&memIdx="+memIdx+"&checkIn="+checkIn+"&checkOut="+checkOut;
+						} 
+					}
+					else if(data == "cancelNo") {
+						alert("예약 취소 처리 실패.");
+					}
+					else {
+						alert("구매확정 처리 실패.");
+					}
+				},
+				error : function () {
+					alert("전송실패");
+				}
+			});
+		}
+    	
+    	function reviewDel(idx) {
+    		let ans = confirm("해당 리뷰를 삭제하시겠습니까?");
+    		if(!ans) return false;
+    		
+    		$.ajax({
+				type : "post",
+				url : "${ctp}/reviewDel.lod",
+				data : {idx : idx},
+				success : function(data) {
+					if(data == "reviewDelOk") {
+						alert("리뷰가 삭제되었습니다.");
+						location.reload();
+					}
+					else {
+						alert("리뷰 삭제 처리 실패.");
+					}
+				},
+				error : function () {
+					alert("전송실패");
+				}
+			});
+    		
+    	}
+    	
+    </script>
 </head>
 <body>
 <%@ include file="/include/nav2.jsp" %>
@@ -104,13 +179,13 @@
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <div class="w3-padding-16">
 	        <i class="fa-solid fa-person-walking-luggage w3-margin-right w3-text-amber" style="font-size:30px;"></i><span style="font-size:30px;">Reservation List</span>
-	        &nbsp;&nbsp;<span style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 구매확정 후 리뷰작성시 포인트가 적립됩니다.</span>
+	        &nbsp;&nbsp;<span style="font-size:0.9em; color:grey; margin-top:0px"><i class="fa-solid fa-circle-exclamation"></i> 구매확정을 진행하시면 구매포인트가 적립됩니다.😊 리뷰작성시 500Point 추가지급❤️!</span>
         </div>
         <div class="w3-responsive tableStyle">
         <form name="myForm" method="post" action="">
 	        <table class="w3-table w3-striped w3-bordered" style="width:auto;">
 	        	<tr>
-	        		<th></th>
+	        		<th class="text-center">✔</th>
 	        		<th class="text-center">예약번호</th>
 	        		<th class="text-center">숙소명</th>
 	        		<th class="text-center">체크인</th>
@@ -127,16 +202,27 @@
 	        				<fmt:parseDate var="checkInDate" value="${resVo.check_in}" pattern="yyyy-MM-dd"/>
 	        				<fmt:parseNumber var="checkInNum" value="${checkInDate.time / (1000*60*60*24)}" integerOnly="true"/>
 	        				<c:choose>
-	        					<c:when test="${checkInNum - nowNum >= 7}">
-		        					<input type="button" class="btn btn-outline-dark btn-sm" value="예약취소">
+	        					<c:when test="${checkInNum - nowNum >= 7 && resVo.cancel_yn == 'n'}">
+		        					<input type="button" class="btn btn-outline-dark btn-sm" onclick="stateChange(${resVo.lodVo.idx},${mIdx},'${resVo.check_in}','${resVo.check_out}',0)" value="예약취소">
 	        					</c:when>
-	        					<c:when test="${checkInNum - nowNum < 7 && resVo.check_out >= today}">
+	        					<c:when test="${checkInNum - nowNum < 7 && resVo.check_out > today && resVo.cancel_yn == 'n'}">
 		        					<input type="button" class="btn btn-danger btn-sm" value="취소불가" disabled>
 	        					</c:when>
+	        					<c:when test="${resVo.cancel_yn == 'y'}">
+		        					<input type="button" class="btn btn-secondary btn-sm" value="취소완료" disabled>
+	        					</c:when>
 	        					<c:otherwise>
-			        				<c:if test="${resVo.check_out < today}">
-			        					<input type="button" class="btn btn-warning btn-sm" value="구매확정">
-			        				</c:if>
+	        						<c:choose>
+				        				<c:when test="${resVo.check_in < today && resVo.state == '사용완료'}">
+				        					<input type="button" class="btn btn-warning btn-sm" onclick="stateChange(${resVo.lodVo.idx},${mIdx},'${resVo.check_in}','${resVo.check_out}',1)" value="구매확정">
+				        				</c:when>
+				        				<c:when test="${resVo.review == '필요'}">
+				        					<input type="button" class="btn btn-success btn-sm" onclick="location.href='${ctp}/writeAreview.lod?lodIdx=${resVo.lodVo.idx}&memIdx=${mIdx}&checkIn=${resVo.check_in}&checkOut=${resVo.check_out}&lod_name=${resVo.lodVo.lod_name}'" value="리뷰작성">
+				        				</c:when>
+				        				<c:otherwise>
+				        					<input type="button" class="btn btn-light btn-sm" value="작성완료" disabled>		
+				        				</c:otherwise>
+			        				</c:choose>
 	        					</c:otherwise>
 	        				</c:choose>
 	        			</td>
@@ -144,11 +230,12 @@
 	        			<td>${resVo.lodVo.lod_name}</td>
 	        			<td>${resVo.check_in}</td>
 	        			<td>${resVo.check_out}</td>
-	        			<td>${resVo.number_guests} 명</td>
+	        			<td class="text-center">${resVo.number_guests} 명</td>
 	        			<td><fmt:formatNumber value="${resVo.payment_price}"/>원</td>
 	        			<td>
 	        				<c:if test="${resVo.state == '예약'}"><font color="red">${resVo.state}</font></c:if>
-	        				<c:if test="${resVo.state == '사용완료'}">${resVo.state}</c:if>
+	        				<c:if test="${resVo.state == '사용완료' || resVo.state == '확정완료'}">${resVo.state}</c:if>
+	        				<c:if test="${resVo.state == '예약취소'}"><font color="gray">${resVo.state}</font></c:if>
 	        				<c:if test="${resVo.state == '사용중'}"><font color="blue">${resVo.state}</font></c:if>
 	        			</td>
 	        		</tr>
@@ -159,28 +246,44 @@
         <p><br></p>
         </div>
       </div>
-
       <div class="w3-container w3-card w3-white">
         <h2 class="w3-text-black w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-amber"></i>Review</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>W3Schools.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-          <p>Web Development! All I need to know in one place</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>London Business School</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-          <p>Master Degree</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>School of Coding</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2010 - 2013</h6>
-          <p>Bachelor Degree</p><br>
-        </div>
+       		<c:forEach var="review" items="${reviewList}">
+       			<div class="w3-container">
+       				<div class="w3-row mb-2">
+	       				<div class="w3-opacity">
+	       					<div class="w3-third">
+	       						<b>숙소명 : </b> ${review.lodVo.lod_name} &nbsp;&nbsp;
+	       					</div>
+	       					<div class="w3-third text-right">
+	       						<b>작성일 : </b> ${fn:substring(review.create_date, 0,19)}
+	       					</div> 
+	       					<div class="w3-third text-right">
+	       						<button class="btn w3-button w3-small w3-black" onclick="reviewDel(${review.idx});">삭제하기</button>
+	       					</div> 
+	       				</div>
+	       			</div>
+       				<div class="w3-row">
+       					<div class="w3-half mb-1">
+       						<div style="font-size: 18px; color:orange">${review.review_subject}</div>
+       					</div> 
+       					<div class="w3-half">
+       						<i class="fa-solid fa-star w3-text-amber"></i> 평점 : 
+	       					 <c:if test="${review.rating == 5}">★★★★★</c:if> 
+	       					 <c:if test="${review.rating == 4}">★★★★</c:if> 
+	       					 <c:if test="${review.rating == 3}">★★★</c:if> 
+	       					 <c:if test="${review.rating == 2}">★★</c:if> 
+	       					 <c:if test="${review.rating == 1}">★</c:if> 
+       					</div>
+	       			</div>
+	       			<div id="moreCont">
+	       				<c:if test="${fn:indexOf(review.review_contents,newLine) != -1}">${fn:replace(review.review_contents,newLine,"<br>")}</c:if>
+			  		    <c:if test="${fn:indexOf(review.review_contents,newLine) == -1}">${review.review_contents}</c:if>
+	       			</div>
+       				<hr>
+      				</div>
+       		</c:forEach>
       </div>
-
     <!-- End Right Column -->
     </div>
     

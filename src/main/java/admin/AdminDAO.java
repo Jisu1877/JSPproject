@@ -50,8 +50,6 @@ public class AdminDAO {
 				lodVo.setNumber_guests(rs.getInt("number_guests"));
 				lodVo.setCreate_date(rs.getString("create_date"));
 				lodVo.setDel_yn(rs.getString("del_yn"));
-				lodVo.setRating(rs.getDouble("rating"));
-				lodVo.setRatingCnt(rs.getInt("ratingCnt"));
 			}
 		} catch (SQLException e) {
 			System.out.println("sql 에러" + e.getMessage());
@@ -65,7 +63,7 @@ public class AdminDAO {
 	public int setLodInput(LodgingVO lodVO) {
 		int lodRes = 0;
 		try {
-			sql = "insert into lodging values(default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, null, null)";
+			sql = "insert into lodging values(default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, lodVO.getFile_name());
 			pstmt.setString(2, lodVO.getSave_file_name());

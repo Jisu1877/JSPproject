@@ -1,3 +1,4 @@
+<%@page import="lodging.reviewVO"%>
 <%@page import="lodging.LodgingDAO"%>
 <%@page import="lodging.OptionVO"%>
 <%@page import="lodging.LodgingVO"%>
@@ -18,6 +19,9 @@
 	
 	//숙소 BEST3
 	ArrayList<LodgingVO> BestLodVos = lodDao.getBestLodList();
+	
+	//리뷰정보 가져오기(평점평균/리뷰개수)
+	//ArrayList<reviewVO> reviewList = lodDao.getReviewList("노출만");
 	
 	pageContext.setAttribute("lodVos", lodVos);
 	pageContext.setAttribute("NewLodVos", NewLodVos);
@@ -50,7 +54,7 @@
 <div class="w3-content" style="max-width:1500px;">
   <div class="w3-container w3-margin-top" id="houses">
   	<div>
-	   <h3><strong>BEST Houses 3</strong></h3>
+	   <h3><strong>BEST 6 Houses</strong></h3>
   	</div>
   </div>
   <div class="w3-row-padding w3-padding-16 houses">
@@ -58,7 +62,15 @@
 	   <div class="w3-third w3-margin-bottom">
 	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
-	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
+	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" >
+	        <h3 class="mt-2" style="font-size: 17px;">
+	        	${lodVO.address} &nbsp;&nbsp;&nbsp;&nbsp;
+	        </h3></a>
+        	<div class="mb-2">
+        		<i class="fa-solid fa-star" style="font-size: 18px;"><span style="font-size: 18px;"> ${lodVO.rating}&nbsp;/&nbsp;5</span></i>
+        	</div>
+	        
+	        </a>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>
 	        <h6><b>￦<fmt:formatNumber value="${priceFmt}"/>/박</b></h6>
 	        <p class="w3-opacity">
@@ -94,7 +106,7 @@
   </div>
   <div class="w3-container w3-margin-top" id="houses">
   	<div>
-	   <h3><strong>NEW Houses 3</strong></h3>
+	   <h3><strong>NEW 3 Houses</strong></h3>
   	</div>
   </div>
   <div class="w3-row-padding w3-padding-16 houses">
@@ -102,7 +114,14 @@
 	   <div class="w3-third w3-margin-bottom">
 	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
-	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
+	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" >
+	        <h3 class="mt-2" style="font-size: 17px;">
+		        	${lodVO.address} &nbsp;&nbsp;&nbsp;&nbsp;
+	        </h3></a>
+        	<div class="mb-2">
+        		<i class="fa-solid fa-star" style="font-size: 18px;"><span style="font-size: 18px;"> ${lodVO.rating}&nbsp;/&nbsp;5</span></i>
+        	</div>
+	        </a>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>
 	        <h6><b>￦<fmt:formatNumber value="${priceFmt}"/>/박</b></h6>
 	        <p class="w3-opacity">
@@ -140,7 +159,7 @@
   
   <div class="w3-container w3-margin-top" id="houses">
   	<div id="noneCategory">
-	   <h3>Lodging Houses</h3>
+	   <h3><strong>Lodging Houses</strong></h3>
 	  <p>Happiness & Rest & Peace is our slogan. We offer the best fantastic experience. Sleep well and rest well and experience fantasy.</p>
   	</div>
   </div>
@@ -149,7 +168,13 @@
 	   <div class="w3-third w3-margin-bottom">
 	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
-	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
+		        <a href="lodInfor.lod?lodIdx=${lodVO.idx}" >
+		        <h3 class="mt-2" style="font-size: 17px;">
+		        	${lodVO.address} &nbsp;&nbsp;&nbsp;&nbsp;
+		        </h3></a>
+	        	<div class="mb-2">
+	        		<i class="fa-solid fa-star" style="font-size: 18px;"><span style="font-size: 18px;"> ${lodVO.rating}&nbsp;/&nbsp;5</span></i>
+	        	</div>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>
 	        <h6><b>￦<fmt:formatNumber value="${priceFmt}"/>/박</b></h6>
 	        <p class="w3-opacity">

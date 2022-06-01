@@ -33,6 +33,8 @@ public class AdminController extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		else if(com.equals("adminHome")) {
+			command = new AdminHomeCommand();
+			command.execute(request, response); 
 			viewPage += "/admin/adminHome.jsp";
 		}
 		else if(com.equals("lod_management")) {

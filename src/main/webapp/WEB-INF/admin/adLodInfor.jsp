@@ -15,16 +15,31 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 	<script type="text/javascript">
-		function memDelete(idx) {
-			let ans = confirm("해당 회원을 탈퇴처리 하시겠습니까?");
+		function lodDelete(lodIdx) {
+			let ans = confirm("해당 숙소를 정말 판매중지하시겠습니까?");
+			if(!ans) return false;
 			
-			if(!ans) {
-				return false;
-			}
-			else {
-				$('input[name="idx"]').val(idx);
-				$('form[name="deleteForm"]').submit();
-			}
+			$.ajax({
+	   			type : "post",
+	   			url : "${ctp}/lodDeleteCommand",
+	   			data : {lodIdx : lodIdx},
+	   			success : function(data) {
+	   				if(data == "exist") {
+	   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 진행하세요.");
+	   					return false;
+	   				}
+	   				else if(data == "deleteOk") {
+						alert("판매중지처리 완료.");
+						location.reload();
+					}
+					else {
+						alert("숙소 판매중지 처리에 실패했습니다.");
+					}
+	   			},
+				error : function() {
+					alert("전송오류.");
+				}
+	   		});
 		}
 		
 		function moreContent() {
@@ -199,6 +214,12 @@
 								<c:if test="${lodVo.del_yn == 'n'}">판매중</c:if>
 			         		</td>
 			         	</tr>
+			         	<tr>
+			         		<td class="title">평점평균</td>
+			         		<td>
+			         			<i class="fa-solid fa-star" style="font-size: 13px;"><span style="font-size: 13px;"> ${lodVo.rating}&nbsp;/&nbsp;5점</span></i>
+			         		</td>
+			         	</tr>
 			         </table>
 	            </div>
 	          </div>
@@ -206,10 +227,10 @@
 	      </div>
 	      <div style="text-align: center" class="mt-3">
 	      		<c:if test="${lodVo.del_yn == 'n'}">
-		            <a class="w3-button w3-black" href="lodUpdate.ad?lodIdx=${param.lodIdx}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
-		            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 숙소삭제</a> &nbsp;&nbsp;
+		            <a class="w3-button w3-black w3-hover-black" href="lodUpdate.ad?lodIdx=${param.lodIdx}&pag=${param.pag}&pageSize=${param.pageSize}"> 숙소정보 수정</a> &nbsp;&nbsp;
+		            <a class="w3-button w3-black w3-hover-black" onclick="lodDelete(${lodVo.idx});"> 판매중지</a> &nbsp;&nbsp;
 	            </c:if>
-	            <a href="${ctp}/lod_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 목록으로</a> 
+	            <a href="${ctp}/lod_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme w3-hover-yellow"> 목록으로</a> 
 	        </div>     
        	</div>  
        	 <div class="w3-col m7 l7 w3-margin-bottom">

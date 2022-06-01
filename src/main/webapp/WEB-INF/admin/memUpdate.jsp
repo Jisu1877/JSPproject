@@ -352,8 +352,8 @@
 			  </div>
 			  <p><br></p>
 		      <p style="text-align: center;">
-		      <button class="w3-button w3-black w3-padding-large" type="button" onclick="fCheck()">수정하기</button>
-		      <button class="w3-button w3-black w3-padding-large" type="button" onclick="location.href='${ctp}/memInfor.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}';">돌아가기</button>
+		      <button class="w3-button w3-theme w3-hover-yellow" type="button" onclick="fCheck()">수정하기</button>&nbsp;&nbsp;
+		      <button class="w3-button w3-black w3-hover-black" type="button" onclick="location.href='${ctp}/memInfor.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}';">돌아가기</button>
 		      </p>
 		      <input type="hidden" name="photo"/>
 			  <input type="hidden" name="email"/>

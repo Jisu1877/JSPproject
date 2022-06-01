@@ -37,6 +37,9 @@
     	else if(msg == "adMemDeleteNo") msg = "회원 탈퇴처리에 실패했습니다.";
     	else if(msg == "lodUpdateOk") msg = "숙소정보 수정이 완료되었습니다.";
     	else if(msg == "lodUpdateNo") msg = "숙소정보 수정에 실패했습니다.";
+    	else if(msg == "reviewInputOk") msg = "리뷰 등록이 완료되었습니다.\n500Point 지급완료!";
+    	else if(msg == "reviewInputNo") msg = "리뷰 등록에 실패했습니다.";
+    
     	
     	alert(msg);
     	if(url != "") location.href = url;

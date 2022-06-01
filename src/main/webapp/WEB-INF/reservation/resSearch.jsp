@@ -11,33 +11,46 @@
     <%@ include file="/include/bs4.jsp" %>
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     	<script>
-		$.datepicker.setDefaults({
-			  dateFormat: 'yy-mm-dd',
-			  prevText: '이전 달',
-			  nextText: '다음 달',
-			  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-			  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-			  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-			  showMonthAfterYear: true,
-			  yearSuffix: '년'
-			});	
-	
-		$(function() {
-			$('input[name="checkIn"]').datepicker({
-				minDate: new Date()
-			});
-			$('input[name="checkOut"]').datepicker({
-				minDate: new Date()
-			});
+    	$(document).ready(function(){       
+		       $( "#checkIn,#checkOut" ).datepicker({
+		    	   dateFormat: 'yy-mm-dd',
+					  prevText: '이전 달',
+					  nextText: '다음 달',
+					  monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					  monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+					  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+					  dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					  showMonthAfterYear: true,
+					  yearSuffix: '년',
+					  //beforeShowDay: disableSelectedDates
+		        });
+		       let today = new Date();
+		       today.setDate(today.getDate() + 1);
+		       
+		       $('#checkIn').datepicker("option", "minDate", today);
+		       $('#checkIn').datepicker("option", "maxDate", $("#checkOut").val());
+		       $('#checkIn').datepicker("option", "onClose", function (selectedDate){
+		           $("#checkOut").datepicker( "option", "minDate", selectedDate );
+		           });
+		       
+		       $('#checkOut').datepicker();
+		       $('#checkOut').datepicker("option", "minDate", $("#checkIn").val());
+		       $('#checkOut').datepicker("option", "onClose", function (selectedDate){
+		           $("#checkIn").datepicker( "option", "maxDate", selectedDate );
+		          });
 		});
 		
 		function searchCheck() {
 			let checkIn = document.getElementById("checkIn").value;
 			let checkOut = document.getElementById("checkOut").value;
-			let peopleNum = document.getElementById("peopleNum").value;
 			
+		/* 	if($("#peopleNum").val() ===  undefined){
+				alert("숙박인원을 입력해주세요.");
+				return false; 
+			} 
+			*/
+			let peopleNum = document.getElementById("peopleNum").value;
 			let regDate = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 			
 			if(checkIn != "" && checkOut != "") {
@@ -62,12 +75,18 @@
 				document.getElementById("peopleNum").focus();
 				return false;
 			}
-			else if(peopleNum == "") {
-				alert("숙박인원을 입력해주세요.");
+			else if(peopleNum == undefined) {
+				alert("숙박인원을 입력해주세요.2");
 				document.getElementById("peopleNum").focus();
 				return false;
 			}
-			
+			if($("#peopleNum").val() !==  undefined){
+				return true;
+			}
+		}
+		
+		function categorySearch(CategoryCode) {
+			document.getElementById("code").value = CategoryCode;
 			myForm.submit();
 		}
 	</script>
@@ -117,13 +136,13 @@
 		    <span>돔하우스</span>&nbsp;&nbsp;
 		    <span>열대지역</span>&nbsp;&nbsp;
 		    <span>한적한시골</span>&nbsp;&nbsp;
-		    <a href="#"><span>최고의전망</span></a>&nbsp;&nbsp;
+		    <a href="javascript:categorySearch(300);"><span>최고의전망</span></a>&nbsp;&nbsp;
 	    </div>
 	 </div>
 	<div style="margin-top:20px; margin-left:10px;">
 		<h3><strong>Search</strong></h3>
 	</div>
-	<form name="myForm" action="${ctp}/resSearch.res">
+	<form name="myForm" action="${ctp}/resSearch.res" onsubmit="return searchCheck()">
 	  <div class="w3-row-padding">
 	    <div class="w3-col m3">
 	      <label><i class="fa fa-calendar-o"></i> Check In</label>
@@ -146,13 +165,14 @@
 	    </div>
 	    <div class="w3-col m2">
 	      <label><i class="fa-solid fa-person-circle-question"></i>&nbsp; 인원</label>
-	      <input class="w3-input w3-border" type="number" value="${resVO.number_guests}" name="peopleNum" min="1" max="6" title="숙박할 인원">
+	      <input class="w3-input w3-border" type="number" value="${resVO.number_guests}" name="peopleNum" id="peopleNum" min="1" title="숙박할 인원">
 	    </div>
 	    <div class="w3-col m2">
 	      <label><i class="fa fa-search"></i></label>
-	      <button class="w3-button w3-block w3-black w3-hover-black" onclick="searchCheck()">Search</button>
+	      <button class="w3-button w3-block w3-black w3-hover-black" type="submit">Search</button>
 	    </div>
 	  </div>
+	  <input type="hidden" name="code" id="code" value=""/>
 	</form>
 	
 
@@ -162,7 +182,14 @@
    	 	  	
 	  	   <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" ><img src="${ctp}/data/lodging/${lodVO.save_file_name}" style="width:100%; height: 300px;"/></a>
 	      <div class="w3-container w3-white">
-	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" ><h3 class="mt-2" style="font-size: 17px;">${lodVO.address}</h3></a>
+	        <a href="lodInfor.lod?lodIdx=${lodVO.idx}&checkIn=${resVO.check_in}&checkOut=${resVO.check_out}" >
+	        <h3 class="mt-2" style="font-size: 17px;">
+	        	${lodVO.address} &nbsp;&nbsp;&nbsp;&nbsp;
+	        </h3></a>
+        	<div class="mb-2">
+        		<i class="fa-solid fa-star" style="font-size: 18px;"><span style="font-size: 18px;"> ${lodVO.rating}&nbsp;/&nbsp;5</span></i>
+        	</div>
+	        </a>
 	        <c:set var="priceFmt" value="${lodVO.price}"></c:set>
 	        <h6><b>￦<fmt:formatNumber value="${priceFmt}"/>/박</b></h6>
 	        <p class="w3-opacity">

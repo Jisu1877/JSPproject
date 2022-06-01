@@ -187,9 +187,9 @@
 	        </div>
 	      </div>
 	      <div style="text-align: center" class="mt-3">
-	            <a class="w3-button w3-black" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
-	            <a class="w3-button w3-black" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
-	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme"> 목록으로</a> 
+	            <a class="w3-button w3-black w3-hover-black" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
+	            <a class="w3-button w3-black w3-hover-black" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
+	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme w3-hover-yellow"> 목록으로</a> 
 	        </div>     
        	</div>  
        	 <div class="w3-col m2 l2 w3-margin-bottom"></div>

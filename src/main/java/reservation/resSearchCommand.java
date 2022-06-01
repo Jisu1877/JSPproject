@@ -18,6 +18,7 @@ public class resSearchCommand implements ReservationInterface {
 		String checkOut = request.getParameter("checkOut") == null ? "" : request.getParameter("checkOut");
 		int area = request.getParameter("area") == null ? 105 : Integer.parseInt(request.getParameter("area"));
 		int peopleNum = request.getParameter("peopleNum") == null ? 0 : Integer.parseInt(request.getParameter("peopleNum"));
+		int code = (request.getParameter("code") == null || request.getParameter("code").equals("")) ? 0 : Integer.parseInt(request.getParameter("code"));
 		
 		ReservationVO resvo = new ReservationVO();
 		resvo.setCheck_in(checkIn);
@@ -28,7 +29,7 @@ public class resSearchCommand implements ReservationInterface {
 		
 		LodgingDAO lodDao = new LodgingDAO();
 		// 예약날짜가 겹치는 숙소 제외 검색
-		ArrayList<LodgingVO> lodVos = lodDao.getLodList(checkIn, checkOut, area, peopleNum);
+		ArrayList<LodgingVO> lodVos = lodDao.getLodList(checkIn, checkOut, area, peopleNum, code);
 		
 		request.setAttribute("lodVos", lodVos);
 		request.setAttribute("resVO", resvo);

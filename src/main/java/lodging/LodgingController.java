@@ -36,11 +36,24 @@ public class LodgingController extends HttpServlet {
 			//command.execute(request, response); 
 			viewPage += "/lodging/lodInforTest.jsp";
 		}
-		/*
-		 * if(level != 99) { //세션이 끊겼으면 작업의 진행을 홈으로 보낸다.(비정상적인 접근) RequestDispatcher
-		 * dispatcher = request.getRequestDispatcher("/memLogin.mem");
-		 * dispatcher.forward(request, response); }
-		 */
+		else if(level == 99) { //세션이 끊겼으면 작업의 진행을 로그인으로
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/memLogin.mem");
+			dispatcher.forward(request, response);
+		}
+		else if(com.equals("writeAreview")) {
+			viewPage += "/lodging/writeAreview.jsp";
+		}
+		else if(com.equals("reviewInput")) {
+			command = new ReviewInputCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("reviewDel")) {
+			command = new ReviewDelCommand();
+			command.execute(request, response); 
+			return;
+		}
+		
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

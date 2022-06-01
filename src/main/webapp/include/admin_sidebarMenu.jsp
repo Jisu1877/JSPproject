@@ -7,9 +7,9 @@
     </div>
     <div class="w3-col s8 w3-bar">
       <span>Welcome, <strong>Admin</strong></span><br>
-      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+  <!--     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a> -->
     </div>
   </div>
   <hr>
@@ -23,6 +23,6 @@
     <a href="<%=request.getContextPath()%>/lod_management.ad" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-tents"></i>  숙소 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-calendar-check"></i>  예약 관리</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-file-pen"></i>  리뷰 관리</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  공지사항 관리</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell"></i>  공지사항 관리</a>
   </div>
 </nav>

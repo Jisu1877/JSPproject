@@ -1,4 +1,4 @@
-show tables;
+show javascript return false 안됨tables;
 
 create table lodging (
 	idx int not null auto_increment,
@@ -97,3 +97,23 @@ on r.lod_idx = l.idx
 join lod_option lo
 on r.lod_idx = lo.lod_idx
 group by lod_idx order by count(*) desc limit 0, 3;
+
+
+SELECT lod_idx, count(lod_idx) FROM reservation where lod_idx = 16 group by create_date;
+
+
+SELECT lod_idx, count(lod_idx) FROM reservation group by create_date;
+
+SELECT l.`*`, lo.`*`, COUNT(*) as cnt
+FROM (SELECT lod_idx, count(lod_idx) as cnt FROM reservation group by create_date) as a
+JOIN lodging l
+ON a.lod_idx = l.idx
+JOIN lod_option lo
+ON a.lod_idx = lo.lod_idx
+GROUP BY lod_idx
+ORDER BY cnt DESC
+LIMIT 3;
+
+
+
+

@@ -109,6 +109,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 a {
 	color : black;
 }
+#moreReview {
+	display: none;
+}
 
  @media screen and (max-width:1000px) { 
  	.slick-active {
@@ -318,6 +321,16 @@ a {
 			reservationForm.submit();
 		} 
 	}
+	 
+	 function moreReview() {
+		 document.getElementById("onlyOneReview").style.display = "none";
+		 document.getElementById("moreReview").style.display = "block";
+	}
+	 
+	 function shortReview() {
+		 document.getElementById("onlyOneReview").style.display = "block";
+		 document.getElementById("moreReview").style.display = "none";
+	}
 </script>
 </head>
 <body>
@@ -428,13 +441,78 @@ a {
 	    	    return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
 	    	}
 		}); 
-	
 	</script>
 	
   </div>
 
   <div class="w3-container" id="content">
 	  <div class="w3-col m6 l7">
+	  		<div style="margin-bottom:15px;">
+	  			<div class="mt-4 text-right" style="margin-right: 40px;">
+        			<i class="fa-solid fa-star" style="font-size: 25px; color:orange;"><span style="font-size: 25px;"> ${lodVo.rating}&nbsp;/&nbsp;5</span></i>
+        		</div>
+			  	 <h4><strong>Review</strong></h4>
+			  	 <c:if test="${reviewList.size() == 0}">작성된 리뷰가 없습니다.</c:if>
+			  	 <div id="onlyOneReview">
+			  	 	<c:set var="cnt" value="0"/>
+				    <c:forEach var="review" items="${reviewList}" begin="0" end="0" step="1">
+				    	<div class="w3-row">
+					    	 <div class="w3-half mb-1">
+					    		<img src="${ctp}/data/member/${review.member.save_file_name}" class="w3-circle" style="height:50px;width:50px">&nbsp;&nbsp;
+					    		${review.member.mid}
+					    	</div> 
+					    	<div class="w3-half mt-3">
+	       						<i class="fa-solid fa-star w3-text-amber"></i> 평점 : 
+		       					 <c:if test="${review.rating == 5}">★★★★★</c:if> 
+		       					 <c:if test="${review.rating == 4}">★★★★</c:if> 
+		       					 <c:if test="${review.rating == 3}">★★★</c:if> 
+		       					 <c:if test="${review.rating == 2}">★★</c:if> 
+		       					 <c:if test="${review.rating == 1}">★</c:if> 
+	       					</div>
+				    	</div>
+	    				<div class="mt-2 mb-1">
+	     					<div style="font-size: 18px; color:darkslateblue"><strong>${review.review_subject}</strong></div>
+	     				</div> 
+		       			<div style="margin-bottom: 10px;">
+		       				<c:if test="${fn:indexOf(review.review_contents,newLine) != -1}">${fn:replace(review.review_contents,newLine,"<br>")}</c:if>
+				  		    <c:if test="${fn:indexOf(review.review_contents,newLine) == -1}">${review.review_contents}</c:if>
+		       			</div>
+		       			<c:set var="cnt" value="${ctn + 1}"/>
+				    </c:forEach>
+				    <div>
+	       				<c:if test="${reviewList.size() > 1 || cnt > 1}"><a href="javascript:moreReview();" class="btn w3-amber btn-sm" >리뷰 더보기</a></c:if>
+	       			</div>
+       			</div>
+       			<div id="moreReview">
+       				<c:forEach var="review" items="${reviewList}">
+				    	<div class="w3-row">
+					    	 <div class="w3-half mb-1">
+					    		<img src="${ctp}/data/member/${review.member.save_file_name}" class="w3-circle" style="height:50px;width:50px">&nbsp;&nbsp;
+					    		${review.member.mid}
+					    	</div> 
+					    	<div class="w3-half mt-3">
+	       						<i class="fa-solid fa-star w3-text-amber"></i> 평점 : 
+		       					 <c:if test="${review.rating == 5}">★★★★★</c:if> 
+		       					 <c:if test="${review.rating == 4}">★★★★</c:if> 
+		       					 <c:if test="${review.rating == 3}">★★★</c:if> 
+		       					 <c:if test="${review.rating == 2}">★★</c:if> 
+		       					 <c:if test="${review.rating == 1}">★</c:if> 
+	       					</div>
+				    	</div>
+	    				<div class="mt-2 mb-1">
+	     					<div style="font-size: 18px; color:darkslateblue"><strong>${review.review_subject}</strong></div>
+	     				</div> 
+		       			<div style="margin-bottom: 10px;">
+		       				<c:if test="${fn:indexOf(review.review_contents,newLine) != -1}">${fn:replace(review.review_contents,newLine,"<br>")}</c:if>
+				  		    <c:if test="${fn:indexOf(review.review_contents,newLine) == -1}">${review.review_contents}</c:if>
+		       			</div>
+				    </c:forEach>
+				    <div>
+	       				<a href="javascript:shortReview();" class="btn w3-amber btn-sm" >접기</a>
+	       			</div>
+       			</div>
+       			
+		    </div>
 	  		<div style="margin-bottom:15px;">
 			  	 <h4><strong>Condition</strong></h4>
 			    <div class="w3-row w3-large">

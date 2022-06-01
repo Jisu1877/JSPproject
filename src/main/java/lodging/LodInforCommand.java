@@ -30,6 +30,9 @@ public class LodInforCommand implements LodgingInterface {
 		//idx에 해당하는 숙소 사진 파일 가져오기
 		ArrayList<FileVO> fileList = lodDao.getLodFile(idx);
 		
+		//리뷰 내용 가져오기
+		ArrayList<reviewVO> reviewList = lodDao.getReviewListLod(idx);
+		
 		//이미 예약되어있는 날짜 가져오기
 		ArrayList<ReservationVO> resList =  resDao.getLodStayDate(idx);
 		//Gson 형식으로 바꾸기
@@ -39,6 +42,7 @@ public class LodInforCommand implements LodgingInterface {
 		request.setAttribute("lodVo", lodVo);
 		request.setAttribute("fileList", fileList);
 		request.setAttribute("resList", resList);
+		request.setAttribute("reviewList", reviewList);
 		request.setAttribute("resListJson", jsonStr);
 		request.setAttribute("pag", pag);
 		request.setAttribute("pageSize", pageSize);

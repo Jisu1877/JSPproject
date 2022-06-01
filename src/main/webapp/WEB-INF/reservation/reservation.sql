@@ -14,6 +14,7 @@ create table reservation (
 	state varchar(10) default '예약',
 	cancel_yn varchar(1) default 'n',
 	create_date datetime default now(),
+	point int not null,
 	foreign key(lod_idx) references lodging(idx) on update cascade,
 	foreign key(mem_idx) references member(idx) on update cascade
 );

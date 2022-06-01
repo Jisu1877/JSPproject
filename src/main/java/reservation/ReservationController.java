@@ -47,6 +47,11 @@ public class ReservationController extends HttpServlet {
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
 		}
+		else if(com.equals("stateChange")) {
+			command = new StateChangeCommand();
+			command.execute(request, response);
+			return;
+		}
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

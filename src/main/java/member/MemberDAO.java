@@ -456,6 +456,83 @@ public class MemberDAO {
 			return vo;
 		}
 
+		// 구매확정 후 포인트 적립
+		public int givePoint(int memIdx, int point) {
+			int res = 0;
+			try {
+				sql = "update member set point = point + ? where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, point);
+				pstmt.setInt(2, memIdx);
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
+		}
+
+		// 리뷰작성 포인트 지급
+		public int setReviewPoint(int memIdx) {
+			int res = 0;
+			try {
+				sql = "update member set point = point + 500 where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, memIdx);
+				pstmt.executeUpdate();
+				res = 1;
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.pstmtClose();
+			}
+			return res;
+		}
+
+		//전체 정보 다 가져오기(탈퇴하지 않은 회원만)
+		public ArrayList<MemberVO> getMemList() {
+			ArrayList<MemberVO> memList = new ArrayList<MemberVO>();
+			try {
+				sql = "select *,timestampdiff(DAY, delete_date, NOW()) as applyDiff from member where del_yn = 'n' order by idx desc";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					vo = new MemberVO();
+					vo.setIdx(rs.getInt("idx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setPwd(rs.getString("pwd"));
+					vo.setName(rs.getString("name"));
+					vo.setGender(rs.getString("gender"));
+					vo.setTel(rs.getString("tel"));
+					vo.setEmail(rs.getString("email"));
+					vo.setFile_name(rs.getString("file_name"));
+					vo.setSave_file_name(rs.getString("save_file_name"));
+					vo.setPostcode(rs.getString("postcode"));
+					vo.setRoadAddress(rs.getString("roadAddress"));
+					vo.setDetailAddress(rs.getString("detailAddress"));
+					vo.setExtraAddress(rs.getString("extraAddress"));
+					vo.setCreate_date(rs.getString("create_date"));
+					vo.setLastDate(rs.getString("lastDate"));
+					vo.setLevel(rs.getInt("level"));
+					vo.setPoint(rs.getInt("point"));
+					vo.setAgreement(rs.getInt("agreement"));
+					vo.setDel_yn(rs.getString("del_yn"));
+					vo.setDelete_date(rs.getString("delete_date"));
+					vo.setApplyDiff(rs.getInt("applyDiff"));
+					
+					memList.add(vo);
+				}
+			} catch (SQLException e) {
+				System.out.println("sql 에러" + e.getMessage());
+			} finally {
+				getConn.rsClose();
+			}
+			return memList;
+		}
+
 
 
 

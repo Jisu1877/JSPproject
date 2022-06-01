@@ -72,7 +72,7 @@
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+<div class="w3-main" style="margin-left:280px;margin-top:43px;">
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
@@ -92,7 +92,7 @@
 							<option value="15" ${pageSize == 15 ? 'selected' : '' }>15건</option>
 							<option value="20" ${pageSize == 20 ? 'selected' : '' }>20건</option>
 						</select>
-				  		&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad';">숙소등록</button>
+				  		&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad?pag=${pag}&pageSize=${pageSize}';">숙소등록</button>
 		  			</td>
 		  		</tr>
 		  	</table>
@@ -102,6 +102,7 @@
 					<th>숙소명</th>
 					<th>등록일</th>
 					<th>상태</th>
+					<th>평점</th>
 					<th>비고</th>
 				</tr>
 				<c:forEach var="vo" items="${lodList}">
@@ -110,10 +111,13 @@
 						<td>
 							<a href="${ctp}/lodInfor.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.lod_name}</a>
 						</td>
-						<td>${fn:substring(vo.create_date, 0, 19)}</td>
+						<td>${fn:substring(vo.create_date, 0, 11)}</td>
 						<td>
 							<c:if test="${vo.del_yn == 'y'}"><font color="red">판매중지</font></c:if>
 							<c:if test="${vo.del_yn == 'n'}">판매중</c:if>
+						</td>
+						<td>
+							<i class="fa-solid fa-star" style="font-size: 13px;"><span style="font-size: 13px;"> ${vo.rating}&nbsp;/&nbsp;5</span></i>
 						</td>
 						<td>
 							<c:if test="${vo.del_yn == 'n'}">
