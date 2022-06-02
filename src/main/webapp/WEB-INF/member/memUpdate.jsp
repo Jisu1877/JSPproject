@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>회원정보 수정(관리자)</title>
+    <title>회원정보 수정</title>
     <%@ include file="/include/bs4.jsp" %>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
@@ -242,7 +242,6 @@
 				
 			}	
 		
-			
 	</script>
 	<style>
 	  /* 	.headerJoin {
@@ -260,24 +259,11 @@
 	  	#previewId {
 	  		margin-bottom: 5px;
 	  	}
-	  	a {
-	  		color : black;
-	  	}
 	</style>
 	
 </head>
-<body class="w3-light-grey">
-
-<!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right w3-white"><a href="${ctp}/">Home</a></span>
-</div>
-
-<%@ include file="/include/admin_sidebarMenu.jsp" %>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px; margin-top:43px;">
+<body>
+<%@ include file="/include/nav2.jsp" %>
 
 <p><br/><p>
   <div class="w3-container" id="contact">
@@ -288,7 +274,7 @@
 	<div class="w3-row-padding w3-padding-16">
 		<div class="w3-third w3-margin-bottom"></div>
 		<div class="w3-third w3-margin-bottom">
-		    <form name="myForm" method="post" action="${ctp}/memUpdateOk.ad" class="was-validated" enctype="multipart/form-data">
+		    <form name="myForm" method="post" action="${ctp}/memUpdateOk.mem" class="was-validated" enctype="multipart/form-data">
 		    	<div id="profile" style="text-align:center">
 		    		<label for="picture" style="font-size:16px; font-weight: bold; background-color:yellow;">Profile Picture</label>
 		    		<!-- <img id="previewImage" name="previewImage" src="images/noimage.jpg" width="200px"/><br><br> margin-top:0px"-->
@@ -397,11 +383,6 @@
 	    </div>
     </div>
   </div>
-  <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey text-center">
-    <p>Copyright © The Fantastic Lodging. All Rights reserved.</p>
-    <p>Happiness & Rest & Peace</p>
-  </footer>
- </div>
+<%@ include file="/include/footer.jsp" %>
 </body>
 </html>

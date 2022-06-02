@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>숙소 관리 페이지</title>
+<title>예약 관리 페이지</title>
 <%@ include file="/include/bs4.jsp" %>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,34 +26,7 @@
 	'use strict';
 	function pageCheck() {
 		let pageSize = $("#pageSize").val();
-		location.href="lod_management.ad?pag=${pag}&pageSize="+pageSize;
-	}
-	
-	function lodDelete(lodIdx) {
-		let ans = confirm("해당 숙소를 정말 판매중지하시겠습니까?");
-		if(!ans) return false;
-		
-		$.ajax({
-   			type : "post",
-   			url : "${ctp}/lodDeleteCommand",
-   			data : {lodIdx : lodIdx},
-   			success : function(data) {
-   				if(data == "exist") {
-   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 진행하세요.");
-   					return false;
-   				}
-   				else if(data == "deleteOk") {
-					alert("판매중지처리 완료.");
-					location.reload();
-				}
-				else {
-					alert("숙소 판매중지 처리에 실패했습니다.");
-				}
-   			},
-			error : function() {
-				alert("전송오류.");
-			}
-   		});
+		location.href="res_management.ad?pag=${pag}&pageSize="+pageSize;
 	}
 </script>
 </head>
@@ -76,13 +49,13 @@
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px; margin-left: 20px;">
-    <h5><b><i class="fa-solid fa-tents"></i> Lodging management</b></h5>
+    <h5><b><i class="fa-solid fa-calendar-check"></i> Reservation management</b></h5>
   </header>
   <section>
   	<div class="w3-row">
 	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
 	  	<div class="w3-col m10 l10 w3-margin-bottom">
-  			<h2 class="text-center"><i class="fa-solid fa-tents"></i> 숙소 관리</h2>
+  			<h2 class="text-center"><i class="fa-solid fa-calendar-check"></i> 예약 관리</h2>
 	  		<table class="table table-borderless">
 		  		<tr>
 		  			<td class="text-right" style="margin-bottom: 0px; padding-bottom: 0px">
@@ -92,38 +65,44 @@
 							<option value="15" ${pageSize == 15 ? 'selected' : '' }>15건</option>
 							<option value="20" ${pageSize == 20 ? 'selected' : '' }>20건</option>
 						</select>
-				  		&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad?pag=${pag}&pageSize=${pageSize}';">숙소등록</button>
 		  			</td>
 		  		</tr>
 		  	</table>
 		  	<table class="table table-hover text-center w3-white">
-				<tr class="w3-lime">
-					<th>번호</th>
-					<th>숙소명</th>
-					<th>등록일</th>
+				<tr class="w3-blue">
+					<th>예약번호</th>
+					<th>숙소번호</th>
+					<th>회원아이디</th>
+					<th>체크인</th>
+					<th>체크아웃</th>
+					<th>예약일</th>
 					<th>상태</th>
-					<th>평점</th>
 					<th>비고</th>
 				</tr>
-				<c:forEach var="vo" items="${lodList}">
+				<c:forEach var="res" items="${resList}">
 					<tr>
-						<td>${vo.idx}</td>
+						<td>${res.idx}</td>
 						<td>
-							<a href="${ctp}/lodInfor.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.lod_name}</a>
+							${res.lod_idx}
 						</td>
-						<td>${fn:substring(vo.create_date, 0, 11)}</td>
+						<td>${res.memVo.mid}</td>
 						<td>
-							<c:if test="${vo.del_yn == 'y'}"><font color="red">판매중지</font></c:if>
-							<c:if test="${vo.del_yn == 'n'}">판매중</c:if>
-						</td>
-						<td>
-							<i class="fa-solid fa-star" style="font-size: 13px;"><span style="font-size: 13px;"> ${vo.rating}&nbsp;/&nbsp;5</span></i>
+							<font color="green"><b>${res.check_in}</b></font>
 						</td>
 						<td>
-							<c:if test="${vo.del_yn == 'n'}">
-								<a class="btn btn-outline-secondary btn-sm" href="lodUpdate.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">수정</a>
-		  						<a class="btn btn-outline-danger btn-sm" onclick="lodDelete(${vo.idx});">판매중지</a>
-	  						</c:if>
+							<font color="rgb(2, 105, 2)"><b>${res.check_out}</b></font>
+						</td>
+						<td>
+							${fn:substring(res.create_date,0,11)}
+						</td>
+						<td>
+							<c:if test="${res.state == '예약'}"><font color="red">${res.state}</font></c:if>
+	        				<c:if test="${res.state == '사용완료' || res.state == '확정완료'}">${res.state}</c:if>
+	        				<c:if test="${res.state == '예약취소'}"><font color="gray">${res.state}</font></c:if>
+	        				<c:if test="${res.state == '사용중'}"><font color="blue">${res.state}</font></c:if>
+						</td>
+						<td>
+							<a href="adResInfor.ad?memIdx=${res.mem_idx}&lodIdx=${res.lod_idx}&checkIn=${res.check_in}&checkOut=${res.check_out}&pag=${pag}&pageSize=${pageSize}" class="btn btn-outline-dark btn-sm">조회</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -133,24 +112,24 @@
 			<div class="text-center">
 				<ul class="pagination justify-content-center pagination-sm">
 				  <c:if test="${pag > 1}">
-				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=1&pageSize=${pageSize}">◁◁</a></li>
+				  	<li class="page-item"><a class="page-link text-secondary" href="res_management.ad?pag=1&pageSize=${pageSize}">◁◁</a></li>
 				  </c:if>
 				  <c:if test="${curBlock > 0}">
-				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">◀</a></li>
+				  	<li class="page-item"><a class="page-link text-secondary" href="res_management.ad?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">◀</a></li>
 				  </c:if>
 				  <c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize)+blockSize}">
 				    <c:if test="${i <= totPage && i == pag}">
-				      <li class="page-item active"><a class="page-link text-light border-secondary bg-secondary" href="lod_management.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li>
+				      <li class="page-item active"><a class="page-link text-light border-secondary bg-secondary" href="res_management.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li>
 				    </c:if>
 				    <c:if test="${i <= totPage && i != pag}">
-				      <li class="page-item"><a class="page-link text-secondary" href='lod_management.ad?pag=${i}&pageSize=${pageSize}'>${i}</a></li>
+				      <li class="page-item"><a class="page-link text-secondary" href='res_management.ad?pag=${i}&pageSize=${pageSize}'>${i}</a></li>
 				    </c:if>
 				  </c:forEach>
 				  <c:if test="${curBlock < lastBlock}">
-				     <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock+1)*blockSize + 1}&pageSize=${pageSize}&pageSize=${pageSize}">▶</a></li>
+				     <li class="page-item"><a class="page-link text-secondary" href="res_management.ad?pag=${(curBlock+1)*blockSize + 1}&pageSize=${pageSize}&pageSize=${pageSize}">▶</a></li>
 				  </c:if>
 				  <c:if test="${pag != totPage}">
-					 <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${totPage}&pageSize=${pageSize}">▷▷</a></li>
+					 <li class="page-item"><a class="page-link text-secondary" href="res_management.ad?pag=${totPage}&pageSize=${pageSize}">▷▷</a></li>
 				  </c:if>
 				 </ul>
 			</div>

@@ -52,6 +52,16 @@ public class ReservationController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
+		else if(com.equals("resCancel")) {
+			command = new ResCancelCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("resInfor")) {
+			command = new ResInforCommand();
+			command.execute(request, response);
+			viewPage += "/reservation/resInfor.jsp";
+		}
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

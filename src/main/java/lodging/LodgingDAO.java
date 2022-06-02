@@ -729,6 +729,99 @@ public class LodgingDAO {
 		}
 		return reviewList;
 	}
-	
+
+	//리뷰 정보 가져오기 (리뷰+숙소+회원 테이블 Join)
+	public ArrayList<reviewVO> getReviewList(int startIndexNo, int pageSize) {
+		ArrayList<reviewVO> revList = new ArrayList<reviewVO>();
+		try {
+			sql = "select * from review re LEFT JOIN member m ON re.mem_idx = m.idx LEFT JOIN lodging l ON re.lod_idx = l.idx limit ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startIndexNo);
+			pstmt.setInt(2, pageSize);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				reviewVo = new reviewVO();
+				
+				reviewVo.setIdx(rs.getInt("re.idx"));
+				reviewVo.setLod_idx(rs.getInt("lod_idx"));
+				reviewVo.setMem_idx(rs.getInt("mem_idx"));
+				reviewVo.setRating(rs.getInt("rating"));
+				reviewVo.setReview_subject(rs.getString("review_subject"));
+				reviewVo.setReview_contents(rs.getString("review_contents"));
+				reviewVo.setExposure_yn(rs.getString("exposure_yn"));
+				reviewVo.setCreate_date(rs.getString("re.create_date"));
+				
+				lodVo = new LodgingVO();
+				
+				lodVo.setIdx(rs.getInt("l.idx"));
+				lodVo.setFile_name(rs.getString("file_name"));
+				lodVo.setSave_file_name(rs.getString("save_file_name"));
+				lodVo.setCategory_code(rs.getInt("category_code"));
+				lodVo.setSub_category_code(rs.getInt("sub_category_code"));
+				lodVo.setDetail_category_code(rs.getInt("detail_category_code"));
+				lodVo.setLod_name(rs.getString("lod_name"));
+				lodVo.setPrice(rs.getInt("price"));
+				lodVo.setCountry(rs.getString("country"));
+				lodVo.setAddress(rs.getString("address"));
+				lodVo.setExplanation(rs.getString("explanation"));
+				lodVo.setNumber_guests(rs.getInt("number_guests"));
+				lodVo.setCreate_date(rs.getString("l.create_date"));
+				lodVo.setDel_yn(rs.getString("del_yn"));
+				
+				reviewVo.setLodVo(lodVo);
+				
+				MemberVO memVo = new MemberVO();
+				memVo.setIdx(rs.getInt("idx"));
+				memVo.setMid(rs.getString("mid"));
+				memVo.setPwd(rs.getString("pwd"));
+				memVo.setName(rs.getString("name"));
+				memVo.setGender(rs.getString("gender"));
+				memVo.setTel(rs.getString("tel"));
+				memVo.setEmail(rs.getString("email"));
+				memVo.setFile_name(rs.getString("file_name"));
+				memVo.setSave_file_name(rs.getString("save_file_name"));
+				memVo.setPostcode(rs.getString("postcode"));
+				memVo.setRoadAddress(rs.getString("roadAddress"));
+				memVo.setDetailAddress(rs.getString("detailAddress"));
+				memVo.setExtraAddress(rs.getString("extraAddress"));
+				memVo.setCreate_date(rs.getString("create_date"));
+				memVo.setLastDate(rs.getString("lastDate"));
+				memVo.setLevel(rs.getInt("level"));
+				memVo.setPoint(rs.getInt("point"));
+				memVo.setAgreement(rs.getInt("agreement"));
+				memVo.setDel_yn(rs.getString("del_yn"));
+				memVo.setDelete_date(rs.getString("delete_date"));
+				
+				reviewVo.setMember(memVo);
+				
+				revList.add(reviewVo);
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return revList;
+	}
+
+	//전체건수 알아오기
+	public int totRecCntRev() {
+		int totRecCnt = 0;
+		try {
+			sql = "select count(*) as cnt from review";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			totRecCnt = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("sql 에러" + e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		return totRecCnt;
+	}
+
+
 
 }

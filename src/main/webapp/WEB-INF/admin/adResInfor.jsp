@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>회원정보 상세조회</title>
+    <title>예약내역 상세조회</title>
     <%@ include file="/include/bs4.jsp" %>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -25,6 +25,38 @@
 				$('form[name="deleteForm"]').submit();
 			}
 		}
+		
+		function resCancel(lodIdx,memIdx,checkIn,checkOut) {
+			let ans = confirm("해당 예약을 취소하시겠습니까?");
+			if(!ans) return false;
+			
+			let query = {
+				lodIdx : lodIdx,
+				memIdx : memIdx,
+				checkIn : checkIn,
+				checkOut : checkOut,
+			}
+			
+			$.ajax({
+				type : "post",
+				url : "${ctp}/resCancel.res",
+				data : query,
+				success : function(data) {
+					if(data == "cancelOk") {
+						alert("예약취소가 완료되었습니다.");
+						location.reload();
+					}
+					else {
+						alert("예약 취소 처리 실패.");
+
+					}
+				},
+				error : function () {
+					alert("전송실패");
+				}
+			});
+		}
+		
 	</script>
 	<style>
 		html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -36,7 +68,7 @@
 		}
 		.title {
 			font-weight: bold;
-			background-color: rgb(228, 228, 228);
+			background-color: rgb(147, 177, 232);
 		}
 	</style>
 </head>
@@ -57,7 +89,7 @@
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-users fa-fw"></i> Member management</b></h5>
+    <h5><b><i class="fa-solid fa-calendar-check"></i> Reservation management</b></h5>
   </header>
   <section>
   	<!-- Page Container -->
@@ -65,37 +97,42 @@
 	  <!-- The Grid -->
 	  <div class="w3-row">
 	    <!-- Left Column -->
-      	<h2 class="text-center"><span>&nbsp;<i class="fa fa-users fa-fw"></i> &nbsp;회원 정보 상세조회&nbsp;</span></h2><br>
-	    <div class="w3-col m2 l2 w3-margin-bottom"></div>
-	    <div class="w3-col m3 l3 w3-margin-bottom">
+      	<h2 class="text-center"><span>&nbsp;<i class="fa-solid fa-calendar-check"></i> &nbsp;예약 정보 상세조회&nbsp;</span></h2><br>
+	    <div class="w3-col m1 l1 w3-margin-bottom"></div>
+	    <div class="w3-col m5 l5 w3-margin-bottom">
 		      <!-- Profile -->
 		      <div class="w3-card w3-round w3-white">
 		        <div class="w3-container"><br>
-		         <h4 class="w3-center">Profile Picture</h4>
-		         <p class="w3-center"><img src="${ctp}/data/member/${vo.save_file_name}" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+		         <h5>${resVo.lodVo.lod_name}</h5>
+		         <p class="w3-center"><img src="${ctp}/data/lodging/${resVo.lodVo.save_file_name}" style="height:300px;"></p>
 		         <hr>
 		         <table class="table table-borderless">
 		         	<colgroup>
-						<col style="width:40%;">
-						<col style="width:60%;">
+						<col style="width:30%;">
+						<col style="width:70%;">
 					</colgroup>
 		         	<tr>
-		         		<td class="title">회원번호</td>
-		         		<td>${vo.idx}번</td>
+		         		<td class="title">숙소번호</td>
+		         		<td>${resVo.lodVo.idx}번</td>
 		         	</tr>
 		         	<tr>
-		         		<td class="title">아이디</td>
-		         		<td>${vo.mid}</td>
+		         		<td class="title">숙소주소</td>
+		         		<td>${resVo.lodVo.address}</td>
 		         	</tr>
 		         	<tr>
-		         		<td class="title">성명</td>
-		         		<td>${vo.name}</td>
+		         		<td class="title">회원 아이디</td>
+		         		<td>${resVo.memVo.mid}</td>
 		         	</tr>
 		         	<tr>
-		         		<td class="title">성별</td>
+		         		<td class="title">회원 전화번호</td>
 		         		<td>
-		         			<c:if test="${vo.gender == 'm'}">남자</c:if>
-		         			<c:if test="${vo.gender == 'f'}">여자</c:if>
+		         			${resVo.memVo.tel}
+		         		</td>
+		         	</tr>
+		         	<tr>
+		         		<td class="title">회원 Email</td>
+		         		<td>
+		         			${resVo.memVo.email}
 		         		</td>
 		         	</tr>
 		         </table>
@@ -116,68 +153,59 @@
 							<col style="width:70%;">
 						</colgroup>
 			         	<tr>
-			         		<td class="title">전화번호</td>
-			         		<td>${vo.tel}</td>
+			         		<td class="title">예약번호</td>
+			         		<td>${resVo.idx} 번</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">Email</td>
-			         		<td>${vo.email}</td>
+			         		<td class="title">체크인 날짜</td>
+			         		<td>${resVo.check_in}</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">주소</td>
+			         		<td class="title">체크아웃 날짜</td>
+			         		<td>${resVo.check_out}</td>
+			         	</tr>
+			         	<tr>
+			         		<td class="title">숙박기간</td>
+			         		<td>${resVo.term} 일 (${resVo.term -1}박)</td>
+			         	</tr>
+			         	
+			         	<tr>
+			         		<td class="title">숙박 인원</td>
+			         		<td>${resVo.number_guests} 명</td>
+			         	</tr>
+			         	<tr>
+			         		<td class="title">예약일</td>
 			         		<td>
-			         			<c:if test="${!empty vo.postcode}">
-				         			${vo.postcode}<br> ${vo.roadAddress}<br>
-				         			${vo.detailAddress} | ${vo.extraAddress}
-			         			</c:if>
-			         			<c:if test="${empty vo.postcode}">미입력</c:if>
-				         	<hr>
+			         			${fn:substring(resVo.create_date, 0, 19)}
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">가입일</td>
+			         		<td class="title">결제금액</td>
 			         		<td>
-			         			${fn:substring(vo.create_date, 0, 19)}
+			         			<fmt:formatNumber value="${resVo.payment_price}"/> 원
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">최종접속일</td>
+			         		<td class="title">적립 포인트</td>
 			         		<td>
-			         			${fn:substring(vo.lastDate, 0, 19)}
+			         			<fmt:formatNumber value="${resVo.point}"/> Point 
+			         			<c:if test="${resVo.state == '확정완료'}">(적립완료)</c:if>
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">회원등급</td>
+			         		<td class="title">예약 상태</td>
 			         		<td>
-			         			<c:if test="${vo.level == '1'}">정회원</c:if>
-			         			<c:if test="${vo.level == '0'}">관리자</c:if>
+			         			<c:if test="${resVo.state == '예약'}"><font color="red">${resVo.state}</font></c:if>
+		        				<c:if test="${resVo.state == '사용완료' || resVo.state == '확정완료'}">${resVo.state}</c:if>
+		        				<c:if test="${resVo.state == '예약취소'}"><font color="gray">${resVo.state}</font></c:if>
+		        				<c:if test="${resVo.state == '사용중'}"><font color="blue">${resVo.state}</font></c:if>
 			         		</td>
 			         	</tr>
 			         	<tr>
-			         		<td class="title">보유 포인트</td>
+			         		<td class="title">리뷰 여부</td>
 			         		<td>
-			         			${vo.point} Point
-			         		</td>
-			         	</tr>
-			         	<tr>
-			         		<td class="title">프로모션 정보<br> 수신 동의여부</td>
-			         		<td>
-			         			<c:if test="${vo.agreement == 3}">동의함</c:if>
-			         			<c:if test="${vo.agreement != 3}">미동의</c:if>
-			         		</td>
-			         	</tr>
-			         	<tr>
-			         		<td class="title">활동여부</td>
-			         		<td>
-			         			<c:if test="${vo.del_yn == 'y'}">
-				         			<font color="red">탈퇴</font><br>
-				         			<%-- 경과일 : <font color="blue"> ${applyDiff}일</font><br>
-									<c:if test="${applyDiff > 30}">
-										<button type="button" class="btn w3-black btn-sm" onclick="javascript:userDelCheck(${vo.idx})">탈퇴처리</button>
-									</c:if> --%>
-									탈퇴일 : ${vo.delete_date}
-			         			</c:if>
-			         			<c:if test="${vo.del_yn == 'n'}">활동중</c:if>
+			         			<c:if test="${empty resVo.review}">사용완료 전입니다.</c:if>
+			         			${resVo.review}
 			         		</td>
 			         	</tr>
 			         </table>
@@ -187,14 +215,13 @@
 	        </div>
 	      </div>
 	      <div style="text-align: center" class="mt-3">
-	      	<c:if test="${vo.del_yn == 'n'}">
-	            <a class="w3-button w3-black w3-hover-black" href="memUpdate.ad?idx=${param.idx}&applyDiff=${param.applyDiff}&pag=${param.pag}&pageSize=${param.pageSize}"> 회원정보 수정</a> &nbsp;&nbsp;
-	            <a class="w3-button w3-black w3-hover-black" onclick="memDelete(${vo.idx});"> 탈퇴처리</a> &nbsp;&nbsp;
-	        </c:if>
-	            <a href="${ctp}/mem_management.ad?pag=${param.pag}&pageSize=${param.pageSize}" class="w3-button w3-theme w3-hover-yellow"> 목록으로</a> 
+	      		<c:if test="${resVo.state == '예약'}">
+		            <a class="w3-button w3-black w3-hover-black" onclick="resCancel(${resVo.lodVo.idx},${resVo.mem_idx},'${resVo.check_in}','${resVo.check_out}');"> 예약취소 처리</a> &nbsp;&nbsp;
+	      		</c:if>
+	            <a href="${ctp}/res_management.ad?pag=${pag}&pageSize=${pageSize}" class="w3-button w3-blue w3-hover-blue"> 목록으로</a> 
 	        </div>     
        	</div>  
-       	 <div class="w3-col m2 l2 w3-margin-bottom"></div>
+       	 <div class="w3-col m1 l1 w3-margin-bottom"></div>
       </div>   
      </div>
      <br>

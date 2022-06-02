@@ -47,6 +47,11 @@ public class AdminController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage += "/admin/mem_management.jsp";
 		}
+		else if(com.equals("res_management")) {
+			command = new Res_managementCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/res_management.jsp";
+		}
 		else if(com.equals("memInfor")) {
 			command = new MemInforCommand();
 			command.execute(request, response); 
@@ -89,6 +94,16 @@ public class AdminController extends HttpServlet {
 			command = new LodUpdateOkCommand();
 			command.execute(request, response); 
 			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("adResInfor")) {
+			command = new AdResInforCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/adResInfor.jsp";
+		}
+		else if(com.equals("rev_management")) {
+			command = new Rev_managementCommand();
+			command.execute(request, response); 
+			viewPage += "/admin/rev_management.jsp";
 		}
 		
 		

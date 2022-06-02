@@ -90,7 +90,8 @@
 			    		</div>
 		    		</div>
 		    		<p style="text-align: center;">
-		    			<button class="w3-button w3-theme" type="submit">리뷰 등록</button>&nbsp;&nbsp;
+				        <a href="${ctp}/memMypage.mem" class="w3-button w3-black">돌아가기</a>&nbsp;&nbsp;
+		    			<button class="w3-button w3-theme w3-hover-theme" type="submit">리뷰 등록</button>&nbsp;&nbsp;
 				        <button class="w3-button w3-black" type="reset">다시입력</button>
 				    </p>
 				    <input type="hidden" name="lodIdx" value="${param.lodIdx }">

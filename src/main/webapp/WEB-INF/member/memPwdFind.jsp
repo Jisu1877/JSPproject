@@ -91,7 +91,8 @@
 	  		  </div> 
 		<br>
 		<div style="text-align: center">
-			<input type="button" value="입력" onclick="pwdFind()" class="w3-button w3-yellow"/>
+			<input type="button" value="비밀번호 찾기" onclick="pwdFind()" class="w3-button w3-yellow"/>&nbsp; &nbsp;
+			<input type="button" value="창닫기" onclick="javascript:window.close();" class="w3-button w3-black w3-hover-black"/>
 		</div>
 		<input type="hidden" name="tel" id="tel"/>
 	</form>

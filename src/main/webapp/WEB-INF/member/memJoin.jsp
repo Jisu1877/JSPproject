@@ -281,11 +281,18 @@
 			function idCheck() {
 		  		let mid = myForm.mid.value;
 		  		
+		  		let regMid = /^[a-z0-9_]{4,20}$/;
+		  		
 		  		if(mid == "") {
 					alert("아이디를 입력하세요");
 					myForm.mid.focus();
 					return false;
 				}
+		  		else if(!regMid.test(mid)) {
+		            alert("아이디는 4~20자의 영문 소문자, 숫자와 특수기호(_)만 사용가능합니다.");
+		            myForm.mid.focus();
+		            return false;
+		        }
 		  		
 		  		$.ajax({
 		  			type : "post",

@@ -110,9 +110,9 @@
 <%@ include file="/include/nav2.jsp" %>
 <div class="container" style="max-width:1500px;">
 	<div id="category" style="margin-top: 40px;">
-		<h3 style="text-align: center; margin-bottom: 30px;">Lodging Houses</h3>
+		<h2 style="text-align: center; margin-bottom: 30px;"><strong>Lodging Houses</strong></h2>
 	  <!--  <h5 class="text-center">Choose a theme!</h5> -->
-	    <div style="text-align: center">
+	    <!-- <div style="text-align: center">
 		    <span><i class="fa-solid fa-palette" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    <span>&nbsp;&nbsp;<i class="fa-solid fa-campground" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    <span><i class="fa-solid fa-igloo" style="font-size:30px;"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -137,7 +137,7 @@
 		    <span>열대지역</span>&nbsp;&nbsp;
 		    <span>한적한시골</span>&nbsp;&nbsp;
 		    <a href="javascript:categorySearch(300);"><span>최고의전망</span></a>&nbsp;&nbsp;
-	    </div>
+	    </div> -->
 	 </div>
 	<div style="margin-top:20px; margin-left:10px;">
 		<h3><strong>Search</strong></h3>

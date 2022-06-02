@@ -1,6 +1,7 @@
 package reservation;
 
 import lodging.LodgingVO;
+import member.MemberVO;
 
 public class ReservationVO {
 	private int idx;
@@ -19,7 +20,15 @@ public class ReservationVO {
 	private int point;
 	
 	private LodgingVO lodVo;
+	private MemberVO memVo;
 	
+	
+	public MemberVO getMemVo() {
+		return memVo;
+	}
+	public void setMemVo(MemberVO memVo) {
+		this.memVo = memVo;
+	}
 	public int getIdx() {
 		return idx;
 	}
@@ -115,9 +124,10 @@ public class ReservationVO {
 		return "ReservationVO [idx=" + idx + ", lod_idx=" + lod_idx + ", mem_idx=" + mem_idx + ", stay_date="
 				+ stay_date + ", check_in=" + check_in + ", check_out=" + check_out + ", number_guests=" + number_guests
 				+ ", payment_price=" + payment_price + ", term=" + term + ", review=" + review + ", state=" + state
-				+ ", cancel_yn=" + cancel_yn + ", create_date=" + create_date + ", lodVo=" + lodVo + ", point=" + point
-				+ "]";
+				+ ", cancel_yn=" + cancel_yn + ", create_date=" + create_date + ", point=" + point + ", lodVo=" + lodVo
+				+ ", memVo=" + memVo + "]";
 	}
+	
 
 	
 	

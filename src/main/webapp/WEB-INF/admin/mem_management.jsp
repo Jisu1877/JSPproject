@@ -57,10 +57,10 @@
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px; margin-top:43px;">
+<div class="w3-main" style="margin-left:280px; margin-top:43px;">
 
   <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container" style="padding-top:22px; margin-left: 20px;">
     <h5><b><i class="fa fa-users fa-fw"></i> Member management</b></h5>
   </header>
   <section>
@@ -84,11 +84,12 @@
 							</td>
 						</tr>
 					</table>
-			  		<table class="table table-hover text-center">
+			  		<table class="table table-hover text-center w3-white">
 			  			<tr class="w3-amber">
 			  				<th>번호</th>
 			  				<th>아이디</th>
 			  				<th>성명</th>
+			  				<th>가입일</th>
 			  				<th>활동유무</th>
 			  				<th>비고</th>
 			  			</tr>
@@ -99,6 +100,9 @@
 			  						<a href="${ctp}/memInfor.ad?idx=${vo.idx}&applyDiff=${vo.applyDiff}&pag=${pag}&pageSize=${pageSize}">${vo.mid}</a>
 			  					</td>
 			  					<td>${vo.name}</td>
+			  					<td>
+			  						${fn:substring(vo.create_date,0,19)}
+			  					</td>
 			  					<td>
 			  						<c:if test="${vo.del_yn == 'n'}">
 			  							활동중

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import admin.MemUpdateCommand;
+import admin.MemUpdateOkCommand;
+
 @WebServlet("*.mem")
 public class MemberController extends HttpServlet {
 	@Override
@@ -85,7 +88,21 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response); 
 			viewPage += "/member/memMypage.jsp";
 		}
-		
+		else if(com.equals("memUpdate")) {
+			command = new MemUpdateMemCommand();
+			command.execute(request, response); 
+			viewPage += "/member/memUpdate.jsp";
+		}
+		else if(com.equals("memUpdateOk")) {
+			command = new MemUpdateOkMemCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
+		else if(com.equals("memDelete")) {
+			command = new MemDeleteMemCommand();
+			command.execute(request, response); 
+			viewPage = "/message/message.jsp";
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

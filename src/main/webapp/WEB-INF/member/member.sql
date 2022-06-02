@@ -48,7 +48,17 @@ select * from mem_log;
 select *,(select timestampdiff(DAY, delete_date, NOW()) as applyDiff from member where del_yn = 'y') from member order by idx desc;
 
 
+select count(*) as cnt from reservation group by create_date;
 
+select count(*) as cnt from (select count(*) as cnt from reservation group by create_date);
+
+SELECT l.`*`, lo.`*`, COUNT(*) as cnt
+FROM (SELECT lod_idx, count(lod_idx) as cnt FROM reservation group by create_date) a
+JOIN lodging l
+ON a.lod_idx = l.idx
+JOIN lod_option lo
+ON a.lod_idx = lo.lod_idx
+GROUP BY lod_idx;
 
 
 

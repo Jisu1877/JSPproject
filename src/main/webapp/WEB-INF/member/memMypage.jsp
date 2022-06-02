@@ -31,6 +31,9 @@
 	  		overflow-x : auto;
 	  		white-space:nowrap;
 	  	}
+	  	a {
+	  		color : black;
+	  	}
     </style>
     <script>
     	function stateChange(lodIdx,memIdx,checkIn,checkOut,flag) {
@@ -61,12 +64,13 @@
 					}
 					else if(data == "confirmationOk") {
 						alert("구매확정이 완료되었습니다.");
-						let ans = confirm("리뷰 작성 창으로 이동하시겠습니까?\n리뷰작성시 500Point가 적립됩니다.");
+						location.reload();
+						/* let ans = confirm("리뷰 작성 창으로 이동하시겠습니까?\n리뷰작성시 500Point가 적립됩니다.");
 						if(!ans) {
 							location.reload();
 						}else {
-							location.href="${ctp}/writeAreview.lod?lodIdx="+lodIdx+"&memIdx="+memIdx+"&checkIn="+checkIn+"&checkOut="+checkOut;
-						} 
+							location.href="${ctp}/writeAreview.lod?lodIdx="+lodIdx+"&memIdx="+memIdx+"&checkIn="+checkIn+"&checkOut="+checkOut+"&lod_name=${resVo.lodVo.lod_name}";
+						}  */
 					}
 					else if(data == "cancelNo") {
 						alert("예약 취소 처리 실패.");
@@ -105,6 +109,21 @@
     		
     	}
     	
+    	function memDelete(idx) {
+			let ans = confirm("정말로 탈퇴하시겠습니까?\n탈퇴 후 현재 아이디로는 재가입이 불가합니다.");
+			if(!ans) return false;
+			
+			deleteForm.submit();
+		}
+    	
+    	function resInfor(memIdx, lodIdx, checkIn, checkOut) {
+    		let url = "${ctp}/resInfor.res?memIdx="+memIdx+"&lodIdx="+lodIdx+"&checkIn="+checkIn+"&checkOut="+checkOut;
+      		let winX = 1300;
+            let winY = 700;
+            let x = (window.screen.width/2) - (winX/2);
+            let y = (window.screen.height/2) - (winY/2)
+   			window.open(url, "nWin", "width="+winX+",height="+winY+", left="+x+", top="+y+", resizable = no, scrollbars = no");
+		}
     </script>
 </head>
 <body>
@@ -160,9 +179,16 @@
        			<c:if test="${vo.level == '0'}">관리자</c:if>
 	          </p>
 	          <p>가입일&nbsp;&nbsp; | &nbsp;&nbsp;${fn:substring(vo.create_date, 0,19)}</p>
-	          <div class="text-center mt-5">
-	          	<button type="button" class="w3-button w3-black w3-hover-black">정보수정</button>&nbsp;&nbsp;
-	          	<button type="button" class="w3-button w3-black w3-hover-black">회원탈퇴</button>
+	          <div class="w3-row">
+	          	<div class="w3-half text-right mt-5">
+	          		<a href="${ctp}/memUpdate.mem?idx=${vo.idx}" class="w3-button w3-black w3-hover-theme">정보수정</a>&nbsp;&nbsp;
+	          	</div>
+	          	<form name="deleteForm" method="post" action="memDelete.mem">
+		          	<div class="w3-half text-left mt-5">
+		          		<button type="button" onclick="memDelete();" class="w3-button w3-black w3-hover-black">회원탈퇴</button>
+		          	</div>
+		          	<input type="hidden" name="idx" value="${vo.idx}"/>
+	          	</form>
 	          </div>
 	      </div>
           <br>
@@ -227,7 +253,11 @@
 	        				</c:choose>
 	        			</td>
 	        			<td class="text-center">${resVo.idx}</td>
-	        			<td>${resVo.lodVo.lod_name}</td>
+	        			<td>
+	        				<a href="javascript:resInfor(${vo.idx},${resVo.lodVo.idx},'${resVo.check_in}','${resVo.check_out}')">
+	        					${resVo.lodVo.lod_name}
+	        				</a>
+	        			</td>
 	        			<td>${resVo.check_in}</td>
 	        			<td>${resVo.check_out}</td>
 	        			<td class="text-center">${resVo.number_guests} 명</td>

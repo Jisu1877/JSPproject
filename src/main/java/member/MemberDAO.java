@@ -45,7 +45,7 @@ public class MemberDAO {
 	public String memTelCheck(String tel) {
 		String name = "";
 		try {
-			sql = "select * from member where tel = ?";
+			sql = "select * from member where tel = ? where del_yn = 'n'";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, tel);
 			rs = pstmt.executeQuery();
@@ -172,7 +172,7 @@ public class MemberDAO {
 		public MemberVO getMemInfor(String name, String tel) {  //getMemInfor 메소드 오버로딩
 			MemberVO vo = new MemberVO();
 			try {
-				sql = "select * from member where name = ? and tel = ?";
+				sql = "select * from member where name = ? and tel = ? where del_yn = 'n'";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, name);
 				pstmt.setString(2, tel);
@@ -211,7 +211,7 @@ public class MemberDAO {
 		public MemberVO getMemInfor(String mid, String name, String tel) {  //getMemInfor 메소드 오버로딩
 			MemberVO vo = new MemberVO();
 			try {
-				sql = "select * from member where mid = ? and name = ? and tel = ?";
+				sql = "select * from member where mid = ? and name = ? and tel = ? where del_yn = 'n'";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, mid);
 				pstmt.setString(2, name);

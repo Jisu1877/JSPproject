@@ -97,7 +97,9 @@
 			</c:choose>
 		</div>
 		<div style="text-align:center; margin-top:30px;">
-      		<input type="button" value="아이디 찾기" onclick="idFind()" class="w3-button w3-yellow"/>&nbsp; &nbsp;
+			<c:if test="${flag != 'true'}">
+	      		<input type="button" value="아이디 찾기" onclick="idFind()" class="w3-button w3-yellow"/>&nbsp; &nbsp;
+			</c:if>
 			<input type="button" value="창닫기" onclick="sendCheck()" class="w3-button w3-black"/>
       	</div>
       	<input type="hidden" name="tel" id="tel"/>

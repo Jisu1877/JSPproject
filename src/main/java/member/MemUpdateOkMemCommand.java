@@ -1,4 +1,4 @@
-package admin;
+package member;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import member.MemberDAO;
 import member.MemberVO;
 
-public class MemUpdateOkCommand implements AdminInterface {
+public class MemUpdateOkMemCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,10 +36,10 @@ public class MemUpdateOkCommand implements AdminInterface {
 		String detailAddress = multipartRequest.getParameter("detailAddress") == null ? "" : multipartRequest.getParameter("detailAddress");
 		String extraAddress = multipartRequest.getParameter("extraAddress") == null ? "" : multipartRequest.getParameter("extraAddress");
 		
-		int applyDiff = multipartRequest.getParameter("applyDiff") == null? 2 : Integer.parseInt(multipartRequest.getParameter("applyDiff"));
+		//int applyDiff = multipartRequest.getParameter("applyDiff") == null? 2 : Integer.parseInt(multipartRequest.getParameter("applyDiff"));
 		int idx = multipartRequest.getParameter("idx") == null? 0 : Integer.parseInt(multipartRequest.getParameter("idx"));
-		int pag = multipartRequest.getParameter("pag") == null? 1 : Integer.parseInt(multipartRequest.getParameter("pag"));
-		int pageSize = multipartRequest.getParameter("pageSize") == null? 10 : Integer.parseInt(multipartRequest.getParameter("pageSize"));
+		//int pag = multipartRequest.getParameter("pag") == null? 1 : Integer.parseInt(multipartRequest.getParameter("pag"));
+		//int pageSize = multipartRequest.getParameter("pageSize") == null? 10 : Integer.parseInt(multipartRequest.getParameter("pageSize"));
 		
 		MemberDAO dao = new MemberDAO();
 		MemberVO vo = new MemberVO();
@@ -86,7 +86,7 @@ public class MemUpdateOkCommand implements AdminInterface {
 		else {
 			request.setAttribute("msg", "adMemUpdateNo");
 		}
-		request.setAttribute("url", request.getContextPath()+"/memInfor.ad?idx="+idx+"&applyDiff="+applyDiff+"&pag="+pag+"&pageSize="+pageSize);
+		request.setAttribute("url", request.getContextPath()+"/memMypage.mem");
 		
 	}
 

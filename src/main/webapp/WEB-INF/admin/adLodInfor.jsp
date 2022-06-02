@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>adLodInfor.jsp</title>
+    <title>숙소정보 상세조회</title>
     <%@ include file="/include/bs4.jsp" %>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">

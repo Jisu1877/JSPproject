@@ -39,6 +39,7 @@
     	else if(msg == "lodUpdateNo") msg = "숙소정보 수정에 실패했습니다.";
     	else if(msg == "reviewInputOk") msg = "리뷰 등록이 완료되었습니다.\n500Point 지급완료!";
     	else if(msg == "reviewInputNo") msg = "리뷰 등록에 실패했습니다.";
+    	else if(msg == "noMemDelete") msg = "아직 사용완료되지 않은 예약건이 있습니다.\n예약처리 후 탈퇴해주세요.\n취소불가 예약건은 사용완료 후 탙퇴하실 수 있습니다.";
     
     	
     	alert(msg);

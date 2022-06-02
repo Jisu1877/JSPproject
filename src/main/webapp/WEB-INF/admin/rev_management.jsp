@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<% pageContext.setAttribute("newLine", "\n");  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,30 +25,28 @@
 </style>
 <script>
 	'use strict';
+	//$('.demoContent').hide();
+	
 	function pageCheck() {
 		let pageSize = $("#pageSize").val();
-		location.href="lod_management.ad?pag=${pag}&pageSize="+pageSize;
+		location.href="rev_management.ad?pag=${pag}&pageSize="+pageSize;
 	}
 	
-	function lodDelete(lodIdx) {
-		let ans = confirm("해당 숙소를 정말 판매중지하시겠습니까?");
+	function reviewDelete(idx) {
+		let ans = confirm("해당 리뷰를 정말 삭제하시겠습니까?");
 		if(!ans) return false;
 		
 		$.ajax({
    			type : "post",
-   			url : "${ctp}/lodDeleteCommand",
-   			data : {lodIdx : lodIdx},
+   			url : "${ctp}/revDeleteCommand",
+   			data : {idx : idx},
    			success : function(data) {
-   				if(data == "exist") {
-   					alert("아직 사용되지 않은 예약내역이 있는 숙소입니다.\n모든 예약이 완료된 이후에 진행하세요.");
-   					return false;
-   				}
-   				else if(data == "deleteOk") {
-					alert("판매중지처리 완료.");
+   				if(data == "deleteOk") {
+					alert("리뷰삭제처리 완료.");
 					location.reload();
 				}
 				else {
-					alert("숙소 판매중지 처리에 실패했습니다.");
+					alert("리뷰 삭제 처리에 실패했습니다.");
 				}
    			},
 			error : function() {
@@ -55,6 +54,7 @@
 			}
    		});
 	}
+
 </script>
 </head>
 <body class="w3-light-grey">
@@ -76,14 +76,13 @@
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px; margin-left: 20px;">
-    <h5><b><i class="fa-solid fa-tents"></i> Lodging management</b></h5>
+    <h5><b><i class="fa-solid fa-file-pen"></i> Review management</b></h5>
   </header>
   <section>
   	<div class="w3-row">
-	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
-	  	<div class="w3-col m10 l10 w3-margin-bottom">
-  			<h2 class="text-center"><i class="fa-solid fa-tents"></i> 숙소 관리</h2>
-	  		<table class="table table-borderless">
+	  	<div class="w3-col m12 l12 w3-margin-bottom" style="padding-left: 50px; padding-right: 30px;">
+  			<h2 class="text-center" style="margin-bottom: 30px;"><i class="fa-solid fa-file-pen"></i> 리뷰 관리</h2>
+  			<table class="table table-borderless">
 		  		<tr>
 		  			<td class="text-right" style="margin-bottom: 0px; padding-bottom: 0px">
 						<select name="pageSize" id="pageSize" onchange="pageCheck()">
@@ -92,40 +91,75 @@
 							<option value="15" ${pageSize == 15 ? 'selected' : '' }>15건</option>
 							<option value="20" ${pageSize == 20 ? 'selected' : '' }>20건</option>
 						</select>
-				  		&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-theme" onclick="location.href='${ctp}/lod_input.ad?pag=${pag}&pageSize=${pageSize}';">숙소등록</button>
 		  			</td>
 		  		</tr>
 		  	</table>
-		  	<table class="table table-hover text-center w3-white">
-				<tr class="w3-lime">
-					<th>번호</th>
+		  	<table class="table table-hover text-center">
+				<tr class="w3-teal">
+					<th>리뷰 번호</th>
 					<th>숙소명</th>
-					<th>등록일</th>
-					<th>상태</th>
+					<th>회원아이디</th>
+					<th>제목</th>
 					<th>평점</th>
+					<th>삭제여부</th>
+					<th><i class="fa-solid fa-circle-info" style="font-size: 25px;"></i></th>
 					<th>비고</th>
 				</tr>
-				<c:forEach var="vo" items="${lodList}">
+				<c:forEach var="vo" items="${revList}" varStatus="vs">
 					<tr>
 						<td>${vo.idx}</td>
 						<td>
-							<a href="${ctp}/lodInfor.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">${vo.lod_name}</a>
+							${vo.lodVo.lod_name}
 						</td>
-						<td>${fn:substring(vo.create_date, 0, 11)}</td>
+						<td>${vo.member.mid}</td>
 						<td>
-							<c:if test="${vo.del_yn == 'y'}"><font color="red">판매중지</font></c:if>
-							<c:if test="${vo.del_yn == 'n'}">판매중</c:if>
-						</td>
-						<td>
-							<i class="fa-solid fa-star" style="font-size: 13px;"><span style="font-size: 13px;"> ${vo.rating}&nbsp;/&nbsp;5</span></i>
+							${vo.review_subject}
 						</td>
 						<td>
-							<c:if test="${vo.del_yn == 'n'}">
-								<a class="btn btn-outline-secondary btn-sm" href="lodUpdate.ad?lodIdx=${vo.idx}&pag=${pag}&pageSize=${pageSize}">수정</a>
-		  						<a class="btn btn-outline-danger btn-sm" onclick="lodDelete(${vo.idx});">판매중지</a>
+							<i class="fa-solid fa-star" style="font-size: 13px;"><span style="font-size: 13px;"> ${vo.rating}</span></i>
+						</td>
+						<td>
+							<c:if test="${vo.exposure_yn == 'n'}">
+								<font color="red">삭제처리됨</font>
+	  						</c:if>
+	  						<c:if test="${vo.exposure_yn == 'y'}">
+	  							노출중
 	  						</c:if>
 						</td>
+						<td>
+							<button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal${vs.index}">
+								<i class="fa-solid fa-circle-info" style="font-size: 25px;"></i>
+							</button>
+						</td>
+						<td>
+							<a href="javascript:reviewDelete(${vo.idx});" class="btn btn-outline-dark btn-sm">삭제</a>
+						</td>
 					</tr>
+					<!-- The Modal -->
+					  <div class="modal fade" id="myModal${vs.index}">
+					    <div class="modal-dialog">
+					      <div class="modal-content">
+					      
+					        <!-- Modal Header -->
+					        <div class="modal-header">
+					          <h4 class="modal-title">리뷰 내용</h4>
+					          <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        </div>
+					        
+					        <!-- Modal body -->
+					        <div class="modal-body" id="content">
+					          <c:if test="${fn:indexOf(vo.review_contents,newLine) != -1}">${fn:replace(vo.review_contents,newLine,"<br>")}</c:if>
+			  		    	  <c:if test="${fn:indexOf(vo.review_contents,newLine) == -1}">${vo.review_contents}</c:if>
+					        </div>
+					        
+					        <!-- Modal footer -->
+					        <div class="modal-footer">
+					          <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+					        </div>
+					        
+					      </div>
+					    </div>
+					  </div>
 				</c:forEach>
 		  	</table>
 		  	<br>
@@ -133,30 +167,29 @@
 			<div class="text-center">
 				<ul class="pagination justify-content-center pagination-sm">
 				  <c:if test="${pag > 1}">
-				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=1&pageSize=${pageSize}">◁◁</a></li>
+				  	<li class="page-item"><a class="page-link text-secondary" href="rev_management.ad?pag=1&pageSize=${pageSize}">◁◁</a></li>
 				  </c:if>
 				  <c:if test="${curBlock > 0}">
-				  	<li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">◀</a></li>
+				  	<li class="page-item"><a class="page-link text-secondary" href="rev_management.ad?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">◀</a></li>
 				  </c:if>
 				  <c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize)+blockSize}">
 				    <c:if test="${i <= totPage && i == pag}">
-				      <li class="page-item active"><a class="page-link text-light border-secondary bg-secondary" href="lod_management.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li>
+				      <li class="page-item active"><a class="page-link text-light border-secondary bg-secondary" href="rev_management.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li>
 				    </c:if>
 				    <c:if test="${i <= totPage && i != pag}">
-				      <li class="page-item"><a class="page-link text-secondary" href='lod_management.ad?pag=${i}&pageSize=${pageSize}'>${i}</a></li>
+				      <li class="page-item"><a class="page-link text-secondary" href='rev_management.ad?pag=${i}&pageSize=${pageSize}'>${i}</a></li>
 				    </c:if>
 				  </c:forEach>
 				  <c:if test="${curBlock < lastBlock}">
-				     <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${(curBlock+1)*blockSize + 1}&pageSize=${pageSize}&pageSize=${pageSize}">▶</a></li>
+				     <li class="page-item"><a class="page-link text-secondary" href="rev_management.ad?pag=${(curBlock+1)*blockSize + 1}&pageSize=${pageSize}&pageSize=${pageSize}">▶</a></li>
 				  </c:if>
 				  <c:if test="${pag != totPage}">
-					 <li class="page-item"><a class="page-link text-secondary" href="lod_management.ad?pag=${totPage}&pageSize=${pageSize}">▷▷</a></li>
+					 <li class="page-item"><a class="page-link text-secondary" href="rev_management.ad?pag=${totPage}&pageSize=${pageSize}">▷▷</a></li>
 				  </c:if>
 				 </ul>
 			</div>
 			<!-- 블록 페이징 처리 끝 -->
 	  	</div>
-	  	<div class="w3-col m1 l1 w3-margin-bottom"></div>
 	 </div>
   </section>
   <!-- Footer -->
