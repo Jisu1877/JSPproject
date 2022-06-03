@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>memLogin.jsp</title>
+    <title>로그인</title>
    	<%@ include file="/include/bs4.jsp" %>
     <script>
     	'use strict';

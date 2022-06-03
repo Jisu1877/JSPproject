@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>memIdFind</title>
+    <title>아이디찾기</title>
     <%@ include file="/include/bs4.jsp" %>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">

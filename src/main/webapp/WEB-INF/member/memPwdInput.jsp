@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>memPwdInput</title>
+    <title>비밀번호 재생성</title>
     <%@ include file="/include/bs4.jsp" %>
     <script type="text/javascript">
 	    function sendCheck() {

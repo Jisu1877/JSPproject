@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>resSearch.jsp</title>
+    <title>숙소 상세검색</title>
     <%@ include file="/include/bs4.jsp" %>
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     	<script>

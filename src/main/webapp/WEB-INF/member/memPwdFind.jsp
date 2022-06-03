@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>memPwdFind</title>
+    <title>비밀번호찾기</title>
     <%@ include file="/include/bs4.jsp" %>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">

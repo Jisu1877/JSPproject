@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>payment_confirmation.jsp</title>
+    <title>결제 확인</title>
     <%@ include file="/include/bs4.jsp" %>
     <style>
     	table { table-layout:fixed; }

@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>title</title>
+    <title>약관동의</title>
     <script>
     	'use strict';
     	function fCheck() {

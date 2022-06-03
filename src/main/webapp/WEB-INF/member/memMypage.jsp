@@ -15,7 +15,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>MyPage</title>
+    <title>마이페이지</title>
     <%@ include file="/include/bs4.jsp" %>
     <style>
 	  	.headerJoin {

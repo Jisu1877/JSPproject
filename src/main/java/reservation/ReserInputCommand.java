@@ -87,12 +87,8 @@ public class ReserInputCommand implements ReservationInterface {
 		int res = 0;
 		int i = 0;
 		while(true) {
-			//System.out.println("여기1");
 			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			//System.out.println("dateFormat2 : " + dateFormat2);
 			String stay_date2 = getDatesBetweenTwoDates(startDate, endDate).get(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			//System.out.println("stay_date2 : " + stay_date2);
-			//String stay_date = dateFormat2.format(getDatesBetweenTwoDates(startDate, endDate).get(i));
 			res = dao.setReserInput(resvo,stay_date2);
 			if(getDatesBetweenTwoDates(startDate, endDate).size() -1 == i) {
 				break;
