@@ -209,6 +209,7 @@
         </div>
         <div class="w3-responsive tableStyle">
         <form name="myForm" method="post" action="">
+        	<c:if test="${resList.size() != 0}">
 	        <table class="w3-table w3-striped w3-bordered" style="width:auto;">
 	        	<tr>
 	        		<th class="text-center">✔</th>
@@ -220,8 +221,14 @@
 	        		<th class="text-center">결제금액</th>
 	        		<th class="text-center">상태</th>
 	        	</tr>
+	        </c:if>
 	        	<fmt:parseDate var="todayDate" value="${today}" pattern="yyyy-MM-dd"/>
 	        	<fmt:parseNumber var="nowNum" value="${todayDate.time / (1000*60*60*24)}" integerOnly="true"/>
+	        	<c:if test="${resList.size() == 0}">
+	        		<div style="font-size: 20px;">
+        				<i class="fa-solid fa-circle-exclamation"></i> 예약내역이 없습니다.
+        			</div>
+	        	</c:if>
 	        	<c:forEach var="resVo" items="${resList}">
 	        		<tr>
 	        			<td class="text-center">
@@ -278,6 +285,11 @@
       </div>
       <div class="w3-container w3-card w3-white">
         <h2 class="w3-text-black w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-amber"></i>Review</h2>
+        	<c:if test="${reviewList.size() == 0}">
+        		<div style="font-size: 20px;">
+        			<i class="fa-solid fa-circle-exclamation"></i> 작성한 리뷰가 없습니다.
+        		</div>
+        	</c:if>
        		<c:forEach var="review" items="${reviewList}">
        			<div class="w3-container">
        				<div class="w3-row mb-2">

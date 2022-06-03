@@ -23,14 +23,15 @@ public class StateChangeCommand implements ReservationInterface {
 		//상태값 변경
 		int res = dao.setCancel(lodIdx, memIdx, checkIn, checkOut, flag);
 		
-		//구매확정인 경우 포인트를 적립시켜줘야한다.
-		//1.적립해줄 포인트 알아오기
-		int point = dao.getPoint(lodIdx, memIdx, checkIn, checkOut);
-		
-		//2.멤버테이블에서 해당 멤버에게 포인트 부여하기
-		MemberDAO memDao = new MemberDAO();
-		res = memDao.givePoint(memIdx, point);
-		
+		if(flag == 1) {
+			//구매확정인 경우 포인트를 적립시켜줘야한다.
+			//1.적립해줄 포인트 알아오기
+			int point = dao.getPoint(lodIdx, memIdx, checkIn, checkOut);
+			
+			//2.멤버테이블에서 해당 멤버에게 포인트 부여하기
+			MemberDAO memDao = new MemberDAO();
+			res = memDao.givePoint(memIdx, point);
+		}
 		
 		if(res == 1) {
 			if(flag == 0) {
