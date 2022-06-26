@@ -31,7 +31,7 @@ public class ReviewInputCommand implements LodgingInterface {
 		vo.setReview_subject(review_subject);
 		vo.setReview_contents(review_contents);
 		
-		System.out.println(vo);
+		//System.out.println(vo);
 		//리뷰테이블에 등록
 		LodgingDAO lodDao = new LodgingDAO();
 		int res = lodDao.setReviewInput(vo);

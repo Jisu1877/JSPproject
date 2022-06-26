@@ -17,7 +17,10 @@ public class MemIdFindOkCommand implements MemberInterface {
 		MemberVO vo = dao.getMemInfor(name,tel);
 		
 		request.setAttribute("mid", vo.getMid());
-		request.setAttribute("flag", "true");
+		if(vo.getMid() != null) {
+			request.setAttribute("flag", "true");
+		}
+		request.setAttribute("sw", "on");
 		
 	}
 

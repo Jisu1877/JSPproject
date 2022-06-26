@@ -19,7 +19,7 @@ public class MemJoinOkCommand implements MemberInterface {
 		ServletContext application = request.getServletContext(); //어플리케이션 객체 사용을 위해 불러오기
 		// 경로알아내서 realPath 변수에 담기
 		String realPath = application.getRealPath("/data/member");  
-		int maxSize = 1024 * 1024 * 2; //최대용량을 2MByte로 사용하고자 한다.
+		int maxSize = 1024 * 1024 * 10; //최대용량을 2MByte로 사용하고자 한다.
 		String encoding = "UTF-8";
 		
 		MultipartRequest multipartRequest = new MultipartRequest(request, realPath, maxSize, encoding, new DefaultFileRenamePolicy());

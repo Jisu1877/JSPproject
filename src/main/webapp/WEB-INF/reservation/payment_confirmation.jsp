@@ -15,6 +15,13 @@
     		font-size:20px;
     		border: 1px solid black;
     	}
+    	
+    	 @media screen and (max-width:500px) {         
+	          #table2 {
+	    		font-size:20px;
+	    		border: none;
+	    	}
+        }
     </style>
     <script>
     	let payment_price_cal = -1;
@@ -310,7 +317,7 @@
 						</table>
 					</div>
 					<div class="w3-half">
-						<table class="table table-borderless w3-centered" id="table2">
+						<table class="table table-borderless w3-center" id="table2">
 							<colgroup>
 								<col style="width:40%;">
 								<col style="width:60%;">

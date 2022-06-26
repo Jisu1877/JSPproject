@@ -70,6 +70,14 @@
 			font-weight: bold;
 			background-color: rgb(147, 177, 232);
 		}
+		#lodImg {
+			height:200px;
+		}
+		 @media screen and (max-width:1200px) {         
+	        #lodImg {
+			height:140px;
+			}
+        }
 	</style>
 </head>
 <body class="w3-light-grey">
@@ -104,7 +112,7 @@
 		      <div class="w3-card w3-round w3-white">
 		        <div class="w3-container"><br>
 		         <h5>${resVo.lodVo.lod_name}</h5>
-		         <p class="w3-center"><img src="${ctp}/data/lodging/${resVo.lodVo.save_file_name}" style="height:300px;"></p>
+		         <p class="w3-center"><img src="${ctp}/data/lodging/${resVo.lodVo.save_file_name}" id="lodImg"></p>
 		         <hr>
 		         <table class="table table-borderless">
 		         	<colgroup>

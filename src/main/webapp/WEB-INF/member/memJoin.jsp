@@ -83,7 +83,7 @@
 			let fName = myForm.myphoto.value;
 	 		let ext = fName.substring(fName.lastIndexOf(".")+1); //파일 확장자 발췌
 			let uExt = ext.toUpperCase(); //확장자를 대문자로 변환
-	 		let maxSize = 1024 * 1024 * 2 //업로드할 회원사진의 용량은 2MByte까지로 제한한다.
+	 		let maxSize = 1024 * 1024 * 10 //업로드할 회원사진의 용량은 10MByte까지로 제한한다.
 			
 			let fileSize = document.getElementById("myphoto").files[0].size;  //첫번째 파일의 사이즈..! 아이디를 예약어인 file 로 주기.
 		
@@ -96,7 +96,7 @@
 				return false;
 			}
 			else if(fileSize > maxSize) {
-				alert("업로드 파일의 크기는 2MByte를 초과할 수 없습니다.");
+				alert("업로드 파일의 크기는 10MByte를 초과할 수 없습니다.");
 				return false;
 			}
 			
@@ -341,7 +341,7 @@
 							$('#tel3').attr('readonly', true); //재입력 못하게 막기
 						}
 						else {
-							alert("중복된 연락처입니다. 다시 입력해주세요.");
+							alert("중복된 연락처입니다. \n아이디 찾기를 진행해보세요.");
 							myForm.tel2.value = "";
 							myForm.tel3.value = "";
 						}

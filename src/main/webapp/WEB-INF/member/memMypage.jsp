@@ -180,11 +180,11 @@
 	          </p>
 	          <p>가입일&nbsp;&nbsp; | &nbsp;&nbsp;${fn:substring(vo.create_date, 0,19)}</p>
 	          <div class="w3-row">
-	          	<div class="w3-half text-right mt-5">
-	          		<a href="${ctp}/memUpdate.mem?idx=${vo.idx}" class="w3-button w3-black w3-hover-theme">정보수정</a>&nbsp;&nbsp;
-	          	</div>
 	          	<form name="deleteForm" method="post" action="memDelete.mem">
-		          	<div class="w3-half text-left mt-5">
+		          	<div class="w3-col m6 s6 text-center mt-5">
+		          		<a href="${ctp}/memUpdate.mem?idx=${vo.idx}" class="w3-button w3-black w3-hover-theme">정보수정</a>&nbsp;&nbsp;
+		          	</div>
+		          	<div class="w3-col m6 s6 text-center mt-5">
 		          		<button type="button" onclick="memDelete();" class="w3-button w3-black w3-hover-black">회원탈퇴</button>
 		          	</div>
 		          	<input type="hidden" name="idx" value="${vo.idx}"/>

@@ -43,8 +43,8 @@
 		}
     	
     	window.onload = function() {
-    		const flag = '${flag}';
-    		if (flag == 'true') {
+    		const sw = '${sw}';
+    		if (sw == "on") {
     			document.getElementById('demo').style.display = "block";
     		}
     	}
