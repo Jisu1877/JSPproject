@@ -6,10 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -89,6 +91,7 @@ public class ReserInputCommand implements ReservationInterface {
 		while(true) {
 			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
 			String stay_date2 = getDatesBetweenTwoDates(startDate, endDate).get(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			System.out.println("stay_date : " + stay_date2);
 			res = dao.setReserInput(resvo,stay_date2);
 			if(getDatesBetweenTwoDates(startDate, endDate).size() -1 == i) {
 				break;
@@ -117,6 +120,15 @@ public class ReserInputCommand implements ReservationInterface {
 		return startDate.datesUntil(endDate)
         	.collect(Collectors.toList());
 	}
+	
+	//두 날짜의 사이 날짜 구해오는 메소드
+//	public static List<LocalDate> getDatesBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
+//		int numOfDaysBetween = (int) ChronoUnit.DAYS.between(startDate, endDate);
+//	      return IntStream.iterate(0, i -> i + 1)
+//	           .limit(numOfDaysBetween)
+//	           .mapToObj(i -> startDate.plusDays(i))
+//	      .collect(Collectors.toList());
+//	}
 	
 	//다음 날짜 구하는 메소드
 	 private java.util.Date getNextDay(java.util.Date today){

@@ -26,8 +26,12 @@ public class GetConn {
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 검색 실패");
+			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("데이터베이스 연동 실패");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
