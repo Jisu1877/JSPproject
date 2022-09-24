@@ -12,9 +12,16 @@ public class GetConn {
 	private ResultSet rs = null;
 	
 	private String driver = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/javagreen_ljs";
+	
+	// 로컬 DB 접속 설정
+	/* private String url = "jdbc:mysql://localhost:3306/javagreen_ljs";
 	private String user = "root";
-	private String password = "1234";
+	private String password = "1234"; */
+	
+	// 서버 DB 접속 설정
+	private String url = "jdbc:mysql://58.232.74.72:3306/javagreen_ljs?autoReconnect=true";
+	private String user = "jisu1877";
+	private String password = "jisu1877!@#$";
 	
 	//필드.. instance 변수를 GetConn.getInstance 로 부르면 이미 static으로 메소드영역에 올라가있는 GetConn()가 생성되어있는 instance를 사용할 수 있게 된다.
 	private static GetConn instance = new GetConn();  //싱글톤은 대체로 변수명을 'instance'로 한다.
